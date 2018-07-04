@@ -2,22 +2,17 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-// FontAwesome
-@import "~font-awesome/scss/font-awesome";
-
 // Variables
 @import "variables";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Login Page
-@import "login";
+.logo {
+	height: 100px;
+	display: inline-block;
+}
 
-// Logo
-@import "logo";
-
-
-.footer {
-	padding: 20px 0;
+.logo path {
+	fill: black !important;
 }

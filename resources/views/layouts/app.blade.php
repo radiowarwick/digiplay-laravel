@@ -3,19 +3,18 @@
 	<head>
 		<title>RAW Digiplay - @yield('title')</title>
 
-		<meta lang="en">
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 	</head>
 	<body>
 		<div class="container">
 			@yield('content')
 		</div>
-		<div class="row align-items-center bg-dark text-warning footer">
+		<div class="row">
 			<div class="col-sm-8">
-				<h1 class="text-center">&copy;2018 Radio Warwick</h1>
+				&copy;2018 Radio Warwick
 			</div>
 			<div class="col-sm-4">
-				<div class="logo-sm">
+				<div class="logo">
 					@include('layouts.logo')
 				</div>
 			</div>
