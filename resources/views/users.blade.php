@@ -1,13 +1,10 @@
-<!doctype html>
-<html>
-<head>
-	<title>Test</title>
-</head>
-<body>
-	<ul>
+@extends('layouts.app')
+
+@section('title', 'Users')
+
+@section('content')
 	@foreach($users as $user)
 		<li>{{ $user->username }}</li>
 	@endforeach
 	</ul>
-</body>
-</html>
+@endsection
