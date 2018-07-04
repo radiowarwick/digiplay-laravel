@@ -1,3 +1,20 @@
+# Digiplay Laravel
+
+This is the rewrite of [digiplay](https://github.com/radiowarwick/digiplay) using the Laravel library (details below). This is an ongoing project, if you wish to contribute look at the current issues and help out!
+
+## Development Site
+
+Laravel have made it easy to setup a development site using a virtual machine. Read the [homestead guide](https://laravel.com/docs/5.6/homestead) for details on how to setup your local build. Homestead already has postgresql installed so no extra installation is needed.
+To setup your environment copy the file *.env.example* and name the copy *.env*. Laravel uses this for its environment variables.
+
+### Database Setup
+
+To setup the database first login to the homestead server using *vargrant ssh* from the homestead directory. Then login to postgresql (assuming default logins are used) using *psql -U homestead -h localhost* and then run *CREATE DATABASE digiplay;* to create the database.
+
+You then need to get a copy of the digiplay database. This can be obtained by running *pg_dump -U <digiplay username> -h localhost <digiplay database> > output.sql* on the digiplay server. Then, once you have a copy of the output on the homestead server, you can run *psql -U homestead -h localhost -O digiplay output.sql* on the homestead server and that will create your database ready to go.
+
+---
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
