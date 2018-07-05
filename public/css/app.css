@@ -13495,8 +13495,13 @@ a.text-dark:focus {
   display: inline-block;
 }
 
-.logo-sm {
+.logo-md {
   height: 100px;
+  display: inline-block;
+}
+
+.logo-sm {
+  height: 50px;
   display: inline-block;
 }
 
@@ -13510,6 +13515,6 @@ a.text-dark:focus {
 }
 
 .footer {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 

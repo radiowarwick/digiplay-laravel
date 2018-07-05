@@ -9,12 +9,12 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>{{ Auth::user()->username }} - <a href="/logout">Logout</a></h1>
+			<h1>{{ Auth::user()->name }} - <a href="/logout">Logout</a></h1>
 			@yield('content')
 		</div>
 		<div class="row align-items-center bg-dark text-warning footer">
 			<div class="col-sm-8">
-				<h1 class="text-center">&copy;2018 Radio Warwick</h1>
+				<h3 class="text-center">&copy;2018 Radio Warwick</h3>
 			</div>
 			<div class="col-sm-4">
 				<div class="logo-sm">

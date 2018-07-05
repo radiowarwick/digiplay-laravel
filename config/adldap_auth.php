@@ -258,6 +258,7 @@ return [
     'sync_attributes' => [
 
         'username' => 'uid',
+        'name' => 'displayname',
 
         // 'name' => 'cn',
 
