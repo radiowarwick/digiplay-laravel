@@ -11,8 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('login');
+Route::get('/', function(){
+	return view('layouts.app');
+})->middleware('auth');
+
+Route::group(['middleware' => ['web']], function(){ 
+	Route::get('/login', 'AuthController@getLogin');
+	Route::post('/login', 'AuthController@postLogin');
+	Route::get('/logout', 'AuthController@getLogout');
 });
 
 Route::get('/users', function(){

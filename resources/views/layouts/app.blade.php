@@ -4,10 +4,12 @@
 		<title>RAW Digiplay - @yield('title')</title>
 
 		<meta lang="en">
+		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 	</head>
 	<body>
 		<div class="container">
+			<h1>{{ Auth::user()->username }} - <a href="/logout">Logout</a></h1>
 			@yield('content')
 		</div>
 		<div class="row align-items-center bg-dark text-warning footer">

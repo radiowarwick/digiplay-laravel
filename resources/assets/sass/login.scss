@@ -1,3 +1,9 @@
+.login-absolute-center {
+	width: 100%;
+	padding: 40px;
+	height: 100vh;
+}
+
 @include media-breakpoint-up(sm) {
 	.login-absolute-center {
 		margin: auto;
@@ -10,13 +16,6 @@
 		height: fit-content;
 		min-width: 200px;
 		max-width: 400px;
-		padding: 40px;
-	}
-}
-
-@include media-breakpoint-down(sm) {
-	.login-absolute-center {
-		width: 100%;
 		padding: 40px;
 	}
 }

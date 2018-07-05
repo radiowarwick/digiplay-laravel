@@ -13466,6 +13466,12 @@ a.text-dark:focus {
   }
 }
 
+.login-absolute-center {
+  width: 100%;
+  padding: 40px;
+  height: 100vh;
+}
+
 @media (min-width: 576px) {
   .login-absolute-center {
     margin: auto;
@@ -13480,13 +13486,6 @@ a.text-dark:focus {
     height: fit-content;
     min-width: 200px;
     max-width: 400px;
-    padding: 40px;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .login-absolute-center {
-    width: 100%;
     padding: 40px;
   }
 }
