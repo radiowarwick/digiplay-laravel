@@ -13497,11 +13497,22 @@ a.text-dark:focus {
 
 .logo-md {
   height: 100px;
+  width: 200px;
+  overflow: hidden;
   display: inline-block;
 }
 
 .logo-sm {
   height: 50px;
+  width: 150px;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.wave-sm {
+  height: 50px;
+  width: 20px;
+  overflow: hidden;
   display: inline-block;
 }
 
@@ -13516,5 +13527,10 @@ a.text-dark:focus {
 
 .footer {
   padding: 10px 0;
+}
+
+nav {
+  font-size: 1.5rem;
+  color: #d8b222 !important;
 }
 

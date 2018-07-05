@@ -5,11 +5,22 @@
 
 .logo-md {
 	height: 100px;
+	width: 200px;
+	overflow: hidden;
 	display: inline-block;
 }
 
 .logo-sm {
 	height: 50px;
+	width: 150px;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.wave-sm {
+	height: 50px;
+	width: 20px;
+	overflow: hidden;
 	display: inline-block;
 }
 

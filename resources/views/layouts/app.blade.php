@@ -8,8 +8,24 @@
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 	</head>
 	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand wave-sm" href="/">@include('layouts.logo')</a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<a class="nav-link" href="/">Home</a>
+				</ul>
+				<span class="navbar-text text-warning">
+					{{ Auth::user()->name }}
+				</span>
+			</div>
+		</nav>
 		<div class="container">
-			<h1>{{ Auth::user()->name }} - <a href="/logout">Logout</a></h1>
+			<h1>Some Awesome Content!</h1>
 			@yield('content')
 		</div>
 		<div class="row align-items-center bg-dark text-warning footer">
