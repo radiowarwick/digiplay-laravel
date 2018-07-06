@@ -15,5 +15,5 @@
 		@endforeach
 	</ul>
 
-	{{ $results->links() }}
+	{{ $results->appends(['q' => $q])->links() }}
 @endsection

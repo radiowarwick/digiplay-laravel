@@ -13513,6 +13513,20 @@ nav a:hover {
   text-decoration: underline !important;
 }
 
+nav .active {
+  font-weight: bold !important;
+}
+
+ul.pagination li.active span.page-link {
+  background: #d8b222;
+  border-color: #d8b222;
+  color: #fff;
+}
+
+ul.pagination a.page-link {
+  color: #000 !important;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

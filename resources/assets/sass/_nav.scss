@@ -21,4 +21,18 @@ nav {
 	a:hover {
 		text-decoration: underline !important;
 	}
+
+	.active {
+		font-weight: bold !important;
+	}
+}
+
+ul.pagination li.active span.page-link {
+	background: $yellow;
+	border-color: $yellow;
+	color: $white;
+}
+
+ul.pagination a.page-link {
+	color: $black !important;
 }

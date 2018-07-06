@@ -18,8 +18,12 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<a class="nav-link" href="{{ route('index') }}">Home</a>
-					<a class="nav-link" href="{{ route('audio-index') }}">Audio Library</a>
+					<li class="nav-item {{ Request::segment(1) == '' ? 'active' : '' }}">
+						<a class="nav-link" href="{{ route('index') }}">Home</a>
+					</li>
+					<li class="nav-item {{ Request::segment(1) == 'audio' ? 'active' : '' }}">
+						<a class="nav-link" href="{{ route('audio-index') }}">Audio Library</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="nav-item dropdown">
