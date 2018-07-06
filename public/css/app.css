@@ -13563,6 +13563,10 @@ ul.pagination a.page-link {
 }
 
 .footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   padding: 10px 0;
 }
 
@@ -13590,5 +13594,11 @@ a.list-group-item {
 
 a.list-group-item:hover {
   background: #d8b222;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 6rem;
 }
 
