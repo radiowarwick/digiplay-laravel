@@ -13466,14 +13466,14 @@ a.text-dark:focus {
   }
 }
 
-.login-absolute-center {
+.box-absolute-center {
   width: 100%;
   padding: 40px;
   height: 100vh;
 }
 
 @media (min-width: 576px) {
-  .login-absolute-center {
+  .box-absolute-center {
     margin: auto;
     position: absolute;
     top: 0;
@@ -13490,30 +13490,53 @@ a.text-dark:focus {
   }
 }
 
+.nav-user-dropdown {
+  background-color: #2b2b2b;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+.nav-user-dropdown a {
+  color: #d8b222 !important;
+}
+
+.nav-user-dropdown a:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+nav a {
+  color: #d8b222 !important;
+}
+
+nav a:hover {
+  text-decoration: underline !important;
+}
+
 .logo-lg {
   height: 200px;
-  display: inline-block;
+  display: block;
 }
 
 .logo-md {
   height: 100px;
   width: 200px;
   overflow: hidden;
-  display: inline-block;
+  display: block;
 }
 
 .logo-sm {
   height: 50px;
   width: 150px;
   overflow: hidden;
-  display: inline-block;
+  display: block;
 }
 
 .wave-sm {
   height: 50px;
   width: 20px;
   overflow: hidden;
-  display: inline-block;
+  display: block;
 }
 
 .logo-login {

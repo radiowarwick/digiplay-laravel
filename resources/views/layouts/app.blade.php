@@ -6,6 +6,7 @@
 		<meta lang="en">
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
+		<script src="/js/app.js"></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,24 +20,38 @@
 				<ul class="navbar-nav mr-auto">
 					<a class="nav-link" href="/">Home</a>
 				</ul>
-				<span class="navbar-text text-warning">
-					{{ Auth::user()->name }}
-				</span>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="nav-item dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							{{ Auth::user()->name }}
+							<b class="caret"></b>
+						</a>
+						<div class="dropdown-menu nav-user-dropdown">
+							<a class="dropdown-item" href="/profile/{{ Auth::user()->username }}"><i class="fa fa-fw fa-user"></i> Profile</a>
+							<a class="dropdown-item" href="/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</nav>
 		<div class="container">
 			<h1>Some Awesome Content!</h1>
 			@yield('content')
 		</div>
-		<div class="row align-items-center bg-dark text-warning footer">
-			<div class="col-sm-8">
-				<h3 class="text-center">&copy;2018 Radio Warwick</h3>
-			</div>
-			<div class="col-sm-4">
-				<div class="logo-sm">
-					@include('layouts.logo')
+
+		<footer class="footer bg-dark text-warning">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-sm-6 align-self-center">
+						<h3 class="text-center">&copy; 2018 Radio Warwick</h3>
+					</div>
+					<div class="col-sm-4 align-self-center">
+						<div class="logo-sm mx-auto">
+							@include('layouts.logo')
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</footer>
 	</body>
 </html>

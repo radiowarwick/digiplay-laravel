@@ -1,0 +1,24 @@
+.nav-user-dropdown {
+	background-color: $gray-800;
+	padding: 1rem;
+	font-size: 1.5rem;
+
+	a {
+		color: $yellow !important;
+	}
+
+	a:hover {
+		background: none;
+		text-decoration: underline;
+	}
+}
+
+nav {
+	a {
+		color: $yellow !important;
+	}
+
+	a:hover {
+		text-decoration: underline !important;
+	}
+}

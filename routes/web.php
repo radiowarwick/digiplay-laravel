@@ -13,12 +13,12 @@
 
 Route::get('/', function(){
 	return view('layouts.app');
-})->middleware('auth');
+})->middleware('auth')->name('home');
 
 Route::group(['middleware' => ['web']], function(){ 
-	Route::get('/login', 'AuthController@getLogin');
+	Route::get('/login', 'AuthController@getLogin')->name('login');
 	Route::post('/login', 'AuthController@postLogin');
-	Route::get('/logout', 'AuthController@getLogout');
+	Route::get('/logout', 'AuthController@getLogout')->name('logout');
 });
 
 Route::get('/users', function(){

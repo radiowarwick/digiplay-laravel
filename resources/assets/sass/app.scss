@@ -11,8 +11,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Login Page
-@import "login";
+// Box Layout Page
+@import "box";
+
+@import "_nav";
 
 // Logo
 @import "logo";

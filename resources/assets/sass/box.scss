@@ -1,11 +1,11 @@
-.login-absolute-center {
+.box-absolute-center {
 	width: 100%;
 	padding: 40px;
 	height: 100vh;
 }
 
 @include media-breakpoint-up(sm) {
-	.login-absolute-center {
+	.box-absolute-center {
 		margin: auto;
 		position: absolute;
 		top: 0;
