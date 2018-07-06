@@ -13583,3 +13583,12 @@ body {
   border-radius: 0 0.25rem 0.25rem 0;
 }
 
+a.list-group-item {
+  background: #5e5e5e;
+  color: #fff;
+}
+
+a.list-group-item:hover {
+  background: #d8b222;
+}
+

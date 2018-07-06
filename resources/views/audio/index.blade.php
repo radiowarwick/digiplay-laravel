@@ -10,16 +10,24 @@
 	<div class='row'>
 		<div class='col-md-6'>
 			<h3>Upload Audio</h3>
-			<p>
-				Have some music that you want added to Digiplay? Send an email to <a href='mailto:music@radio.warwick.ac.uk'>music@radio.warwick.ac.uk</a> with your music attached at least 48 hours before your show. Make sure the music is high quality! Be sure to include the following in the email:
+			@if(auth()->user()->hasPermission('Can upload audio'))
+				<div class="list-group">
+					<a class="list-group-item" href="#">Upload Audio</a>
+					<a class="list-group-item" href="#">Import Audio</a>
+					<a class="list-group-item" href="#">Censorship Tags</a>
+				</div>
+			@else
+				<p>
+					Have some music that you want added to Digiplay? Send an email to <a href='mailto:music@radio.warwick.ac.uk'>music@radio.warwick.ac.uk</a> with your music attached at least 48 hours before your show. Make sure the music is high quality! Be sure to include the following in the email:
 
-				<ul>
-					<li>Track Name</li>
-					<li>Artist Name</li>
-					<li>Album Name</li>
-					<li>Does the track contain explicit content?</li>
-				</ul>
-			</p>
+					<ul>
+						<li>Track Name</li>
+						<li>Artist Name</li>
+						<li>Album Name</li>
+						<li>Does the track contain explicit content?</li>
+					</ul>
+				</p>
+			@endif
 		</div>
 		<div class='col-md-6'>
 			<h3>Latest Uploads</h3>

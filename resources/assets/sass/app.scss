@@ -40,3 +40,12 @@ body {
 .btn-search {
 	border-radius: 0 $border-radius $border-radius 0;
 }
+
+a.list-group-item {
+	background: lighten($gray-800, 20%);
+	color: $white;
+}
+
+a.list-group-item:hover {
+	background: $yellow;
+}
