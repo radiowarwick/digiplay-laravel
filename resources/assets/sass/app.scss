@@ -24,7 +24,19 @@
 	padding: 10px 0;
 }
 
+.border-3 {
+	border-width: 3px !important;
+}
+
 nav {
 	font-size: 1.5rem;
 	color: $yellow !important;
+}
+
+body {
+	background: lighten($gray-800, 10%);
+}
+
+.btn-search {
+	border-radius: 0 $border-radius $border-radius 0;
 }

@@ -8,8 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 		<script src="/js/app.js"></script>
 	</head>
-	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<body class="text-white">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-warning border-bottom border-3">
 			<a class="navbar-brand wave-sm" href="/">@include('layouts.logo')</a>
 			
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<a class="nav-link" href="/">Home</a>
+					<a class="nav-link" href="{{ route('index') }}">Home</a>
+					<a class="nav-link" href="{{ route('audio-index') }}">Audio Library</a>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="nav-item dropdown">
@@ -34,12 +35,12 @@
 				</ul>
 			</div>
 		</nav>
+		
 		<div class="container">
-			<h1>Some Awesome Content!</h1>
 			@yield('content')
 		</div>
 
-		<footer class="footer bg-dark text-warning">
+		<footer class="footer bg-dark text-warning border-top border-warning border-3">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-sm-6 align-self-center">

@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function(){
-	return view('layouts.app');
-})->middleware('auth')->name('home');
+	return view('index');
+})->middleware('auth')->name('index');
 
 Route::group(['middleware' => ['web']], function(){ 
 	Route::get('/login', 'AuthController@getLogin')->name('login');
@@ -24,4 +24,11 @@ Route::group(['middleware' => ['web']], function(){
 Route::get('/users', function(){
 	$users = App\User::all();
 	return view('users', ['users' => $users]);
+});
+
+Route::group(['middleware' => ['auth']], function(){
+	// Audio Searching
+	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
+	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
+
 });
