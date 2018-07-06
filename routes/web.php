@@ -30,5 +30,8 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
 	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
+});
 
+Route::group(['middleware' => ['permission']], function(){
+	Route::get('/admin', 'AdminController@getIndex')->name('admin-index');
 });

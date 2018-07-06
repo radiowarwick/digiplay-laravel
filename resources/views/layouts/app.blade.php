@@ -24,6 +24,11 @@
 					<li class="nav-item {{ Request::segment(1) == 'audio' ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('audio-index') }}">Audio Library</a>
 					</li>
+					@if(auth()->user()->hasPermission('Can edit groups'))
+						<li class="nav-item {{ Request::segment(1) == 'admin' ? 'active' : '' }}">
+							<a class="nav-link" href="{{ route('admin-index') }}">Admin</a>
+						</li>
+					@endif
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="nav-item dropdown">
@@ -31,7 +36,7 @@
 							{{ Auth::user()->name }}
 							<b class="caret"></b>
 						</a>
-						<div class="dropdown-menu nav-user-dropdown">
+						<div class="dropdown-menu dropdown-menu-right nav-user-dropdown">
 							<a class="dropdown-item" href="/profile/{{ Auth::user()->username }}"><i class="fa fa-fw fa-user"></i> Profile</a>
 							<a class="dropdown-item" href="/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
 						</div>

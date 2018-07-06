@@ -21,4 +21,8 @@ class User extends Authenticatable
     public function groups() {
     	return $this->hasManyThrough('App\Group', 'App\GroupUser', 'username', 'id', 'username', 'group_id');
     }
+
+    public function hasPermission($permission) {
+        return \App\Http\Middleware\Permission::hasPermission($permission);
+    }
 }
