@@ -44,8 +44,22 @@
 				</ul>
 			</div>
 		</nav>
+
 		
 		<div class="container">
+			@if(isset($messages))
+				@foreach($messages as $message)
+					<p>
+						<div class="alert alert-warning alert-dismissible fade show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							{{ $message }}
+						</div>
+					</p>
+				@endforeach
+			@endif
+
 			@yield('content')
 		</div>
 

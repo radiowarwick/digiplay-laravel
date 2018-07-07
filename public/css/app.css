@@ -13602,3 +13602,11 @@ body {
   padding-bottom: 6rem;
 }
 
+.card {
+  background: #2b2b2b;
+}
+
+.card .card-title {
+  color: #d8b222;
+}
+

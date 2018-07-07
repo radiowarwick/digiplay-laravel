@@ -59,3 +59,11 @@ body {
 	position: relative;
 	padding-bottom: 6rem;
 }
+
+.card {
+	background: $gray-800;
+
+	.card-title {
+		color: $yellow;
+	}
+}
