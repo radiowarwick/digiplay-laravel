@@ -1,0 +1,69 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// FontAwesome
+@import "~font-awesome/scss/font-awesome";
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Box Layout Page
+@import "box";
+
+@import "_nav";
+
+// Logo
+@import "logo";
+
+
+.footer {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 10px 0;
+}
+
+.border-3 {
+	border-width: 3px !important;
+}
+
+nav {
+	font-size: 1.5rem;
+	color: $yellow !important;
+}
+
+body {
+	background: lighten($gray-800, 10%);
+}
+
+.btn-search {
+	border-radius: 0 $border-radius $border-radius 0;
+}
+
+a.list-group-item {
+	background: lighten($gray-800, 20%);
+	color: $white;
+}
+
+a.list-group-item:hover {
+	background: $yellow;
+}
+
+body {
+	min-height: 100vh;
+	position: relative;
+	padding-bottom: 6rem;
+}
+
+.card {
+	background: $gray-800;
+
+	.card-title {
+		color: $yellow;
+	}
+}

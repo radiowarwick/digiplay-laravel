@@ -1,0 +1,38 @@
+.nav-user-dropdown {
+	background-color: lighten($gray-800, 10%);
+	padding: 1rem;
+	font-size: 1.5rem;
+
+	a {
+		color: $yellow !important;
+	}
+
+	a:hover {
+		background: none;
+		text-decoration: underline;
+	}
+}
+
+nav {
+	a {
+		color: $yellow !important;
+	}
+
+	a:hover {
+		text-decoration: underline !important;
+	}
+
+	.active {
+		font-weight: bold !important;
+	}
+}
+
+ul.pagination li.active span.page-link {
+	background: $yellow;
+	border-color: $yellow;
+	color: $white;
+}
+
+ul.pagination a.page-link {
+	color: $black !important;
+}
