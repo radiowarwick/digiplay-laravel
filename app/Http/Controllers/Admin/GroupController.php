@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Group;
 use App\Permission;
 use App\GroupPermission;
+use App\GroupUser;
+use App\User;
 
 class GroupController extends Controller
 {
@@ -66,5 +68,55 @@ class GroupController extends Controller
 
 			return redirect()->route('admin-group-permission', $group_id)->with('messages', ['Permissions updated']);
 		}
+	}
+
+	public function getMembers(Request $request, $group_id) {
+		$group = Group::where('id', $group_id)->first();
+		if(is_null($group))
+			abort(404);
+		$members = $group->users;
+		
+		return view('admin.group.members', ['group' => $group, 'members' => $members]);
+	}
+
+	public function postAddMember(Request $request, $group_id) {
+		$group = Group::where('id', $group_id)->first();
+		if(is_null($group))
+			abort(404);
+
+		$this->validate($request, [
+			'username' => 'required|exists:users'
+		]);
+
+		$user = User::where('username', $request->input('username'))->first();
+		$group_user = GroupUser::where('group_id', $group_id)->where('username', $user->username)->first();
+
+		if(!is_null($group_user))
+			$message = 'User is already in the group';
+		else {
+			$message = 'User added to group';
+
+			$group_user = new GroupUser;
+
+			$group_user->group_id = $group_id;
+			$group_user->username = $user->username;
+
+			$group_user->save();
+		}
+
+		return redirect()->route('admin-group-members', $group_id)->with('messages', [$message]);
+	}
+
+	public function getRemoveMember(Request $request, $group_id, $username) {
+		$group_member = GroupUser::where('group_id', $group_id)->where('username', $username)->first();
+
+		if(is_null($group_member))
+			$message = 'User is not in group';
+		else {
+			$group_member->delete();
+			$message = 'User removed from group';
+		}
+
+		return redirect()->route('admin-group-members', $group_id)->with('messages', [$message]);
 	}
 }

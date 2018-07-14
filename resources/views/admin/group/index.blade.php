@@ -21,8 +21,8 @@
 			@foreach($groups as $group)
 				<tr>
 					<td>{{ $group->name }}</td>
-					<td><a href="#" class="btn btn-warning">Membership</a></td>
-					<td><a href="#" class="btn btn-warning">Permissions</a></td>
+					<td><a href="{{ route('admin-group-members', $group->id) }}" class="btn btn-warning">Membership</a></td>
+					<td><a href="{{ route('admin-group-permission', $group->id) }}" class="btn btn-warning">Permissions</a></td>
 
 					@if($group->can_edit)
 						<td><a href="#" class="btn btn-warning">Rename</a></td>

@@ -28,5 +28,6 @@
 			</tbody>
 		</table>
 		<button class="btn btn-large btn-warning">Save</button>
+		<a href="{{ route('admin-group-index') }}" class="btn btn-large btn-danger">Cancel</a>
 	</form>
 @endsection
