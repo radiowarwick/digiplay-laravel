@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Admin')
+@php($name = 'admin-group-index')
 
 @section('content')
 	<h1>Group Admin</h1>

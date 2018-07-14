@@ -45,6 +45,10 @@
 			</div>
 		</nav>
 
+		@if(isset($name))
+			{{ Breadcrumbs::render($name) }}
+		@endif
+
 		
 		<div class="container">
 			@if(isset($messages))
