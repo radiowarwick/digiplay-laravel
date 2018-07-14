@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
     {
     	DB::table('new_groups')->insert([
     		'name' => 'Admin',
-    		'can_delete' => false
+    		'can_edit' => false
     	]);
 
     	DB::table('permissions')->insert([

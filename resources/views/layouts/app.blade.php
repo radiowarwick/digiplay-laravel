@@ -47,16 +47,15 @@
 
 		
 		<div class="container">
+			<p>{{-- Spacer --}}</p>
 			@if(isset($messages))
 				@foreach($messages as $message)
-					<p>
-						<div class="alert alert-warning alert-dismissible fade show" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-							{{ $message }}
-						</div>
-					</p>
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{{ $message }}
+					</div>
 				@endforeach
 			@endif
 
