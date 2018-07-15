@@ -37,7 +37,12 @@ Route::group(['middleware' => ['permission']], function(){
 
 	Route::group(['middleware' => ['permission:Can edit groups']], function(){
 		Route::get('/admin/groups/', 'Admin\GroupController@getIndex')->name('admin-group-index');
+		Route::get('/admin/groups/{id}/permission', 'Admin\GroupController@getPermission')->name('admin-group-permission');
+		Route::get('/admin/groups/{id}/members', 'Admin\GroupController@getMembers')->name('admin-group-members');
 
 		Route::post('/admin/groups/create', 'Admin\GroupController@postCreate')->name('admin-group-create');
+		Route::post('/admin/groups/{id}/permission', 'Admin\GroupController@postPermission')->name('admin-group-permission-post');
+		Route::post('/admin/groups/{id}/members/add', 'Admin\GroupController@postAddMember')->name('admin-group-member-add-post');
+		Route::get('/admin/groups/{id}/members/remove/{username}', 'Admin\GroupController@getRemoveMember')->name('admin-group-member-remove');
 	});
 });

@@ -16,7 +16,6 @@ class CreateGroupPermissionTables extends Migration
         Schema::create('new_groups', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
-            $table->boolean('can_edit')->default(true);
             $table->timestamps();
         });
 

@@ -13,24 +13,14 @@
 				<th>Name</th>
 				<th>Membership</th>
 				<th>Permissions</th>
-				<th>Rename</th>
-				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($groups as $group)
 				<tr>
 					<td>{{ $group->name }}</td>
-					<td><a href="#" class="btn btn-warning">Membership</a></td>
-					<td><a href="#" class="btn btn-warning">Permissions</a></td>
-
-					@if($group->can_edit)
-						<td><a href="#" class="btn btn-warning">Rename</a></td>
-						<td><a href="#" class="btn btn-danger">Delete</a></td>
-					@else
-						<td></td>
-						<td></td>
-					@endif
+					<td><a href="{{ route('admin-group-members', $group->id) }}" class="btn btn-warning">Membership</a></td>
+					<td><a href="{{ route('admin-group-permission', $group->id) }}" class="btn btn-warning">Permissions</a></td>
 				</tr>
 			@endforeach
 		</tbody>

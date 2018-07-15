@@ -16,4 +16,16 @@ class Group extends Model
     public function permissions() {
     	return $this->hasManyThrough('App\Permission', 'App\GroupPermission', 'group_id', 'id', 'id', 'permission_id');
     }
+
+    public function group_permissions() {
+    	return $this->hasMany('App\GroupPermission', 'group_id', 'id');
+    }
+
+    public function has_permission($permission_name) {
+    	foreach($this->permissions as $permission) {
+    		if($permission->name == $permission_name)
+    			return true;
+    	}
+    	return false;
+    }
 }

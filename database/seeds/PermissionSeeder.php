@@ -14,7 +14,6 @@ class PermissionSeeder extends Seeder
     {
     	DB::table('new_groups')->insert([
     		'name' => 'Admin',
-    		'can_delete' => false
     	]);
 
     	DB::table('permissions')->insert([
@@ -23,7 +22,7 @@ class PermissionSeeder extends Seeder
 
     	DB::table('group_permissions')->insert([
     		'group_id' => 1,
-    		'permission_id' => 1
+    		'permission_id' => 1,
     	]);
     }
 }
