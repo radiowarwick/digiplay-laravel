@@ -36,3 +36,18 @@ ul.pagination li.active span.page-link {
 ul.pagination a.page-link {
 	color: $black !important;
 }
+
+ol.breadcrumb {
+	background: lighten($gray-800, 5%);
+	border-radius: 0;
+	border-bottom: solid $yellow 3px;
+}
+
+ol.breadcrumb a {
+	color: $yellow !important;
+}
+
+ol.breadcrumb li.active {
+	color: white;
+	
+}

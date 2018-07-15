@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Admin')
+@php($name = 'admin-index')
 
 @section('content')
 	<h1>Admin</h1>

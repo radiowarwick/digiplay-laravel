@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Audio Library')
+@php($name = 'audio-index')
 
 @section('content')
 	<h1>Audio Library</h1>
