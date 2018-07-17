@@ -16,7 +16,7 @@ class Audio extends Model
     }
 
     public function artist() {
-    	return $this->hasManyThrough('App\Artist', 'App\AudioArtist', 'audioid', 'id', 'id', 'artistid');
+        return $this->audioArtist->artist();
     }
 
     public function scopeTracks($query) {

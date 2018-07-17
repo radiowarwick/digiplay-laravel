@@ -45,10 +45,7 @@
 			</div>
 		</nav>
 
-		@if(isset($name))
-			{{ Breadcrumbs::render($name) }}
-		@endif
-
+		@yield('breadcrumbs')
 		
 		<div class="container">
 			<p>{{-- Spacer --}}</p>

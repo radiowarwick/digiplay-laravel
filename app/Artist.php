@@ -15,6 +15,6 @@ class Artist extends Model
     }
 
     public function audio() {
-    	return $this->hasManyThrough('App\Audio', 'App\AudioArtist', 'artistid', 'id', 'id', 'audioid');
+    	return $this->audioArtists->audio();
     }
 }

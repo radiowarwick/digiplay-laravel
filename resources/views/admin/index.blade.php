@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Admin')
-@php($name = 'admin-index')
+
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('admin-index') }}
+@endsection
 
 @section('content')
 	<h1>Admin</h1>

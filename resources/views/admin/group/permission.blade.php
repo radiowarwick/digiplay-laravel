@@ -2,6 +2,10 @@
 
 @section('title', 'Group Permissions')
 
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('admin-group-permission', $group->id) }}
+@endsection
+
 @section('content')
 	<h1>Group Permissions</h1>
 	<h2>{{ $group->name }}</h2>

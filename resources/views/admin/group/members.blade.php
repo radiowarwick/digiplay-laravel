@@ -2,6 +2,10 @@
 
 @section('title', 'Group Membership')
 
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('admin-group-members', $group->id) }}
+@endsection
+
 @section('content')
 	<h1>Group Membership</h1>
 	<h2>{{ $group->name }}</h2>

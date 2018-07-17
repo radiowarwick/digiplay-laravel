@@ -2,6 +2,10 @@
 
 @section('title', 'Audio Search')
 
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('audio-search') }}
+@endsection
+
 @section('content')
 	@section('q', $q)
 
