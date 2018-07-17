@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Home')
-@php($name = 'index')
+
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('index') }}
+@endsection
 
 @section('content')
 	@include('forms.audio-search')

@@ -2,6 +2,10 @@
 
 @section('title', 'Audio Search')
 
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('audio-search') }}
+@endsection
+
 @section('content')
 	@section('q', $q)
 
@@ -11,7 +15,7 @@
 
 	<ul>
 		@foreach($results as $r)
-			<li>{{ $r->title }} by {{ $r->artist->first()->name }}</li>
+			<li>{{ $r->title }} by {{ $r->artist->name }}</li>
 		@endforeach
 	</ul>
 

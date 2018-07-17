@@ -4,8 +4,8 @@ This is the rewrite of [digiplay](https://github.com/radiowarwick/digiplay) usin
 
 ## Development Site
 
-Laravel have made it easy to setup a development site using a virtual machine. Read the [homestead guide](https://laravel.com/docs/5.6/homestead) for details on how to setup your local build. Homestead already has postgresql installed so no extra installation is needed.
-To setup your environment copy the file *.env.example* and name the copy *.env*. Laravel uses this for its environment variables.
+Laravel have made it easy to setup a development site using a virtual machine. Read the [homestead guide](https://laravel.com/docs/5.6/homestead) for details on how to setup your local build. Homestead already has postgresql installed so no extra installation is needed. You will also need to install the PHP ldap module.
+To setup your environment copy the file *.env.example* and name the copy *.env*. Laravel uses this for its environment variables. Once this is done ssh into the virtual machine and run *npm install* and *composer update*.
 
 ### Database Setup
 

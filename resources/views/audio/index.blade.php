@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Audio Library')
-@php($name = 'audio-index')
+
+@section('breadcrumbs')
+	{{ Breadcrumbs::render('audio-index') }}
+@endsection
 
 @section('content')
 	<h1>Audio Library</h1>
@@ -44,7 +47,7 @@
 					@foreach($latest as $l)
 						<tr>
 							<td>{{ $l->title }}</td>
-							<td>{{ $l->artist->first()->name }}</td>
+							<td>{{ $l->artist->name }}</td>
 							<td>{{ $l->origin }}</td>
 						</tr>
 					@endforeach
