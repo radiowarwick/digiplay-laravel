@@ -6,11 +6,16 @@
 		<meta lang="en">
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
+		<script src="/js/app.js"></script>
+		<script type="text/javascript">
+			window.particlesJS.load('particles-js', '/js/particles.json', function() {
+  				console.log('particles.js loaded - callback');
+			});
+		</script>
 	</head>
-	<body class="bg-light">
-		<div class="container">
-			<div class="row">
-				<div class="box-absolute-center bg-dark text-white">
+	<body class="bg-dark body-box">
+		<div class="container page-height d-flex justify-content-center align-items-center" id="particles-js">
+				<div class="bg-dark text-white box-absolute-center col">
 					<div class="logo-box">
 						@include('layouts.logo')
 					</div>
@@ -21,7 +26,6 @@
 
 					@yield('content')
 				</div>
-			</div>
 		</div>
 	</body>
 </html>

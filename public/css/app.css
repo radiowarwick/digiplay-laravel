@@ -13528,24 +13528,32 @@ a.text-dark:focus {
   width: 100%;
   padding: 40px;
   height: 100vh;
+  z-index: 1;
 }
 
 @media (min-width: 576px) {
   .box-absolute-center {
-    margin: auto;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 50%;
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
     min-width: 200px;
     max-width: 400px;
     padding: 40px;
+    z-index: 1;
   }
+}
+
+.body-box {
+  padding-bottom: 0 !important;
+}
+
+.page-height {
+  height: 100vh !important;
+}
+
+canvas.particles-js-canvas-el {
+  position: absolute;
+  z-index: 0;
 }
 
 .nav-user-dropdown {
