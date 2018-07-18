@@ -14,10 +14,6 @@
 if(!is_null(env('BASE_URL', null)))
 	URL::forceRootUrl(env('BASE_URL'));
 
-Route::get('/', function(){
-	return view('index');
-})->middleware('auth')->name('index');
-
 Route::group(['middleware' => ['web']], function(){ 
 	Route::get('/login', 'AuthController@getLogin')->name('login');
 	Route::post('/login', 'AuthController@postLogin')->name('login-post');
@@ -30,9 +26,17 @@ Route::get('/users', function(){
 });
 
 Route::group(['middleware' => ['auth']], function(){
+	Route::get('/', function(){
+		return view('index');
+	})->name('index');
+
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
 	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
+
+	// Audiowalls
+	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
+	Route::get('/audiowall/activate/{id}', 'AudiowallController@getActivate')->name('audiowall-activate');
 });
 
 Route::group(['middleware' => ['permission']], function(){

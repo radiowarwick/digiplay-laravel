@@ -16,6 +16,13 @@ Breadcrumbs::for('audio-search', function($trail){
 	$trail->push('Search', route('audio-search'));
 });
 
+// Audiowall pages
+
+Breadcrumbs::for('audiowall-index', function($trail){
+	$trail->parent('index');
+	$trail->push('Audiowall', route('audiowall-index'));
+});
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){

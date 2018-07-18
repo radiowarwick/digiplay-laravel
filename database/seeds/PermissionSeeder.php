@@ -20,6 +20,10 @@ class PermissionSeeder extends Seeder
     		'name' => 'Can edit groups',
     	]);
 
+        DB::table('permissions')->insert([
+            'name' => 'Audiowall admin',
+        ]);
+
     	DB::table('group_permissions')->insert([
     		'group_id' => 1,
     		'permission_id' => 1,

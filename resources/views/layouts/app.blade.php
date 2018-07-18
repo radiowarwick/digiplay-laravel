@@ -24,6 +24,9 @@
 					<li class="nav-item {{ Request::segment(1) == 'audio' ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('audio-index') }}">Audio Library</a>
 					</li>
+					<li class="nav-item {{ Request::segment(1) == 'audiowall' ? 'active' : '' }}">
+						<a class="nav-link" href="{{ route('audiowall-index') }}">Audiowall</a>
+					</li>
 					@if(auth()->user()->hasPermission('Can edit groups'))
 						<li class="nav-item {{ Request::segment(1) == 'admin' ? 'active' : '' }}">
 							<a class="nav-link" href="{{ route('admin-index') }}">Admin</a>
