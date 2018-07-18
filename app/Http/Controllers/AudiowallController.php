@@ -22,7 +22,7 @@ class AudiowallController extends Controller
 			abort('404', 'Page not found');
 
 		$user = auth()->user();
-		if($set->canView($user) or $user->hasPermission('Audiowall admin')) {
+		if($set->hasView($user) or $user->hasPermission('Audiowall admin')) {
 			$config = UserConfig::audiowall()->where('userid', $user->id)->first();
 			if(!is_null($config))
 				$config->delete();
@@ -39,5 +39,15 @@ class AudiowallController extends Controller
 		}
 		else
 			abort('403', 'Not Authorised');
+	}
+
+	public function getSettings(Request $request, $audiowall_id) {
+		$set = AudiowallSet::where('id', $audiowall_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+		if(!$set->hasAdmin(auth()->user()))
+			abort('403', 'Not Authorised');
+
+		return view('audiowall.settings')->with('set', $set);
 	}
 }

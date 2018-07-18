@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
 	Route::get('/audiowall/activate/{id}', 'AudiowallController@getActivate')->name('audiowall-activate');
+	Route::get('/audiowall/settings/{id}', 'AudiowallController@getSettings')->name('audiowall-settings');
 });
 
 Route::group(['middleware' => ['permission']], function(){
