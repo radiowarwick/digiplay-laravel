@@ -11,6 +11,9 @@
 |
 */
 
+if(!is_null(env('BASE_URL', null)))
+	URL::forceRootUrl(env('BASE_URL'));
+
 Route::get('/', function(){
 	return view('index');
 })->middleware('auth')->name('index');
