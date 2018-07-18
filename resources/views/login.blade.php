@@ -8,7 +8,7 @@
 	@if(Session::has('status'))
 		<h4 class="text-warning text-center">{{ Session::get('status') }}</h4>
 	@endif
-	<form method="POST">
+	<form method="POST" action="{{ route('login-post') }}">
 		{{ csrf_field() }}
 		<div class="form-group">
 			<div class="input-group mb-2">
