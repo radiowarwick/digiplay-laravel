@@ -1,3 +1,4 @@
+<script src="/js/advancedsearch.js"></script>
 <p>
 	<form method="GET" action="{{ route('audio-search') }}">
 		<div class="input-group">
@@ -9,5 +10,7 @@
 			</span>
 		</div>
 	</form>
-	<a href="/tracks/advanced">Advanced Search</a>
+  <button id="advancedsearchtoggle" class="btn btn-lg btn-search btn-warning"> Advanced Options</button>
 </p>
+
+@include('forms.advanced-audio-search-options')
