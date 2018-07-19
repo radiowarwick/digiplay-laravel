@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\AudiowallSet;
 use App\UserConfig;
+use App\AudiowallSetPermission;
+use App\User;
 
 class AudiowallController extends Controller
 {
@@ -16,8 +19,8 @@ class AudiowallController extends Controller
 		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id);
 	}
 
-	public function getActivate(Request $request, $audiowall_id) {
-		$set = AudiowallSet::where('id', $audiowall_id)->first();
+	public function getActivate(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
 		if(is_null($set))
 			abort('404', 'Page not found');
 
@@ -30,7 +33,7 @@ class AudiowallController extends Controller
 			$new_config = new UserConfig;
 
 			$new_config->userid = $user->id;
-			$new_config->val = $audiowall_id;
+			$new_config->val = $set_id;
 			$new_config->configid = 1;
 
 			$new_config->save();
@@ -41,13 +44,96 @@ class AudiowallController extends Controller
 			abort('403', 'Not Authorised');
 	}
 
-	public function getSettings(Request $request, $audiowall_id) {
-		$set = AudiowallSet::where('id', $audiowall_id)->first();
+	public function getSettings(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
 		if(is_null($set))
 			abort('404', 'Page not found');
 		if(!$set->hasAdmin(auth()->user()))
 			abort('403', 'Not Authorised');
 
 		return view('audiowall.settings')->with('set', $set);
+	}
+
+	public function postSettingsName(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+
+		$this->validate($request, [
+			'name' => 'required'
+		]);
+
+		$set->name = $request->name;
+
+		$set->save();
+
+		return redirect()->route('audiowall-settings', $set_id)->with('messages', ['Audiowall name updated!']);
+	}
+
+	public function postSettingsAdd(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+
+		$this->validate($request, [
+			'username' => [
+				'required',
+				'exists:users',
+				Rule::unique('aw_set_permissions')->where(function($query) use (&$set_id){
+					return $query->where('set_id', $set_id);
+				})
+			],
+			'level' => 'required|integer|between:1,3'
+		]);
+
+		$permission = new AudiowallSetPermission;
+
+		$permission->username = $request->username;
+		$permission->set_id = $set_id;
+		$permission->level = $request->level;
+
+		$permission->save();
+
+		return redirect()->route('audiowall-settings', $set_id)->with('message', ['User added']);
+	}
+
+	public function getSettingsRemove(Request $request, $set_id, $username) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		$removeUser = User::where('username', $username)->first();
+		$thisUser = auth()->user();
+
+		if(is_null($set) or is_null($removeUser))
+			abort('404', 'Page not found');
+		if($removeUser->username == $thisUser->username or !$set->hasAdmin($thisUser))
+			abort('403', 'Not authorised');
+
+		foreach($set->permissions as $permission) {
+			if($permission->user->username == $removeUser->username) {
+				$permission->delete();
+				return redirect()->route('audiowall-settings', $set_id)->with('message', ['User removed']);
+			}
+		}
+		return redirect()->route('audiowall-settings', $set_id)->with('message', ['User not found']);
+	}
+
+	public function postSettingsUpdate(Request $request, $set_id, $username) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		$removeUser = User::where('username', $username)->first();
+		$thisUser = auth()->user();
+
+		if(is_null($set) or is_null($removeUser))
+			abort('404', 'Page not found');
+		if($removeUser->username == $thisUser->username or !$set->hasAdmin($thisUser) or !in_array($request->level, [1,2,3]))
+			abort('403', 'Not authorised');
+
+		foreach($set->permissions as $permission) {
+			if($permission->user->username == $removeUser->username) {
+				$permission->level = $request->level;
+				$permission->save();
+				
+				return redirect()->route('audiowall-settings', $set_id)->with('message', ['User permission update']);
+			}
+		}	
+		return redirect()->route('audiowall-settings', $set_id)->with('message', ['User not found']);
 	}
 }

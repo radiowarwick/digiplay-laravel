@@ -8,5 +8,8 @@ class AudiowallSetPermission extends Model
 {
     protected $table = 'aw_set_permissions';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+
+    public function user() {
+    	return $this->hasOne('App\User', 'username', 'username');
+    }
 }

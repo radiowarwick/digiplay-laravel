@@ -36,8 +36,14 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
-	Route::get('/audiowall/activate/{id}', 'AudiowallController@getActivate')->name('audiowall-activate');
-	Route::get('/audiowall/settings/{id}', 'AudiowallController@getSettings')->name('audiowall-settings');
+	Route::get('/audiowall/{id}', 'AudiowallController@getView')->name('audiowall-view');
+	Route::get('/audiowall/{id}/activate', 'AudiowallController@getActivate')->name('audiowall-activate');
+	Route::get('/audiowall/{id}/settings', 'AudiowallController@getSettings')->name('audiowall-settings');
+	Route::get('/audiowall/{id}/settings/remove/{username}', 'AudiowallController@getSettingsRemove')->name('audiowall-setting-remove');
+
+	Route::post('/audiowall/{id}/settings/name', 'AudiowallController@postSettingsName')->name('audiowall-setting-name');
+	Route::post('/audiowall/{id}/settings/add', 'AudiowallController@postSettingsAdd')->name('audiowall-setting-add');
+	Route::post('/audiowall/{id}/settings/update/{username}', 'AudiowallController@postSettingsUpdate')->name('audiowall-setting-update');
 });
 
 Route::group(['middleware' => ['permission']], function(){
