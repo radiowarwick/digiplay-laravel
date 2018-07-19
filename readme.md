@@ -11,7 +11,7 @@ To setup your environment copy the file *.env.example* and name the copy *.env*.
 
 To setup the database first login to the homestead server using *vargrant ssh* from the homestead directory. Then login to postgresql (assuming default logins are used) using *psql -U homestead -h localhost* and then run *CREATE DATABASE digiplay;* to create the database.
 
-You then need to get a copy of the digiplay database. This can be obtained by running *pg_dump -U <digiplay username> -h localhost <digiplay database> > output.sql* on the digiplay server. Then, once you have a copy of the output on the homestead server, you can run *psql -U homestead -h localhost -O digiplay output.sql* on the homestead server and that will create your database ready to go.
+You then need to get a copy of the digiplay database. This can be obtained by running *pg_dump -U \<digiplay username\> -h localhost \<digiplay database\> \> output.sql* on the digiplay server. Then, once you have a copy of the output on the homestead server, you can run *psql -U homestead -h localhost digiplay \< output.sql* on the homestead server and that will create your database ready to go.
 
 ---
 
