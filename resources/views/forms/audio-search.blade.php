@@ -9,8 +9,8 @@
 				</button>
 			</span>
 		</div>
+  <button type="button" id="advancedsearchtoggle" class="btn btn-lg btn-warning"> Advanced Options</button>
+  @include('forms.advanced-audio-search-options')
 	</form>
-  <button id="advancedsearchtoggle" class="btn btn-lg btn-search btn-warning"> Advanced Options</button>
 </p>
 
-@include('forms.advanced-audio-search-options')
