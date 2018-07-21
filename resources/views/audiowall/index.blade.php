@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-	<table class="table">
+	<table class="table table-responsive">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -20,7 +20,9 @@
 			@foreach($sets as $set)
 				@if($set->hasView(Auth::user()))
 					<tr>
-						<td>{{ $set->name }}</td>
+						<td>
+							<a href="{{ route('audiowall-view', $set->id) }}">{{ $set->name }}</a>
+						</td>
 						<td>
 							@if($set->id == $current_audiowall_id)
 								<button class="btn btn-success" href="#">Currently Active</button>

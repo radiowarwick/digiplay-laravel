@@ -42,4 +42,8 @@ class AudiowallSet extends Model
     public function permissions() {
     	return $this->hasMany('App\AudiowallSetPermission', 'set_id');
     }
+
+    public function walls() {
+        return $this->hasMany('App\AudiowallWall', 'set_id')->orderby('page', 'ASC');
+    }
 }

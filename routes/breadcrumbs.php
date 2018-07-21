@@ -25,14 +25,13 @@ Breadcrumbs::for('audiowall-index', function($trail){
 
 Breadcrumbs::for('audiowall-view', function($trail, $set){
 	$trail->parent('audiowall-index');
-	$trail->push('View', route('audiowall-view', $set->id));
+	$trail->push($set->name, route('audiowall-view', $set->id));
 });
 
 Breadcrumbs::for('audiowall-settings', function($trail, $set){
 	$trail->parent('audiowall-view', $set);
 	$trail->push('Settings', route('audiowall-settings', $set->id));
 });
-
 
 // Admin pages
 

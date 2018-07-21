@@ -21,7 +21,7 @@
 	</p>
 	<p>
 		<h3>Permissions</h3>
-		<table class="table">
+		<table class="table table-responsive">
 			<thead>
 				<tr>
 					<th>Username</th>

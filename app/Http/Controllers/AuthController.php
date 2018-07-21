@@ -21,7 +21,7 @@ class AuthController extends Controller
 
 		
 		if (auth()->attempt($request->only(['username', 'password']), true)) {
-			return redirect()->intended('/');
+			return redirect()->route('index');
 		}
 
 		return redirect()->back()->withErrors(
@@ -31,6 +31,6 @@ class AuthController extends Controller
 
 	public function getLogout(Request $request) {
 		auth()->logout();
-		return redirect()->intended('/login')->with('status', 'Logged out successfully!');
+		return redirect()->route('login')->with('status', 'Logged out successfully!');
 	}
 }

@@ -136,4 +136,14 @@ class AudiowallController extends Controller
 		}	
 		return redirect()->route('audiowall-settings', $set_id)->with('message', ['User not found']);
 	}
+
+	public function getView(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+		if(!$set->hasView(auth()->user()))
+			abort('403', 'Not authorised');
+
+		return view('audiowall.view')->with('set', $set);
+	}
 }
