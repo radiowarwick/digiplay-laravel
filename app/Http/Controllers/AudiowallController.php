@@ -13,7 +13,7 @@ use App\User;
 class AudiowallController extends Controller
 {
 	public function getIndex(Request $request) {
-		$sets = AudiowallSet::all();
+		$sets = AudiowallSet::orderby('name')->get();
 		$current_audiowall_id = auth()->user()->audiowall();
 
 		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id);

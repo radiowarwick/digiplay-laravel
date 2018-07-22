@@ -35,7 +35,10 @@
 									<a class="btn btn-warning" href="{{ route('audiowall-settings', $set->id) }}">Settings</a>
 								</td>
 								<td>
-									<a class="btn btn-danger" href="#">Delete</a>
+									{{-- 198 is the ID of the main station audiowall --}}
+									@if($set->id != 198)
+										<a class="btn btn-danger" href="#">Delete</a>
+									@endif
 								</td>
 							@else
 								<td></td><td></td>

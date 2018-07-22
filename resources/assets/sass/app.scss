@@ -15,6 +15,7 @@
 @import "box";
 
 @import "_nav";
+@import "_audiowall";
 
 // Logo
 @import "logo";
@@ -48,10 +49,12 @@ body {
 .list-group-item {
 	background: lighten($gray-800, 20%);
 	color: $white;
+    cursor: pointer;
 }
 
-.list-group-item:hover {
+.list-group-item:hover, .list-group-item.active {
 	background: $yellow;
+	border-color: $yellow;
 	color: $gray-800;
 }
 

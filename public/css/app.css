@@ -13611,6 +13611,48 @@ ol.breadcrumb li.active {
   color: white;
 }
 
+.audiowall-item {
+  width: 100%;
+  padding: 5px;
+  background: red;
+  border-radius: 4px;
+  height: 150px;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.audiowall-item .row {
+  margin: inherit;
+  padding: 0;
+}
+
+.audiowall-item .audiowall-title {
+  line-height: 1.2rem;
+  overflow: hidden;
+  height: 4rem;
+  font-size: 1.4rem;
+}
+
+@media (min-width: 992px) {
+  .audiowall-item {
+    width: 30%;
+    margin: 5px 1%;
+  }
+}
+
+.audiowall-time {
+  margin: 0 auto;
+  padding: 5px;
+  background: #d8b222;
+  border-radius: 4px;
+  color: #2b2b2b;
+}
+
+.audiowall-time-text,
+.audiowall-time-play {
+  display: inline;
+}
+
 .logo-lg {
   height: 200px;
   display: block;
@@ -13674,10 +13716,13 @@ body {
 .list-group-item {
   background: #5e5e5e;
   color: #fff;
+  cursor: pointer;
 }
 
-.list-group-item:hover {
+.list-group-item:hover,
+.list-group-item.active {
   background: #d8b222;
+  border-color: #d8b222;
   color: #2b2b2b;
 }
 
