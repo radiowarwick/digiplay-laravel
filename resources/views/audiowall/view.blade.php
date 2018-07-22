@@ -24,7 +24,19 @@
 		<div class="col-lg-4">
 			<div class="list-group">
 				@foreach($set->walls as $wall)
-					<div class="list-group-item {{ ($wall->page == 0) ? "active" : "" }}" data-wall-page="{{ $wall->page }}">{{ $wall->name }}</div>
+					<div class="list-group-item {{ ($wall->page == 0) ? "active" : "" }}" data-wall-page="{{ $wall->page }}">
+						<div class="row no-gutters">
+							<div class="col-lg-7 text-truncate">
+								{{ $wall->name }}
+							</div>
+							<div class="col-lg-5">
+								<span class="badge badge-dark badge-pill"><i class="fa fa-times"></i></span>
+								<span class="badge badge-dark badge-pill"><i class="fa fa-arrow-down"></i></span>
+								<span class="badge badge-dark badge-pill"><i class="fa fa-arrow-up"></i></span>
+								<span class="badge badge-dark badge-pill"><i class="fa fa-pencil"></i></span>
+							</div>
+						</div>
+					</div>
 				@endforeach
 			</div>
 		</div>
@@ -32,7 +44,9 @@
 			@foreach($set->walls as $wall)
 				<div class="row wall-page" data-wall-page="{{ $wall->page }}" {!! ($wall->page > 0) ? "style=\"display:none;\"" : "" !!}>
 					@for($i = 0; $i < 12; $i++)
-						<div class="audiowall-item" data-wall-item="{{ $i }}">
+						@php($item = $wall->items->where('item', $i)->first())
+
+						<div class="audiowall-item" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}">
 							<div class="row no-gutters">
 								<div class="col-6 text-left">
 									<i class="fa fa-gear fa-lg text-left"></i>
@@ -43,7 +57,7 @@
 							</div>
 							<div class="row audiowall-title no-gutters">
 								<div class="col-sm">
-									@if(($item = $wall->items->where('item', $i)->first()) != null)
+									@if($item != null)
 										{{ $item->text }}
 									@endif
 								</div>
@@ -66,4 +80,8 @@
 	</div>
 
 	<script src="/js/audiowall/view.js"></script>
+
+	@if($set->hasEdit(Auth::user()))
+		<script src="/js/audiowall/edit.js"></script>
+	@endif
 @endsection
