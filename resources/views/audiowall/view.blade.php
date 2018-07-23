@@ -30,14 +30,26 @@
 								{{ $wall->name }}
 							</div>
 							<div class="col-lg-5">
-								<span class="badge badge-dark badge-pill"><i class="fa fa-times"></i></span>
-								<span class="badge badge-dark badge-pill"><i class="fa fa-arrow-down"></i></span>
-								<span class="badge badge-dark badge-pill"><i class="fa fa-arrow-up"></i></span>
+								<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
+								<span class="badge badge-dark badge-pill audiowall-move-down"><i class="fa fa-arrow-down"></i></span>
+								<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
 								<span class="badge badge-dark badge-pill"><i class="fa fa-pencil"></i></span>
 							</div>
 						</div>
 					</div>
 				@endforeach
+			</div>
+			<div class="row">
+				<div class="audiowall-item" id="audiowall-trash">
+					<div class="row audiowall-title no-gutters">
+						<div class="col-sm">
+							Trash
+						</div>
+					</div>
+					<div class="row text-center">
+						<i class="fa fa-2x fa-trash"></i>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-8">
