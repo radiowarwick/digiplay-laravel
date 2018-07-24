@@ -52,7 +52,13 @@ body {
     cursor: pointer;
 }
 
-.list-group-item:hover, .list-group-item.active {
+.list-group-item:hover {
+	background: lighten($yellow, 20%);
+	border-color: lighten($yellow, 20%);
+	color: $gray-800;
+}
+
+.list-group-item.active {
 	background: $yellow;
 	border-color: $yellow;
 	color: $gray-800;

@@ -13614,7 +13614,6 @@ ol.breadcrumb li.active {
 .audiowall-item {
   width: 100%;
   padding: 5px;
-  background: red;
   border-radius: 4px;
   height: 150px;
   text-align: center;
@@ -13651,6 +13650,32 @@ ol.breadcrumb li.active {
 .audiowall-time-text,
 .audiowall-time-play {
   display: inline;
+}
+
+.audiowall-trash {
+  width: 40%;
+  margin: 10px auto;
+  font-size: 2rem;
+  text-align: center;
+  background: #d8b222;
+  border-radius: 4px;
+  color: #2b2b2b;
+}
+
+.audiowall-item-template {
+  display: none;
+}
+
+.audiowall-action-box {
+  background: #d8b222;
+  border-radius: 4px;
+  color: #2b2b2b;
+  display: block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
 }
 
 .logo-lg {
@@ -13719,7 +13744,12 @@ body {
   cursor: pointer;
 }
 
-.list-group-item:hover,
+.list-group-item:hover {
+  background: #ead176;
+  border-color: #ead176;
+  color: #2b2b2b;
+}
+
 .list-group-item.active {
   background: #d8b222;
   border-color: #d8b222;
