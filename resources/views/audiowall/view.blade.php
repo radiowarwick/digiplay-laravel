@@ -42,9 +42,15 @@
 				<div class="list-group-item audiowall-add-yes" {!! ($set->walls()->count() >= 8) ? "style=\"display:none;\"" : "" !!}>Add new page</div>
 				<div class="list-group-item audiowall-add-no" {!! ($set->walls()->count() < 8) ? "style=\"display:none;\"" : "" !!}>Page limit reached</div>
 				<div class="list-group-item form-inline audiowall-add-row" style="display:none;">
-					<input type="text" class="form-control form-control-sm">
-					<button class="btn btn-sm btn-warning audiowall-add-add">Add</button>
-					<button class="btn btn-sm btn-danger audiowall-add-cancel">Cancel</button>
+					<div class="form-row no-gutters">
+						<div class="col-lg-7">
+							<input type="text" class="form-control form-control-sm">
+						</div>
+						<div class="col-lg-5">
+							<button class="btn btn-sm btn-warning audiowall-add-add">Add</button>
+							<button class="btn btn-sm btn-danger audiowall-add-cancel">Cancel</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			@if($set->hasEdit(Auth::user()))
