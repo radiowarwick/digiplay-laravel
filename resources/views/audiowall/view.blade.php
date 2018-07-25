@@ -30,21 +30,21 @@
 								{{ $wall->name }}
 							</div>
 							<div class="col-lg-5">
-								<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
 								<span class="badge badge-dark badge-pill audiowall-move-down"><i class="fa fa-arrow-down"></i></span>
 								<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
 								<span class="badge badge-dark badge-pill audiowall-edit"><i class="fa fa-pencil"></i></span>
+								<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
 							</div>
 						</div>
 					</div>
 				@endforeach
 
-				<div class="list-group-item" {!! ($set->walls()->count() >= 8) ? "style=\"display:none;\"" : "" !!}>Add new page</div>
-				<div class="list-group-item" {!! ($set->walls()->count() < 8) ? "style=\"display:none;\"" : "" !!}>Page limit reached</div>
-				<div class="list-group-item form-inline" style="display:none;">
+				<div class="list-group-item audiowall-add-yes" {!! ($set->walls()->count() >= 8) ? "style=\"display:none;\"" : "" !!}>Add new page</div>
+				<div class="list-group-item audiowall-add-no" {!! ($set->walls()->count() < 8) ? "style=\"display:none;\"" : "" !!}>Page limit reached</div>
+				<div class="list-group-item form-inline audiowall-add-row" style="display:none;">
 					<input type="text" class="form-control form-control-sm">
-					<button class="btn btn-sm btn-warning">Add</button>
-					<button class="btn btn-sm btn-danger">Cancel</button>
+					<button class="btn btn-sm btn-warning audiowall-add-add">Add</button>
+					<button class="btn btn-sm btn-danger audiowall-add-cancel">Cancel</button>
 				</div>
 			</div>
 			@if($set->hasEdit(Auth::user()))
@@ -64,7 +64,7 @@
 				</div>
 			@endif
 		</div>
-		<div class="col-lg-8">
+		<div class="col-lg-8 audiowall-wall-container">
 			@foreach($set->walls as $wall)
 				<div class="row wall-page" data-wall-page="{{ $wall->page }}" {!! ($wall->page > 0) ? "style=\"display:none;\"" : "" !!}>
 					@for($i = 0; $i < 12; $i++)
@@ -134,9 +134,28 @@
 		</div>
 
 		<div class="list-group-item form-inline edit-row" style="display:none;">
-			<input type="text" class="form-control form-control-sm">
-			<button class="btn btn-sm btn-warning audiowall-edit-save">Save</button>
-			<button class="btn btn-sm btn-danger audiowall-edit-cancel">Cancel</button>
+			<div class="form-row no-gutters">
+				<div class="col-lg-7">
+					<input type="text" class="form-control form-control-sm audiowall-edit-input">
+				</div>
+				<div class="col-lg-5">
+					<button class="btn btn-sm btn-warning audiowall-edit-save">Save</button>
+					<button class="btn btn-sm btn-danger audiowall-edit-cancel">Cancel</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="list-group-item audiowall-add-template" style="display:none;">
+			<div class="row no-gutters">
+				<div class="col-lg-7 text-truncate audiowall-wall-name">
+				</div>
+				<div class="col-lg-5">
+					<span class="badge badge-dark badge-pill audiowall-move-down"><i class="fa fa-arrow-down"></i></span>
+					<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
+					<span class="badge badge-dark badge-pill audiowall-edit"><i class="fa fa-pencil"></i></span>
+					<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
+				</div>
+			</div>
 		</div>
 	@endif
 @endsection
