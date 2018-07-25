@@ -131,10 +131,15 @@ function move(event) {
 			reset_binds();
 		}
 		is_moving_element = false;
+
+		item_undim_all();
 	}
 	else {
 		moving_element = item;
 		is_moving_element = true;
+
+		$(".audiowall-item").addClass("audiowall-item-transparent");
+		moving_element.removeClass("audiowall-item-transparent");
 	}
 }
 
@@ -142,6 +147,8 @@ function delete_move(event) {
 	if(is_moving_element) {
 		is_moving_element = false;
 		moving_element.replaceWith(template_item.clone(true));
+		
+		item_undim_all();
 		renumber_walls();
 		reset_binds();
 	}
@@ -246,9 +253,30 @@ function reset_add_bar() {
 	}
 }
 
+function item_dim(event) {
+	item = $(this).closest(".audiowall-item");
+	console.log(item); 
+	console.log(moving_element); 
+	if(is_moving_element && !item.is(moving_element)) {
+		item.addClass("audiowall-item-transparent");
+	}
+}
+
+function item_undim(event) {
+	item = $(this).closest(".audiowall-item");
+	item.removeClass("audiowall-item-transparent");
+}
+
+function item_undim_all() {
+	$(".audiowall-item").removeClass("audiowall-item-transparent");
+}
+
 function reset_binds() {
 	$(".audiowall-move").unbind("click");
 	$(".audiowall-move").click(move);
+
+	$(".audiowall-move").mouseleave(item_dim);
+	$(".audiowall-move").mouseenter(item_undim);
 }
 
 function reset_edit_binds() {

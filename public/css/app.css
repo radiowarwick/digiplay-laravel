@@ -13615,9 +13615,12 @@ ol.breadcrumb li.active {
   width: 100%;
   padding: 5px;
   border-radius: 4px;
-  height: 150px;
+  height: 160px;
   text-align: center;
   margin: 5px 0;
+  opacity: 1;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .audiowall-item .row {
@@ -13630,6 +13633,12 @@ ol.breadcrumb li.active {
   overflow: hidden;
   height: 4rem;
   font-size: 1.4rem;
+}
+
+.audiowall-item-transparent {
+  opacity: 0.2;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 @media (min-width: 992px) {
@@ -13660,6 +13669,7 @@ ol.breadcrumb li.active {
   background: #d8b222;
   border-radius: 4px;
   color: #2b2b2b;
+  cursor: pointer;
 }
 
 .audiowall-item-template {

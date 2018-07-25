@@ -76,7 +76,7 @@
 									<i class="fa fa-gear fa-lg audiowall-action-box"></i>
 								</div>
 								<div class="col-6">
-									<i class="audiowall-move fa fa-arrows fa-lg audiowall-action-box pull-right"></i>
+									<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
 								</div>
 							</div>
 							<div class="row audiowall-title no-gutters">
@@ -114,7 +114,7 @@
 					<i class="fa fa-gear fa-lg audiowall-action-box"></i>
 				</div>
 				<div class="col-6">
-					<i class="audiowall-move fa fa-arrows fa-lg audiowall-action-box pull-right"></i>
+					<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
 				</div>
 			</div>
 			<div class="row audiowall-title no-gutters">
