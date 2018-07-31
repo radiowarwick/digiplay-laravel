@@ -22,4 +22,29 @@ class Audio extends Model
     public function scopeTracks($query) {
     	return $query->where('type', 1);
     }
+
+    public function length() {
+        return ($this->end_smpl - $this->start_smpl) / 44100;
+    }
+
+    public function length_string() {
+        $length = $this->length();
+        $string = '';
+
+        $seconds = $length % 60;
+        $length = floor($length / 60);
+        $string = sprintf('%02d', $seconds) . 's';
+
+        // length bigger than 0 so has minutes
+        if($length > 0) {
+            $minutes = $length % 60;
+            $length = floor($length / 60);
+            $string = $minutes . 'm ' . $string;
+        }
+        // length bigger than 0 so has hours
+        if($length > 0)
+            $string = sprintf('%02d', $length) . 'h ' . $string;
+
+        return $string;
+    }
 }
