@@ -34,7 +34,7 @@ class SearchController extends Controller
 			}
 		})->where(function($query) use (&$filtered_criteria, &$search_string){
 			foreach($filtered_criteria as $criteria) {
-				$query->where($criteria, 'ILIKE', $search_string);
+				$query->orWhere($criteria, 'ILIKE', $search_string);
 			}
 		})->orderby('id', 'DESC')
 		->limit(25)

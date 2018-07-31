@@ -255,8 +255,6 @@ function reset_add_bar() {
 
 function item_dim(event) {
 	item = $(this).closest(".audiowall-item");
-	console.log(item); 
-	console.log(moving_element); 
 	if(is_moving_element && !item.is(moving_element)) {
 		item.addClass("audiowall-item-transparent");
 	}
@@ -269,6 +267,23 @@ function item_undim(event) {
 
 function item_undim_all() {
 	$(".audiowall-item").removeClass("audiowall-item-transparent");
+}
+
+function search(event) {
+	event.preventDefault();
+
+	param = {
+		types: ["Jingle", "Music"],
+		criteria: ["title", "artist", "album"],
+		query: $(".audiowall-search-input").val(),
+		_token: $("[name=_token]").val()
+	};
+
+	$.post("/ajax/search", param, function(data){
+		console.log(data);
+		$(".audiowall-search-results").modal("show");
+	});
+
 }
 
 function reset_binds() {
@@ -317,6 +332,8 @@ $(".audiowall-trash").click(delete_move);
 $(".audiowall-add-yes").click(start_add);
 $(".audiowall-add-cancel").click(cancel_add);
 $(".audiowall-add-add").click(save_add);
+
+$(".audiowall-search").submit(search);
 
 reset_binds();
 reset_edit_binds();

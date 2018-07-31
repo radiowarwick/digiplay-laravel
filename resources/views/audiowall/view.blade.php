@@ -19,6 +19,22 @@
 			@endif
 		</div>
 	</div>
+
+	@if($set->hasEdit(Auth::user()))
+		<p>
+			<form class="audiowall-search">
+				{{ csrf_field() }}
+				<div class="input-group">
+					<input class="form-control form-control-lg audiowall-search-input" type="text" placeholder="Search by artist/track/album name">
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-lg btn-search btn-warning">
+							Search
+						</button>
+					</span>
+				</div>
+			</form>
+		</p>
+	@endif
 	
 	<div class="row">
 		<div class="col-lg-4">
@@ -93,14 +109,16 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="audiowall-time">
-									<div class="audiowall-time-text">
-										1m 56s
+								@if($item != null)
+									<div class="audiowall-time">
+										<div class="audiowall-time-text">
+												{{ $item->audio->length_string() }}
+										</div>
+										<div class="audiowall-time-play">
+											<i class="fa fa-play"></i>
+										</div>
 									</div>
-									<div class="audiowall-time-play">
-										<i class="fa fa-play"></i>
-									</div>
-								</div>
+								@endif
 							</div>
 						</div>
 					@endfor
@@ -160,6 +178,19 @@
 					<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
 					<span class="badge badge-dark badge-pill audiowall-edit"><i class="fa fa-pencil"></i></span>
 					<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="audiowall-search-results modal fade" role="dialog" data-width="760">
+			<div class="modal-dialog">
+				<div class="modal-content bg-dark">
+					<div class="modal-header">
+						<h5 class="modal-title">Audio Search Results</h5>
+						<button type="button" class="close text-warning" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
