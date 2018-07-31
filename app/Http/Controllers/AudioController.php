@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Audio;
 use App\Artist;
+use App\ViewAudio;
 
 class AudioController extends Controller
 {
@@ -26,17 +27,14 @@ class AudioController extends Controller
     		return view('audio.invalid-search', ['q' => $searchTerm]);
     	}
 
-    	$titleResults = Audio::where([
-    		['title', 'ILIKE', '%'.trim($searchTerm).'%'],
-    		['type', 1]
-    	])
-    		->orderby('creation_date', 'DESC');
-
+    	$titleResults = $this->searchBy($searchTerm,"title");
+      
     	$total = $titleResults->count();
     	$paginateResults = $titleResults->paginate(10);
 
     	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
     }
+
 
     public function getPreview(Request $request, $id) {
         $audio = Audio::where('id', $id)->first();
@@ -67,3 +65,4 @@ class AudioController extends Controller
         ]);
     }
 }
+
