@@ -41,7 +41,7 @@ class AudioController extends Controller
     	$total = $titleResults->count();
     	$paginateResults = $titleResults->paginate(10);
 
-    	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
+    	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm, 'options' => $selectedOptions]);
     }
 
     public function getPreview(Request $request, $id) {
