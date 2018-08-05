@@ -114,7 +114,9 @@ function renumber_walls() {
 }
 
 var is_moving_element = false;
+var is_adding_element = false;
 var moving_element;
+var adding_element;
 var template_item;
 
 function move(event) {
@@ -134,6 +136,22 @@ function move(event) {
 
 		item_undim_all();
 	}
+	else if(is_adding_element) {
+		new_element = item.clone(true);
+		new_element.attr("data-wall-audio-id", adding_element.attr("data-wall-audio-id"));
+		new_element.css("background", adding_element.css("background"));
+		new_element.css("color", adding_element.css("color"));
+		new_element.find(".audiowall-item-title-text").text(adding_element.find(".audiowall-item-title-text").text());
+		new_element.find(".audiowall-time-text").text(adding_element.find(".audiowall-time-text").text());
+
+		item.replaceWith(new_element);
+
+		renumber_walls();
+		reset_binds();
+		item_undim_all();
+
+		is_adding_element = false;
+	}
 	else {
 		moving_element = item;
 		is_moving_element = true;
@@ -144,10 +162,15 @@ function move(event) {
 }
 
 function delete_move(event) {
-	if(is_moving_element) {
-		is_moving_element = false;
-		moving_element.replaceWith(template_item.clone(true));
-		
+	if(is_moving_element || is_adding_element) {
+		if(is_moving_element) {
+			is_moving_element = false;
+			moving_element.replaceWith(template_item.clone(true));
+		}
+		else {
+			is_adding_element = false;
+		}
+
 		item_undim_all();
 		renumber_walls();
 		reset_binds();
@@ -194,6 +217,14 @@ function save_edit(event) {
 	
 	editing_row.hide();
 	editing_hidden_row.show();
+}
+
+function audiowall_add(event) {
+	adding_element = $(this).closest(".audiowall-item");
+	is_adding_element = true;
+
+	$(".audiowall-item").addClass("audiowall-item-transparent");
+	$(".audiowall-search-results").modal("hide");
 }
 
 var adding = false;
@@ -255,7 +286,7 @@ function reset_add_bar() {
 
 function item_dim(event) {
 	item = $(this).closest(".audiowall-item");
-	if(is_moving_element && !item.is(moving_element)) {
+	if((is_moving_element && !item.is(moving_element)) || is_adding_element) {
 		item.addClass("audiowall-item-transparent");
 	}
 }
@@ -280,10 +311,23 @@ function search(event) {
 	};
 
 	$.post("/ajax/search", param, function(data){
-		console.log(data);
 		$(".audiowall-search-results").modal("show");
+
+		$(".audiowall-search-results-container").empty();
+
+		for(i = 0; i < data.length; i++) {
+			clone = $(".audiowall-item-search").clone(true);
+			clone.find(".audiowall-item-title-text").text(data[i].title);
+			clone.attr("data-wall-audio-id", data[i].id);
+			clone.find(".audiowall-time-text").text(data[i].length_string)
+			clone.removeClass("audiowall-item-search");
+			clone.show();
+
+			$(".audiowall-search-results-container").append(clone);
+		}
 	});
 
+	reset_search_binds();
 }
 
 function reset_binds() {
@@ -324,6 +368,11 @@ function reset_sidebar_binds() {
 	
 	$(".audiowall-edit").unbind("click");
 	$(".audiowall-edit").click(start_edit);
+}
+
+function reset_search_binds() {
+	$(".audiowall-search-add").unbind("click");
+	$(".audiowall-search-add").click(audiowall_add);
 }
 
 

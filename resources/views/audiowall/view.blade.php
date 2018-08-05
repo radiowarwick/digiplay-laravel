@@ -102,7 +102,7 @@
 								</div>
 							</div>
 							<div class="row audiowall-title no-gutters">
-								<div class="col-sm">
+								<div class="col-sm audiowall-item-title-text">
 									@if($item != null)
 										{{ $item->text }}
 									@endif
@@ -183,13 +183,41 @@
 		</div>
 
 		<div class="audiowall-search-results modal fade" role="dialog" data-width="760">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content bg-dark">
 					<div class="modal-header">
 						<h5 class="modal-title">Audio Search Results</h5>
 						<button type="button" class="close text-warning" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
+					</div>
+					<div class="modal-body audiowall-search-results-container">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="audiowall-item audiowall-item-search" data-wall-item data-wall-audio-id style="background:#428bca;color:#000000;display:none;">
+			<div class="row">
+				<div class="audiowall-time audiowall-search-add">
+					<div class="audiowall-time-add">
+						Add
+					</div>
+					<div class="audiowall-time-play">
+						<i class="fa fa-plus"></i>
+					</div>
+				</div>
+			</div>
+			<div class="row audiowall-title no-gutters">
+				<div class="col-sm audiowall-item-title-text">
+				</div>
+			</div>
+			<div class="row">
+				<div class="audiowall-time">
+					<div class="audiowall-time-text">
+					</div>
+					<div class="audiowall-time-play">
+						<i class="fa fa-play"></i>
 					</div>
 				</div>
 			</div>

@@ -7,6 +7,7 @@
 	margin: 5px 0;
 	opacity: 1;
 	transition: opacity 0.5s ease-in-out;
+	display: inline-block;
 
 
 	.row {
@@ -40,9 +41,10 @@
 	background: $yellow;
 	border-radius: 4px;
 	color: $gray-800;
+	cursor: pointer;
 }
 
-.audiowall-time-text, .audiowall-time-play {
+.audiowall-time-text, .audiowall-time-play, .audiowall-time-add {
 	display: inline;
 }
 
