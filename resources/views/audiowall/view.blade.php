@@ -8,14 +8,17 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-lg-10">
+		<div class="col-lg-9">
 			<h1 class="text-truncate">
 				{{ $set->name }}
 			</h1>
 		</div>
-		<div class="col-lg-2">
+		<div class="col-lg-3">
 			@if($set->hasAdmin(Auth::user()))
 				<a class="btn btn-warning btn-lg pull-right" href="{{ route('audiowall-settings', $set) }}">Settings</a>
+			@endif
+			@if($set->hasEdit(Auth::user()))
+				<button class="btn btn-success btn-lg btn-space pull-right">Save</button>
 			@endif
 		</div>
 	</div>
@@ -90,9 +93,22 @@
 			@foreach($set->walls as $wall)
 				<div class="row wall-page" data-wall-page="{{ $wall->page }}" {!! ($wall->page > 0) ? "style=\"display:none;\"" : "" !!}>
 					@for($i = 0; $i < 12; $i++)
-						@php($item = $wall->items->where('item', $i)->first())
+						@php
+							$item = $wall->items->where('item', $i)->first();
 
-						<div class="audiowall-item" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}">
+							$fg_colour = '000000';
+							$bg_colour = '428BCA';
+							if($item != null) {
+								foreach($item->colours as $colour) {
+									if($colour->name == 'ForeColourRGB')
+										$fg_colour = dechex($colour->value);
+									else if($colour->name == 'BackColourRGB')
+										$bg_colour = dechex($colour->value);
+								}
+							}
+						@endphp
+
+						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}">
 							<div class="row no-gutters">
 								<div class="col-6">
 									<i class="fa fa-gear fa-lg audiowall-action-box"></i>
@@ -197,7 +213,7 @@
 			</div>
 		</div>
 
-		<div class="audiowall-item audiowall-item-search" data-wall-item data-wall-audio-id style="background:#428bca;color:#000000;display:none;">
+		<div class="audiowall-item audiowall-item-search" data-bg="428bca" data-fg="000000" data-wall-item data-wall-audio-id style="background:#428bca;color:#000000;display:none;">
 			<div class="row">
 				<div class="audiowall-time audiowall-search-add">
 					<div class="audiowall-time-add">

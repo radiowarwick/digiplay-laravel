@@ -18,14 +18,16 @@ function serialize() {
 			data = {};
 			data["id"] = $(this).attr("data-wall-audio-id");
 			data["name"] = title;
+			data["fg"] = $(this).attr("data-fg");
+			data["bg"] = $(this).attr("data-bg");
+			data["position"] = $(this).attr("data-wall-item");
 
 			json[wall_number]["audio"][count++] = data;
 		});
 	});
 
-	return JSON.stringify(json);
+	return btoa(JSON.stringify(json));
 }
-
 
 // Takes a string, removes whitespace before/after string and any newlines/tabs in the string
 function strip_string(string) {

@@ -46,6 +46,10 @@ body {
 	border-radius: 0 $border-radius $border-radius 0;
 }
 
+.btn-space {
+	margin-right: 5px;
+}
+
 .list-group-item {
 	background: lighten($gray-800, 20%);
 	color: $white;

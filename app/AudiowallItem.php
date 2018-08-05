@@ -13,4 +13,8 @@ class AudiowallItem extends Model
     public function audio() {
     	return $this->hasOne('\App\Audio', 'id', 'audio_id');
     }
+
+    public function colours() {
+    	return $this->hasMany('\App\AudiowallItemColour', 'item_id', 'id');
+    }
 }
