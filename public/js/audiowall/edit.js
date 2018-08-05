@@ -273,8 +273,8 @@ function search(event) {
 	event.preventDefault();
 
 	param = {
-		types: ["Jingle", "Music"],
-		criteria: ["title", "artist", "album"],
+		type: ["Jingle", "Music"],
+		filter: ["title", "artist", "album"],
 		query: $(".audiowall-search-input").val(),
 		_token: $("[name=_token]").val()
 	};

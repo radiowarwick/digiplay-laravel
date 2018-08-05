@@ -12,11 +12,15 @@ class Audio extends Model
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = null;
     public function audioArtist() {
-    	return $this->hasOne('App\AudioArtist', 'audioid');
+    	return $this->hasOne('App\AudioArtist', 'audioid', 'id');
     }
 
     public function artist() {
         return $this->audioArtist->artist();
+    }
+
+    public function album() {
+        return $this->hasOne('App\Album', 'id', 'music_album');
     }
 
     public function scopeTracks($query) {
@@ -99,6 +103,6 @@ class Audio extends Model
             }
         });
 
-        return $query->orderBy('audio.id', 'DESC');
+        return $query->orderBy('audio.id', 'DESC')->select('audio.*');
     }
 }
