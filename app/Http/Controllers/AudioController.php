@@ -22,7 +22,7 @@ class AudioController extends Controller
     	$searchTerm = $request->input('q');
       $selectedOptions = $request->input('options');
 
-    	if(is_null($searchTerm) or strlen($searchTerm) <= 3) {
+    	if(is_null($searchTerm) or strlen($searchTerm) <= 3 or empty($selectedOptions)) {
     		if(is_null($searchTerm))
     			$searchTerm = '';
     		return view('audio.invalid-search', ['q' => $searchTerm]);
