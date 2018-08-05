@@ -20,6 +20,7 @@ class AudioController extends Controller
 
     public function getSearch(Request $request) {
     	$searchTerm = $request->input('q');
+      $selectedOptions = $request->input('options');
 
     	if(is_null($searchTerm) or strlen($searchTerm) <= 3) {
     		if(is_null($searchTerm))
@@ -27,14 +28,21 @@ class AudioController extends Controller
     		return view('audio.invalid-search', ['q' => $searchTerm]);
     	}
 
-    	$titleResults = $this->searchBy($searchTerm,"title");
-      
+      $selectedTypes = array("Song");
+    
+      $params = array(
+        "query" => $searchTerm,
+        "type" => $selectedTypes,
+        "filter" => $selectedOptions
+      );
+
+    	$titleResults = Audio::search($params);
+
     	$total = $titleResults->count();
     	$paginateResults = $titleResults->paginate(10);
 
     	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
     }
-
 
     public function getPreview(Request $request, $id) {
         $audio = Audio::where('id', $id)->first();
