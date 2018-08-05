@@ -39,7 +39,7 @@ class AudioController extends Controller
     	$titleResults = Audio::search($params);
 
     	$total = $titleResults->count();
-    	$paginateResults = $titleResults->paginate(10);
+    	$paginateResults = $titleResults->paginate(10)->appends($_GET);
 
     	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm, 'options' => $selectedOptions]);
     }
