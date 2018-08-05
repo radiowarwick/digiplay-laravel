@@ -24,11 +24,6 @@ Route::group(['middleware' => ['web']], function(){
 	Route::get('/logout', 'AuthController@getLogout')->name('logout');
 });
 
-Route::get('/users', function(){
-	$users = App\User::all();
-	return view('users', ['users' => $users]);
-});
-
 Route::group(['middleware' => ['auth']], function(){
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
