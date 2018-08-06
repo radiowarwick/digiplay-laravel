@@ -36,22 +36,26 @@
 						<td>{{ $permission->user->username }}</td>
 						<td>{{ $permission->user->name }}</td>
 						<td>
-							<form class="form form-inline" action="{{ route('audiowall-setting-update', ['id' => $set->id, 'username' => $permission->user->username]) }}" method="POST">
-								{{ csrf_field() }}
-								<select class="form-control mb-2 mr-sm-2" name="level">
-									<option value="1" {{ ($permission->level == 1) ? 'selected' : '' }}>User can view</option>
-									<option value="2" {{ ($permission->level == 2) ? 'selected' : '' }}>User can edit</option>
-									<option value="3" {{ ($permission->level == 3) ? 'selected' : '' }}>User has admin</option>
-								</select>
-								
-								@if(auth()->user()->username != $permission->user->username)
-									<div class="form-group mb-2 mr-sm-2">
-										<button class="btn btn-warning" type="submit">Update</button>
-									</div>
-								@endif
-							</form>
+							@if($permission->level < 4)
+								<form class="form form-inline" action="{{ route('audiowall-setting-update', ['id' => $set->id, 'username' => $permission->user->username]) }}" method="POST">
+									{{ csrf_field() }}
+									<select class="form-control mb-2 mr-sm-2" name="level">
+										<option value="1" {{ ($permission->level == 1) ? 'selected' : '' }}>User can view</option>
+										<option value="2" {{ ($permission->level == 2) ? 'selected' : '' }}>User can edit</option>
+										<option value="3" {{ ($permission->level == 3) ? 'selected' : '' }}>User has admin</option>
+									</select>
+									
+									@if(auth()->user()->username != $permission->user->username)
+										<div class="form-group mb-2 mr-sm-2">
+											<button class="btn btn-warning" type="submit">Update</button>
+										</div>
+									@endif
+								</form>
+							@else
+								Owner
+							@endif
 						</td>
-						@if(auth()->user()->username != $permission->user->username)
+						@if(auth()->user()->username != $permission->user->username and $permission->level < 4)
 							<td>
 								<a class="btn btn-danger" href="{{ route('audiowall-setting-remove', ['id' => $set->id, 'username' => $permission->user->username]) }}">Remove</a>
 							</td>

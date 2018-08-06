@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use App\User;
+use App\AudiowallSetPermission;
+use Illuminate\Support\Facades\DB;
+
 class CreateAudiowallPermissionTable extends Migration
 {
     /**
@@ -13,13 +17,6 @@ class CreateAudiowallPermissionTable extends Migration
      */
     public function up()
     {
-        // remove old tables
-        // Schema::dropIfExists('aw_sets_permissions');
-        // Schema::dropIfExists('aw_sets_owner');
-        // Schema::dropIfExists('aw_props');
-        // Schema::dropIfExists('aw_styles');
-        // Schema::dropIfExists('aw_styles_props');
-
         Schema::create('aw_set_permissions', function(Blueprint $table){
             $table->increments('id');
             $table->integer('set_id');
@@ -35,6 +32,19 @@ class CreateAudiowallPermissionTable extends Migration
             $table->integer('value');
             $table->timestamps();
         });
+
+        $owners = DB::select('SELECT * FROM aw_sets_owner');
+        foreach($owners as $owner) {
+            $user = User::where('id', $owner->user_id)->first();
+
+            $new_permission = new AudiowallSetPermission;
+
+            $new_permission->username = $user->username;
+            $new_permission->set_id = $owner->set_id;
+            $new_permission->level = 4;
+
+            $new_permission->save();
+        }
     }
 
     /**
