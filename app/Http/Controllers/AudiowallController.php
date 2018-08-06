@@ -19,7 +19,13 @@ class AudiowallController extends Controller
 		$sets = AudiowallSet::orderby('name')->get();
 		$current_audiowall_id = auth()->user()->audiowall();
 
-		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id);
+		$owned = AudiowallSetPermission::where('level', 4)->where('username', auth()->user()->username)->count();
+
+		$can_create = false;
+		if($owned <= 2 or auth()->user()->hasPermission('Audiowall Admin'))
+			$can_create = true;
+
+		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id)->with('can_create', $can_create);
 	}
 
 	public function getActivate(Request $request, $set_id) {
@@ -160,13 +166,7 @@ class AudiowallController extends Controller
 		$new_audiowall = json_decode(base64_decode($request['wall']));
 
 		// delete pre-existing data
-		foreach($set->walls as $wall) {
-			foreach($wall->items as $item) {
-				$item->colours()->delete();
-			}
-			$wall->items()->delete();
-		}
-		$set->walls()->delete();
+		$this->delete_audiowall($set);
 
 		$wall_n = 0;
 		foreach($new_audiowall as $wall) {
@@ -203,5 +203,39 @@ class AudiowallController extends Controller
 				$bg->save();
 			}
 		}
+	}
+
+	function postCreateAudiowall(Request $request) {
+		$owned = AudiowallSetPermission::where('level', 4)->where('username', auth()->user()->username)->count();
+		if($owned > 2 and !auth()->user()->hasPermission('Audiowall Admin'))
+			abort(403, 'Not authorised');
+
+		$request->validate([
+			'name' => 'required'
+		]);
+
+		$audiowall = new AudiowallSet;
+		$audiowall->name = $request['name'];
+		$audiowall->description = '';
+		$audiowall->save();
+	
+
+		$permission = new AudiowallSetPermission;
+		$permission->username = auth()->user()->username;
+		$permission->level = 4;
+		$permission->set_id = $audiowall->id;
+		$permission->save();
+
+		return redirect()->route('audiowall-index');
+	}
+
+	public function delete_audiowall($set) {
+		foreach($set->walls as $wall) {
+			foreach($wall->items as $item) {
+				$item->colours()->delete();
+			}
+			$wall->items()->delete();
+		}
+		$set->walls()->delete();
 	}
 }
