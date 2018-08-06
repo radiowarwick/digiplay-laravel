@@ -18,7 +18,7 @@
 				<a class="btn btn-warning btn-lg pull-right" href="{{ route('audiowall-settings', $set) }}">Settings</a>
 			@endif
 			@if($set->hasEdit(Auth::user()))
-				<button class="btn btn-success btn-lg btn-space pull-right">Save</button>
+				<button class="btn btn-success btn-lg btn-space pull-right audiowall-save">Save</button>
 			@endif
 		</div>
 	</div>
@@ -111,7 +111,7 @@
 						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}">
 							<div class="row no-gutters">
 								<div class="col-6">
-									<i class="fa fa-gear fa-lg audiowall-action-box"></i>
+									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box"></i>
 								</div>
 								<div class="col-6">
 									<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
@@ -198,7 +198,7 @@
 			</div>
 		</div>
 
-		<div class="audiowall-search-results modal fade" role="dialog" data-width="760">
+		<div class="audiowall-search-results modal fade" role="dialog">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content bg-dark">
 					<div class="modal-header">
@@ -208,6 +208,67 @@
 						</button>
 					</div>
 					<div class="modal-body audiowall-search-results-container">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="audiowall-item-settings modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content bg-dark">
+					<div class="modal-header">
+						<h5 class="modal-title">Item Settings</h5>
+						<button type="button" class="close text-warning" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h3>Name</h3>
+						<input type="text" class="form-control audiowall-item-name">
+
+						<h3>Colour</h3>
+
+						<div class="row">
+							<div class="audiowall-colour-option-container">
+								<div class="audiowall-colour-option" style="background:#FEF200" data-background="FEF200"></div>
+								<div class="audiowall-colour-option" style="background:#F2881A" data-background="F2881A"></div>
+								<div class="audiowall-colour-option" style="background:#F12429" data-background="F12429"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="audiowall-colour-option-container">
+								<div class="audiowall-colour-option" style="background:#00C05D" data-background="00C05D"></div>
+								<div class="audiowall-colour-option" style="background:#52B944" data-background="52B944"></div>
+								<div class="audiowall-colour-option" style="background:#02A650" data-background="02A650"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="audiowall-colour-option-container">
+								<div class="audiowall-colour-option" style="background:#F1A9FA" data-background="F1A9FA"></div>
+								<div class="audiowall-colour-option" style="background:#B22494" data-background="B22494"></div>
+								<div class="audiowall-colour-option" style="background:#703295" data-background="703295"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="audiowall-colour-option-container">
+								<div class="audiowall-colour-option" style="background:#99BDDD" data-background="99BDDD"></div>
+								<div class="audiowall-colour-option" style="background:#428BCA" data-background="428BCA"></div>
+								<div class="audiowall-colour-option" style="background:#005CAA" data-background="005CAA"></div>
+							</div>
+						</div>
+						<div class="row">
+							<btn class="audiowall-item-settings-colour-btn btn btn-warning btn-lg m-auto">Custom</btn>
+							<input type="color" class="audiowall-item-settings-colour d-none">
+						</div>
+
+						<div class="audiowall-edit-example">
+							Example
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success audiowall-item-save">Save</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>
 			</div>

@@ -13,7 +13,6 @@ function serialize() {
 		$(wall).find(".audiowall-item[data-wall-audio-id!='']").each(function(){
 			title = $(this).find(".audiowall-title").first().text();
 			title = strip_string(title);
-			console.log(wall_number + " - " + title);
 
 			data = {};
 			data["id"] = $(this).attr("data-wall-audio-id");
@@ -332,9 +331,99 @@ function search(event) {
 	reset_search_binds();
 }
 
+var is_saving = false;
+
+function save(event) {
+	if(!is_saving) {
+		is_saving = true;
+		data = {
+			wall: serialize(),
+			_token: $("[name=_token]").val()
+		};
+
+		$(this).html("<i class=\"fa fa-refresh fa-spin\"></i>");
+
+		$.post(window.location.href + "/save", data, function(data){
+			location.reload();
+		}).fail(function(){
+			is_saving = false;
+			$(this).html("Save");
+			alert("An error occured whilst saving");
+		});
+	}
+}
+
+var editing_item;
+
+function item_show_edit(event) {
+	$(".audiowall-item-settings").modal("show");
+	editing_item = $(this).closest(".audiowall-item");
+
+	bg = editing_item.attr("data-bg");
+	item_colour_update(bg);
+
+	title = strip_string(editing_item.find(".audiowall-item-title-text").text());
+	$(".audiowall-item-name").val(title);
+}
+
+function item_settings_save(event) {
+	bg = $(".audiowall-edit-example").attr("data-bg");
+	fg = $(".audiowall-edit-example").attr("data-fg");
+
+	editing_item.attr("data-bg", bg);
+	editing_item.attr("data-fg", fg);
+	editing_item.css("background", "#" + bg);
+	editing_item.css("color", "#" + fg);
+
+	title = strip_string($(".audiowall-item-name").val());
+	editing_item.find(".audiowall-item-title-text").text(title);
+
+	$(".audiowall-item-settings").modal("hide");
+}
+
+function item_colour_option(event) {
+	bg = $(this).attr("data-background");
+	item_colour_update(bg);
+}
+
+function item_open_colour_picker(event) {
+	$(".audiowall-item-settings-colour").focus();
+	$(".audiowall-item-settings-colour").val("#" + $(".audiowall-edit-example").attr("data-bg"));
+	$(".audiowall-item-settings-colour").click();
+}
+
+function item_colour_picker_change(event) {
+	hex = $(this).val();
+	hex = hex.replace("#", "");
+	item_colour_update(hex);
+}
+
+function item_colour_update(bg) {
+	fg = foreground_colour(bg);
+	
+	$(".audiowall-edit-example").css("background", "#" + bg);
+	$(".audiowall-edit-example").css("color", "#" + fg);
+
+	$(".audiowall-edit-example").attr("data-bg", bg);
+	$(".audiowall-edit-example").attr("data-fg", fg);
+}
+
+function foreground_colour(hex) {
+	red = parseInt(hex.substring(0, 2), 16);
+	green = parseInt(hex.substring(2, 4), 16);
+	blue = parseInt(hex.substring(4), 16);
+
+	if((red * 0.299 + green * 0.587 + blue * 0.114) > 186)
+		return '000000';
+	return 'ffffff';
+}
+
 function reset_binds() {
 	$(".audiowall-move").unbind("click");
 	$(".audiowall-move").click(move);
+
+	$(".audiowall-settings").unbind("click");
+	$(".audiowall-settings").click(item_show_edit);
 
 	$(".audiowall-move").mouseleave(item_dim);
 	$(".audiowall-move").mouseenter(item_undim);
@@ -377,15 +466,6 @@ function reset_search_binds() {
 	$(".audiowall-search-add").click(audiowall_add);
 }
 
-
-$(".audiowall-trash").click(delete_move);
-
-$(".audiowall-add-yes").click(start_add);
-$(".audiowall-add-cancel").click(cancel_add);
-$(".audiowall-add-add").click(save_add);
-
-$(".audiowall-search").submit(search);
-
 reset_binds();
 reset_edit_binds();
 reset_sidebar_binds();
@@ -397,4 +477,18 @@ $(document).ready(function(){
 	editing_row = $(".edit-row");
 	adding_row_template = $(".audiowall-add-template").clone(true);
 	template_item.removeClass("audiowall-add-template");
+
+	$(".audiowall-trash").click(delete_move);
+
+	$(".audiowall-add-yes").click(start_add);
+	$(".audiowall-add-cancel").click(cancel_add);
+	$(".audiowall-add-add").click(save_add);
+
+	$(".audiowall-search").submit(search);
+	$(".audiowall-save").click(save);
+
+	$(".audiowall-colour-option").click(item_colour_option);
+	$(".audiowall-item-settings-colour-btn").click(item_open_colour_picker);
+	$(".audiowall-item-settings-colour").change(item_colour_picker_change);
+	$(".audiowall-item-save").click(item_settings_save);
 });

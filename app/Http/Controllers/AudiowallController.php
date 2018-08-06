@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 use App\AudiowallSet;
+use App\AudiowallItem;
+use App\AudiowallItemColour;
+use App\AudiowallWall;
 use App\UserConfig;
 use App\AudiowallSetPermission;
 use App\User;
@@ -145,5 +148,60 @@ class AudiowallController extends Controller
 			abort('403', 'Not authorised');
 
 		return view('audiowall.view')->with('set', $set);
+	}
+
+	public function postSaveAudiowall(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set) and $request['wall'] != null)
+			abort('404', 'Page not found');
+		if(!$set->hasEdit(auth()->user()))
+			abort('403', 'Not authorised');
+
+		$new_audiowall = json_decode(base64_decode($request['wall']));
+
+		// delete pre-existing data
+		foreach($set->walls as $wall) {
+			foreach($wall->items as $item) {
+				$item->colours()->delete();
+			}
+			$wall->items()->delete();
+		}
+		$set->walls()->delete();
+
+		$wall_n = 0;
+		foreach($new_audiowall as $wall) {
+			$new_wall = new AudiowallWall;
+			
+			$new_wall->set_id = $set->id;
+			$new_wall->name = $wall->title;
+			$new_wall->description = '';
+			$new_wall->page = $wall_n++;
+
+			$new_wall->save();
+
+			foreach($wall->audio as $item) {
+				$new_item = new AudiowallItem;
+
+				$new_item->audio_id = $item->id;
+				$new_item->wall_id = $new_wall->id;
+				$new_item->text = $item->name;
+				$new_item->item = $item->position;
+				$new_item->style_id = 1;
+
+				$new_item->save();
+
+				$fg = new AudiowallItemColour;
+				$fg->name = 'ForeColourRGB';
+				$fg->value = hexdec($item->fg);
+				$fg->item_id = $new_item->id;
+				$fg->save();
+
+				$bg = new AudiowallItemColour;
+				$bg->name = 'BackColourRGB';
+				$bg->value = hexdec($item->bg);
+				$bg->item_id = $new_item->id;
+				$bg->save();
+			}
+		}
 	}
 }

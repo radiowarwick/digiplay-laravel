@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/audiowall/{id}/settings/name', 'AudiowallController@postSettingsName')->name('audiowall-setting-name')->where('id', '[0-9]+');
 	Route::post('/audiowall/{id}/settings/add', 'AudiowallController@postSettingsAdd')->name('audiowall-setting-add')->where('id', '[0-9]+');
 	Route::post('/audiowall/{id}/settings/update/{username}', 'AudiowallController@postSettingsUpdate')->name('audiowall-setting-update')->where('id', '[0-9]+');
+	Route::post('/audiowall/{id}/save', 'AudiowallController@postSaveAudiowall')->name('audiowall-save')->where('id', '[0-9]+');
 
 	// API/AJAX call
 
