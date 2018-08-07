@@ -125,16 +125,14 @@
 								</div>
 							</div>
 							<div class="row">
-								@if($item != null)
-									<div class="audiowall-time">
-										<div class="audiowall-time-text">
-												{{ $item->audio->length_string() }}
-										</div>
-										<div class="audiowall-time-play">
-											<i class="fa fa-play"></i>
-										</div>
+								<div class="audiowall-time">
+									<div class="audiowall-time-text">
+											{{ ($item != null) ? $item->audio->length_string() : '' }}
 									</div>
-								@endif
+									<div class="audiowall-time-play">
+										<i class="fa fa-play"></i>
+									</div>
+								</div>
 							</div>
 						</div>
 					@endfor
