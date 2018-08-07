@@ -29,10 +29,12 @@
         <input type="checkbox" id="Advert" value="Advert" name="types[]" class="custom-control-input" {{ (!empty($types) and in_array("Advert",$types)) ? "checked" : "" }}>
         <label class="custom-control-label" for="Advert">Advert</label>
       </div>
-      <div class="custom-control custom-checkbox custom-control-inline" id="types">
-        <input type="checkbox" id="Prerec" value="Prerec" name="types[]" class="custom-control-input"  {{ (!empty($types) and in_array("Prerec",$types)) ? "checked" : "" }}>
-        <label class="custom-control-label" for="Prerec">Prerec</label>
-      </div>
+      @if(auth()->user()->hasPermission('Can schedule prerecs'))
+        <div class="custom-control custom-checkbox custom-control-inline" id="types">
+          <input type="checkbox" id="Prerec" value="Prerec" name="types[]" class="custom-control-input"  {{ (!empty($types) and in_array("Prerec",$types)) ? "checked" : "" }}>
+          <label class="custom-control-label" for="Prerec">Prerec</label>
+        </div>
+      @endif
     </div>
 
   </div>
