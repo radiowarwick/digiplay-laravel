@@ -148,7 +148,7 @@
 	@if($set->hasEdit(Auth::user()))
 		<script src="/js/audiowall/edit.js"></script>
 
-		<div class="audiowall-item audiowall-item-template" data-wall-item data-wall-audio-id>
+		<div class="audiowall-item audiowall-item-template" data-bg="428bca" data-fg="ffffff" data-wall-item data-wall-audio-id style="background:#428bca;color:#ffffff">
 			<div class="row no-gutters">
 				<div class="col-6">
 					<i class="fa fa-gear fa-lg audiowall-action-box"></i>
@@ -164,7 +164,6 @@
 			<div class="row">
 				<div class="audiowall-time">
 					<div class="audiowall-time-text">
-						1m 56s
 					</div>
 					<div class="audiowall-time-play">
 						<i class="fa fa-play"></i>
