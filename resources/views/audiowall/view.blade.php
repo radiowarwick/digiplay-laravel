@@ -96,7 +96,7 @@
 						@php
 							$item = $wall->items->where('item', $i)->first();
 
-							$fg_colour = '000000';
+							$fg_colour = 'ffffff';
 							$bg_colour = '428BCA';
 							if($item != null) {
 								foreach($item->colours as $colour) {
@@ -274,7 +274,7 @@
 			</div>
 		</div>
 
-		<div class="audiowall-item audiowall-item-search" data-bg="428bca" data-fg="000000" data-wall-item data-wall-audio-id style="background:#428bca;color:#000000;display:none;">
+		<div class="audiowall-item audiowall-item-search" data-bg="428bca" data-fg="ffffff" data-wall-item data-wall-audio-id style="background:#428bca;color:#ffffff;display:none;">
 			<div class="row">
 				<div class="audiowall-time audiowall-search-add">
 					<div class="audiowall-time-add">

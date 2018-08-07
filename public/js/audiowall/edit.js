@@ -140,8 +140,8 @@ function move(event) {
 	else if(is_adding_element) {
 		new_element = item.clone(true);
 		new_element.attr("data-wall-audio-id", adding_element.attr("data-wall-audio-id"));
-		new_element.css("background", adding_element.css("background"));
-		new_element.css("color", adding_element.css("color"));
+		new_element.css("background", "#" + adding_element.attr("data-bg"));
+		new_element.css("color", "#" + adding_element.attr("data-fg"));
 		new_element.find(".audiowall-item-title-text").text(adding_element.find(".audiowall-item-title-text").text());
 		new_element.find(".audiowall-time-text").text(adding_element.find(".audiowall-time-text").text());
 
