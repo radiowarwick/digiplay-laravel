@@ -23,6 +23,19 @@ class Audio extends Model
         return $this->hasOne('App\Album', 'id', 'music_album');
     }
 
+    // annoying name to not share column name
+    public function theArchive() {
+        return $this->hasOne('App\Archive', 'id', 'archive');
+    }
+
+    public function filePath() {
+        if($this->archive !== 0) {
+            $folder = substr($this->md5, 0, 1);
+            return $this->theArchive->localpath . '/' . $folder . '/' . $this->md5 . '.flac';
+        }
+        return null;
+    }
+
     public function scopeTracks($query) {
     	return $query->where('type', 1);
     }

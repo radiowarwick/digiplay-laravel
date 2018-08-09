@@ -37,4 +37,32 @@ class AudioController extends Controller
     	
     	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
     }
+
+    public function getPreview(Request $request, $id) {
+        $audio = Audio::where('id', $id)->first();
+        if($audio === null)
+            abort(404, 'Page not found');
+
+        $file = $audio->filePath();
+        $start = $audio->start_smpl / 44100;
+        $end = $audio->end_smpl / 44100;
+
+        $multi = 6;
+        $bitrate = 48;
+        if(auth()->user()->hasPermission('High quality audio')) {
+            $multi = 24;
+            $bitrate = 48;
+        }
+
+        header('Content-type: audio/mpeg');
+        header('Content-length: ' . ($multi * 1000 * $audio->length()));
+        header('accept-ranges: bytes');
+
+        $command = 'sox ' . $file . ' -t mp3 -C ' . $bitrate . '.5 - trim ' . $start . ' ' . $end;
+        $pfile = popen($command, 'r');
+        while($read = fread($pfile, 8192)) {
+            echo $read;
+        }
+        pclose($pfile);
+    }
 }
