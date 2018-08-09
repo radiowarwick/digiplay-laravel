@@ -108,7 +108,7 @@
 							}
 						@endphp
 
-						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}">
+						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}" data-item-length="{{ ($item == null) ? "" : $item->audio->length() }}" data-item-length-string="{{ ($item == null) ? "" : $item->audio->length_string() }}">
 							<div class="row no-gutters">
 								<div class="col-6">
 									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box"></i>
