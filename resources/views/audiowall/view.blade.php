@@ -100,10 +100,15 @@
 							$bg_colour = '428BCA';
 							if($item != null) {
 								foreach($item->colours as $colour) {
+									$value = dechex($colour->value);
+									while(strlen($value) < 6) {
+										$value = "0" . $value;
+									}
+
 									if($colour->name == 'ForeColourRGB')
-										$fg_colour = dechex($colour->value);
+										$fg_colour = $value;
 									else if($colour->name == 'BackColourRGB')
-										$bg_colour = dechex($colour->value);
+										$bg_colour = $value;
 								}
 							}
 						@endphp
