@@ -34,7 +34,7 @@ class AudioController extends Controller
 
     	$total = $titleResults->count();
     	$paginateResults = $titleResults->paginate(10);
-    	
+
     	return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
     }
 
@@ -48,21 +48,22 @@ class AudioController extends Controller
         $end = $audio->end_smpl / 44100;
 
         $multi = 6;
-        $bitrate = 48;
+        $bitrate = '48';
         if(auth()->user()->hasPermission('High quality audio')) {
             $multi = 24;
-            $bitrate = 48;
+            $bitrate = '192';
         }
-
-        header('Content-type: audio/mpeg');
-        header('Content-length: ' . ($multi * 1000 * $audio->length()));
-        header('accept-ranges: bytes');
 
         $command = 'sox ' . $file . ' -t mp3 -C ' . $bitrate . '.5 - trim ' . $start . ' ' . $end;
-        $pfile = popen($command, 'r');
-        while($read = fread($pfile, 8192)) {
-            echo $read;
-        }
-        pclose($pfile);
+        return response()->stream(function() use ($command){
+            $pfile = popen($command, 'r');
+            fpassthru($pfile);
+            if(is_resource($pfile))
+                pclose($pfile);
+        }, 200, [
+            'Content-type' => 'audio/mpeg',
+            'Content-length' => (int) ($multi * 1000 * $audio->length()),
+            'Accept-Ranges' => 'bytes'
+        ]);
     }
 }
