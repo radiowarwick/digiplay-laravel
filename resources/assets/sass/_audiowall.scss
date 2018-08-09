@@ -18,7 +18,7 @@
 	.audiowall-title {
 		line-height: 1.2rem;
 	    overflow: hidden;
-	    height: 4rem;
+	    height: 6.5rem;
 	    font-size: 1.4rem;
 	}
 }
@@ -35,16 +35,18 @@
 	}
 }
 
-.audiowall-time {
+.audiowall-time, .audiowall-add-btn {
 	margin: 0 auto;
 	padding: 5px;
 	background: $yellow;
 	border-radius: 4px;
 	color: $gray-800;
 	cursor: pointer;
+	height: 30px;
+	line-height: 0;
 }
 
-.audiowall-time-text, .audiowall-time-play, .audiowall-time-add {
+.audiowall-time-text, .audiowall-time-play, .audiowall-time-add, .audiowall-time-plus {
 	display: inline;
 }
 

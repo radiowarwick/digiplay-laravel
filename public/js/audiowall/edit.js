@@ -121,7 +121,9 @@ var adding_element;
 var template_item;
 
 function move(event) {
+	silence_audio();
 	item = $(this).closest(".audiowall-item");
+
 	if(is_moving_element) {
 		if(moving_element != item) {
 			copy1 = item.clone(true);
@@ -136,14 +138,20 @@ function move(event) {
 		is_moving_element = false;
 
 		item_undim_all();
+
+		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
+		items.find(".audiowall-settings").css("visibility", "visible");
+		items.find(".audiowall-time").show();
 	}
 	else if(is_adding_element) {
 		new_element = item.clone(true);
 		new_element.attr("data-wall-audio-id", adding_element.attr("data-wall-audio-id"));
+		new_element.attr("data-item-length", adding_element.attr("data-item-length"));
+		new_element.attr("data-item-length-string", adding_element.attr("data-item-length-string"));
 		new_element.css("background", "#" + adding_element.attr("data-bg"));
 		new_element.css("color", "#" + adding_element.attr("data-fg"));
 		new_element.find(".audiowall-item-title-text").text(adding_element.find(".audiowall-item-title-text").text());
-		new_element.find(".audiowall-time-text").text(adding_element.find(".audiowall-time-text").text());
+		new_element.find(".audiowall-time-text").text(adding_element.attr("data-item-length-string"));
 
 		item.replaceWith(new_element);
 
@@ -151,11 +159,21 @@ function move(event) {
 		reset_binds();
 		item_undim_all();
 
+		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
+		items.find(".audiowall-add-btn").hide();
+		items.find(".audiowall-time").show();
+		items.find(".audiowall-move-only").css("visibility", "visible");
+		items.find(".audiowall-settings").css("visibility", "visible");
+
 		is_adding_element = false;
 	}
 	else {
 		moving_element = item;
 		is_moving_element = true;
+
+		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
+		items.find(".audiowall-settings").css("visibility", "hidden");
+		items.find(".audiowall-time").hide();
 
 		$(".audiowall-item").addClass("audiowall-item-transparent");
 		moving_element.removeClass("audiowall-item-transparent");
@@ -163,6 +181,8 @@ function move(event) {
 }
 
 function delete_move(event) {
+	items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
+
 	if(is_moving_element || is_adding_element) {
 		if(is_moving_element) {
 			is_moving_element = false;
@@ -170,7 +190,12 @@ function delete_move(event) {
 		}
 		else {
 			is_adding_element = false;
+
+			items.find(".audiowall-add-btn").hide();
+			items.find(".audiowall-move-only").css("visibility", "visible");			
 		}
+		items.find(".audiowall-settings").css("visibility", "visible");
+		items.find(".audiowall-time").show();
 
 		item_undim_all();
 		renumber_walls();
@@ -221,8 +246,15 @@ function save_edit(event) {
 }
 
 function audiowall_add(event) {
-	adding_element = $(this).closest(".audiowall-item");
+	adding_element = $(this).closest(".audiowall-item").clone(true);
 	is_adding_element = true;
+
+	items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
+
+	items.find(".audiowall-time").hide();
+	items.find(".audiowall-move-only").css("visibility", "hidden");
+	items.find(".audiowall-settings").css("visibility", "hidden");
+	items.find(".audiowall-add-btn").show();
 
 	$(".audiowall-item").addClass("audiowall-item-transparent");
 	$(".audiowall-search-results").modal("hide");
@@ -255,7 +287,12 @@ function save_add(event) {
 	new_row.find(".audiowall-wall-name").text(text);
 	new_row.attr("data-wall-page", "100");
 	new_row.show();
-	$("div.list-group-item[data-wall-page]").last().after(new_row);
+
+	wall_links = $("div.list-group-item[data-wall-page]");
+	if(wall_links.length > 0)
+		wall_links.last().after(new_row);
+	else
+		$(".audiowall-list-group").prepend(new_row);
 
 	$(".audiowall-add-row").hide();
 	$(".audiowall-add-row").find("input").val("");
@@ -271,6 +308,8 @@ function save_add(event) {
 	reset_add_bar();
 	reset_wall_binds();
 	reset_binds();
+
+	new_row.trigger("click");
 }
 
 function reset_add_bar() {
@@ -311,21 +350,27 @@ function search(event) {
 		_token: $("[name=_token]").val()
 	};
 
-	$.post("/ajax/search", param, function(data){
-		$(".audiowall-search-results").modal("show");
+	is_adding_element = false;
+	is_moving_element = false;
+	item_undim_all();
+	silence_audio();
 
+	$.post("/ajax/search", param, function(data){
 		$(".audiowall-search-results-container").empty();
 
 		for(i = 0; i < data.length; i++) {
 			clone = $(".audiowall-item-search").clone(true);
 			clone.find(".audiowall-item-title-text").text(data[i].title);
 			clone.attr("data-wall-audio-id", data[i].id);
+			clone.attr("data-item-length", data[i].length);
+			clone.attr("data-item-length-string", data[i].length_string);
 			clone.find(".audiowall-time-text").text(data[i].length_string)
 			clone.removeClass("audiowall-item-search");
 			clone.show();
 
 			$(".audiowall-search-results-container").append(clone);
 		}
+		$(".audiowall-search-results").modal("show");
 	});
 
 	reset_search_binds();
@@ -356,6 +401,7 @@ function save(event) {
 var editing_item;
 
 function item_show_edit(event) {
+	silence_audio();
 	$(".audiowall-item-settings").modal("show");
 	editing_item = $(this).closest(".audiowall-item");
 
@@ -437,6 +483,7 @@ function item_play_stop(event) {
 			audio = $("<audio class='d-none'></audio>");
 			audio.append("<source src='/audio/preview/" + id + ".mp3' type='audio/mpeg'>");
 			audio.bind("timeupdate", item_play_update);
+			audio.bind("ended", item_play_ended);
 			item.append(audio);
 		}
 
@@ -463,6 +510,22 @@ function item_play_update(event) {
 	}
 }
 
+function item_play_ended(event) {
+	item = $(this).closest(".audiowall-item");
+	item.attr("data-play-status", "paused");
+	item.find(".audiowall-time-play").html("<i class='fa fa-play'></i>");
+
+	audio = item.find("audio").eq(0).get(0);
+	audio.currentTime = 0;
+	audio.pause();
+
+	item_play_update(event);
+}
+
+function silence_audio() {
+	$("[data-play-status=playing]").find(".audiowall-time").trigger("click");
+}
+
 function time_to_string(time) {
 	seconds = Math.floor(time % 60);
 	time = Math.floor(time / 60);
@@ -475,6 +538,10 @@ function time_to_string(time) {
 	return string;
 }
 
+function search_close(event) {
+	$(".audiowall-search-results-container").empty();
+}
+
 function reset_binds() {
 	$(".audiowall-move").unbind("click");
 	$(".audiowall-move").click(move);
@@ -482,8 +549,13 @@ function reset_binds() {
 	$(".audiowall-settings").unbind("click");
 	$(".audiowall-settings").click(item_show_edit);
 
+	$(".audiowall-move").unbind("mouseleave");
+	$(".audiowall-move").unbind("mouseenter");
 	$(".audiowall-move").mouseleave(item_dim);
 	$(".audiowall-move").mouseenter(item_undim);
+	
+	$(".audiowall-time").unbind("click");
+	$(".audiowall-time").click(item_play_stop);
 }
 
 function reset_edit_binds() {
@@ -543,11 +615,10 @@ $(document).ready(function(){
 
 	$(".audiowall-search").submit(search);
 	$(".audiowall-save").click(save);
+	$(".audiowall-search-results").on("hide.bs.modal", search_close);
 
 	$(".audiowall-colour-option").click(item_colour_option);
 	$(".audiowall-item-settings-colour-btn").click(item_open_colour_picker);
 	$(".audiowall-item-settings-colour").change(item_colour_picker_change);
 	$(".audiowall-item-save").click(item_settings_save);
-
-	$(".audiowall-time").click(item_play_stop);
 });

@@ -13634,7 +13634,7 @@ ol.breadcrumb li.active {
 .audiowall-item .audiowall-title {
   line-height: 1.2rem;
   overflow: hidden;
-  height: 4rem;
+  height: 6.5rem;
   font-size: 1.4rem;
 }
 
@@ -13651,18 +13651,22 @@ ol.breadcrumb li.active {
   }
 }
 
-.audiowall-time {
+.audiowall-time,
+.audiowall-add-btn {
   margin: 0 auto;
   padding: 5px;
   background: #d8b222;
   border-radius: 4px;
   color: #2b2b2b;
   cursor: pointer;
+  height: 30px;
+  line-height: 0;
 }
 
 .audiowall-time-text,
 .audiowall-time-play,
-.audiowall-time-add {
+.audiowall-time-add,
+.audiowall-time-plus {
   display: inline;
 }
 

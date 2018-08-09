@@ -41,7 +41,7 @@
 	
 	<div class="row">
 		<div class="col-lg-4">
-			<div class="list-group">
+			<div class="list-group audiowall-list-group">
 				@foreach($set->walls as $wall)
 					<div class="list-group-item {{ ($wall->page == 0) ? "active" : "" }}" data-wall-page="{{ $wall->page }}">
 						<div class="row no-gutters">
@@ -115,11 +115,29 @@
 
 						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}" data-item-length="{{ ($item == null) ? "" : $item->audio->length() }}" data-item-length-string="{{ ($item == null) ? "" : $item->audio->length_string() }}">
 							<div class="row no-gutters">
-								<div class="col-6">
-									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box"></i>
+								<div class="col-3">
+									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}></i>
 								</div>
 								<div class="col-6">
-									<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
+																	<div class="audiowall-time" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}>
+									<div class="audiowall-time-text">
+											{{ ($item != null) ? $item->audio->length_string() : '' }}
+									</div>
+									<div class="audiowall-time-play">
+										<i class="fa fa-play"></i>
+									</div>
+								</div>
+								<div class="audiowall-add-btn audiowall-move" style="display:none;">
+									<div class="audiowall-time-add">
+										Add
+									</div>
+									<div class="audiowall-time-plus">
+										<i class="fa fa-plus"></i>
+									</div>
+								</div>
+								</div>
+								<div class="col-3">
+									<i class="audiowall-move audiowall-move-only fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
 								</div>
 							</div>
 							<div class="row audiowall-title no-gutters">
@@ -130,14 +148,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="audiowall-time">
-									<div class="audiowall-time-text">
-											{{ ($item != null) ? $item->audio->length_string() : '' }}
-									</div>
-									<div class="audiowall-time-play">
-										<i class="fa fa-play"></i>
-									</div>
-								</div>
+
 							</div>
 						</div>
 					@endfor
@@ -153,24 +164,24 @@
 
 		<div class="audiowall-item audiowall-item-template" data-bg="428bca" data-fg="ffffff" data-wall-item data-wall-audio-id style="background:#428bca;color:#ffffff">
 			<div class="row no-gutters">
-				<div class="col-6">
-					<i class="fa fa-gear fa-lg audiowall-action-box"></i>
+				<div class="col-3">
+					<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box" style="visibility: hidden;"></i>
 				</div>
 				<div class="col-6">
+					<div class="audiowall-time" style="display:none;">
+						<div class="audiowall-time-text">
+						</div>
+						<div class="audiowall-time-play">
+							<i class="fa fa-play"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
 					<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
 				</div>
 			</div>
 			<div class="row audiowall-title no-gutters">
-				<div class="col-sm">
-				</div>
-			</div>
-			<div class="row">
-				<div class="audiowall-time">
-					<div class="audiowall-time-text">
-					</div>
-					<div class="audiowall-time-play">
-						<i class="fa fa-play"></i>
-					</div>
+				<div class="col-sm audiowall-item-title-text">
 				</div>
 			</div>
 		</div>
@@ -276,21 +287,7 @@
 			</div>
 		</div>
 
-		<div class="audiowall-item audiowall-item-search" data-bg="428bca" data-fg="ffffff" data-wall-item data-wall-audio-id style="background:#428bca;color:#ffffff;display:none;">
-			<div class="row">
-				<div class="audiowall-time audiowall-search-add">
-					<div class="audiowall-time-add">
-						Add
-					</div>
-					<div class="audiowall-time-play">
-						<i class="fa fa-plus"></i>
-					</div>
-				</div>
-			</div>
-			<div class="row audiowall-title no-gutters">
-				<div class="col-sm audiowall-item-title-text">
-				</div>
-			</div>
+		<div class="audiowall-item audiowall-item-search" data-bg="428bca" data-fg="ffffff" data-wall-item data-wall-audio-id data-item-length-string data-item-length style="background:#428bca;color:#ffffff;display:none;">
 			<div class="row">
 				<div class="audiowall-time">
 					<div class="audiowall-time-text">
@@ -298,6 +295,18 @@
 					<div class="audiowall-time-play">
 						<i class="fa fa-play"></i>
 					</div>
+				</div>
+				<div class="audiowall-time audiowall-search-add">
+					<div class="audiowall-time-add">
+						Add
+					</div>
+					<div class="audiowall-time-plus">
+						<i class="fa fa-plus"></i>
+					</div>
+				</div>
+			</div>
+			<div class="row audiowall-title no-gutters">
+				<div class="col-sm audiowall-item-title-text">
 				</div>
 			</div>
 		</div>
