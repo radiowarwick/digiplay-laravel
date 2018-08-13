@@ -186,7 +186,6 @@ class AudiowallController extends Controller
 				$new_item->wall_id = $new_wall->id;
 				$new_item->text = $item->name;
 				$new_item->item = $item->position;
-				$new_item->style_id = 1;
 
 				$new_item->save();
 
