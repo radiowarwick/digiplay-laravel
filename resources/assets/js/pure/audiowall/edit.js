@@ -142,6 +142,7 @@ function move(event) {
 		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
 		items.find(".audiowall-settings").css("visibility", "visible");
 		items.find(".audiowall-time").show();
+		$("[data-wall-audio-id='']").find(".audiowall-move-only").css("visibility", "hidden");
 	}
 	else if(is_adding_element) {
 		new_element = item.clone(true);
@@ -160,7 +161,7 @@ function move(event) {
 		item_undim_all();
 
 		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
-		items.find(".audiowall-add-btn").hide();
+		$(".audiowall-add-btn").hide();
 		items.find(".audiowall-time").show();
 		items.find(".audiowall-move-only").css("visibility", "visible");
 		items.find(".audiowall-settings").css("visibility", "visible");
@@ -174,6 +175,7 @@ function move(event) {
 		items = $("[data-wall-audio-id!=''][data-wall-audio-id]");
 		items.find(".audiowall-settings").css("visibility", "hidden");
 		items.find(".audiowall-time").hide();
+		$(".audiowall-move-only").css("visibility", "visible");
 
 		$(".audiowall-item").addClass("audiowall-item-transparent");
 		moving_element.removeClass("audiowall-item-transparent");
@@ -191,7 +193,7 @@ function delete_move(event) {
 		else {
 			is_adding_element = false;
 
-			items.find(".audiowall-add-btn").hide();
+			$(".audiowall-add-btn").hide();
 			items.find(".audiowall-move-only").css("visibility", "visible");			
 		}
 		items.find(".audiowall-settings").css("visibility", "visible");
@@ -254,7 +256,7 @@ function audiowall_add(event) {
 	items.find(".audiowall-time").hide();
 	items.find(".audiowall-move-only").css("visibility", "hidden");
 	items.find(".audiowall-settings").css("visibility", "hidden");
-	items.find(".audiowall-add-btn").show();
+	$(".audiowall-add-btn").show();
 
 	$(".audiowall-item").addClass("audiowall-item-transparent");
 	$(".audiowall-search-results").modal("hide");
@@ -464,80 +466,6 @@ function foreground_colour(hex) {
 	return 'ffffff';
 }
 
-function item_play_stop(event) {
-	item = $(this).closest(".audiowall-item");
-	id = item.attr("data-wall-audio-id");
-	status = item.attr("data-play-status");
-
-	if(status == "playing") {
-		audio = item.find("audio").eq(0).get(0);
-		audio.pause();
-		item.attr("data-play-status", "paused");
-
-		item.find(".audiowall-time-play").html("<i class='fa fa-play'></i>");
-		item_play_update(event);
-	}
-	else {
-		audio = item.find("audio");
-		if(audio.length == 0) {
-			audio = $("<audio class='d-none'></audio>");
-			audio.append("<source src='/audio/preview/" + id + ".mp3' type='audio/mpeg'>");
-			audio.bind("timeupdate", item_play_update);
-			audio.bind("ended", item_play_ended);
-			item.append(audio);
-		}
-
-		audio = audio.eq(0).get(0);
-		audio.currentTime = 0;
-		audio.play();
-
-		item.attr("data-play-status", "playing");
-
-		item.find(".audiowall-time-play").html("<i class='fa fa-stop'></i>");
-	}
-}
-
-function item_play_update(event) {
-	item = $(this).closest(".audiowall-item");
-	if(item.attr("data-play-status") == "playing") {
-		audio = item.find("audio").eq(0).get(0);
-		length = item.attr("data-item-length");
-		time_left = length - $(this).eq(0).get(0).currentTime;
-		item.find(".audiowall-time-text").text(time_to_string(time_left));
-	}
-	else {
-		item.find(".audiowall-time-text").text(item.attr("data-item-length-string"));
-	}
-}
-
-function item_play_ended(event) {
-	item = $(this).closest(".audiowall-item");
-	item.attr("data-play-status", "paused");
-	item.find(".audiowall-time-play").html("<i class='fa fa-play'></i>");
-
-	audio = item.find("audio").eq(0).get(0);
-	audio.currentTime = 0;
-	audio.pause();
-
-	item_play_update(event);
-}
-
-function silence_audio() {
-	$("[data-play-status=playing]").find(".audiowall-time").trigger("click");
-}
-
-function time_to_string(time) {
-	seconds = Math.floor(time % 60);
-	time = Math.floor(time / 60);
-	string = seconds + "s";
-
-	if(time > 0) {
-		string = time + "m " + string;
-	}
-
-	return string;
-}
-
 function search_close(event) {
 	$(".audiowall-search-results-container").empty();
 }
@@ -612,6 +540,11 @@ $(document).ready(function(){
 	$(".audiowall-add-yes").click(start_add);
 	$(".audiowall-add-cancel").click(cancel_add);
 	$(".audiowall-add-add").click(save_add);
+	$(".audiowall-add-row-input").keypress(function(event){
+		keycode = event.keyCode || event.which;
+		if(keycode == '13')
+			save_add(event);
+	});
 
 	$(".audiowall-search").submit(search);
 	$(".audiowall-save").click(save);

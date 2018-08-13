@@ -20,7 +20,7 @@ Breadcrumbs::for('audio-search', function($trail){
 
 Breadcrumbs::for('audiowall-index', function($trail){
 	$trail->parent('index');
-	$trail->push('Audiowall', route('audiowall-index'));
+	$trail->push('Audiowalls', route('audiowall-index'));
 });
 
 Breadcrumbs::for('audiowall-view', function($trail, $set){
@@ -31,6 +31,11 @@ Breadcrumbs::for('audiowall-view', function($trail, $set){
 Breadcrumbs::for('audiowall-settings', function($trail, $set){
 	$trail->parent('audiowall-view', $set);
 	$trail->push('Settings', route('audiowall-settings', $set->id));
+});
+
+Breadcrumbs::for('audiowall-delete', function($trail, $set){
+	$trail->parent('audiowall-view', $set);
+	$trail->push('Delete', route('audiowall-settings', $set->id));
 });
 
 // Admin pages

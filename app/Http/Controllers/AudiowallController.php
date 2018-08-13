@@ -22,7 +22,7 @@ class AudiowallController extends Controller
 		$owned = AudiowallSetPermission::where('level', 4)->where('username', auth()->user()->username)->count();
 
 		$can_create = false;
-		if($owned <= 2 or auth()->user()->hasPermission('Audiowall Admin'))
+		if($owned < 2 or auth()->user()->hasPermission('Audiowall Admin'))
 			$can_create = true;
 
 		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id)->with('can_create', $can_create);
@@ -166,7 +166,7 @@ class AudiowallController extends Controller
 		$new_audiowall = json_decode(base64_decode($request['wall']));
 
 		// delete pre-existing data
-		$this->delete_audiowall($set);
+		$this->deleteAudiowall($set);
 
 		$wall_n = 0;
 		foreach($new_audiowall as $wall) {
@@ -207,7 +207,7 @@ class AudiowallController extends Controller
 
 	function postCreateAudiowall(Request $request) {
 		$owned = AudiowallSetPermission::where('level', 4)->where('username', auth()->user()->username)->count();
-		if($owned > 2 and !auth()->user()->hasPermission('Audiowall Admin'))
+		if($owned >= 2 and !auth()->user()->hasPermission('Audiowall Admin'))
 			abort(403, 'Not authorised');
 
 		$request->validate([
@@ -229,7 +229,7 @@ class AudiowallController extends Controller
 		return redirect()->route('audiowall-index');
 	}
 
-	public function delete_audiowall($set) {
+	public function deleteAudiowall($set) {
 		foreach($set->walls as $wall) {
 			foreach($wall->items as $item) {
 				$item->colours()->delete();
@@ -237,5 +237,29 @@ class AudiowallController extends Controller
 			$wall->items()->delete();
 		}
 		$set->walls()->delete();
+	}
+
+	public function getDelete(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+		if(!$set->hasAdmin(auth()->user()) or $set->id == 198)
+			abort('403', 'Not authorised');
+
+		return view('audiowall.delete')->with('set', $set);	
+	}
+
+	public function getDeleteYes(Request $request, $set_id) {
+		$set = AudiowallSet::where('id', $set_id)->first();
+		if(is_null($set))
+			abort('404', 'Page not found');
+		if(!$set->hasAdmin(auth()->user()) or $set->id == 198)
+			abort('403', 'Not authorised');
+
+		$this->deleteAudiowall($set);
+		$set->permissions()->delete();
+		$set->delete();
+
+		return redirect()->route('audiowall-index');
 	}
 }

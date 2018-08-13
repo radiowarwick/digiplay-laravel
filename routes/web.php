@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/audiowall/{id}/activate', 'AudiowallController@getActivate')->name('audiowall-activate')->where('id', '[0-9]+');
 	Route::get('/audiowall/{id}/settings', 'AudiowallController@getSettings')->name('audiowall-settings')->where('id', '[0-9]+');
 	Route::get('/audiowall/{id}/settings/remove/{username}', 'AudiowallController@getSettingsRemove')->name('audiowall-setting-remove')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/delete', 'AudiowallController@getDelete')->name('audiowall-delete-confirm')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/delete/yes', 'AudiowallController@getDeleteYes')->name('audiowall-delete-yes')->where('id', '[0-9]+');
 
 	Route::post('/audiowall/{id}/settings/name', 'AudiowallController@postSettingsName')->name('audiowall-setting-name')->where('id', '[0-9]+');
 	Route::post('/audiowall/{id}/settings/add', 'AudiowallController@postSettingsAdd')->name('audiowall-setting-add')->where('id', '[0-9]+');

@@ -39,6 +39,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th>Edit</th>
 				<th>Active</th>
 				<th>Settings</th>
 				<th>Delete</th>
@@ -49,7 +50,10 @@
 				@if($set->hasView(Auth::user()))
 					<tr>
 						<td>
-							<a href="{{ route('audiowall-view', $set->id) }}">{{ $set->name }}</a>
+							{{ $set->name }}
+						</td>
+						<td>
+							<a class="btn btn-warning" href="{{ route('audiowall-view', $set->id) }}">Edit</a>
 						</td>
 						<td>
 							@if($set->id == $current_audiowall_id)
@@ -65,7 +69,7 @@
 								<td>
 									{{-- 198 is the ID of the main station audiowall --}}
 									@if($set->id != 198)
-										<a class="btn btn-danger" href="#">Delete</a>
+										<a class="btn btn-danger" href="{{ route('audiowall-delete-confirm', $set->id) }}">Delete</a>
 									@endif
 								</td>
 							@else

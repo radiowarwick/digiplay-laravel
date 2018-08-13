@@ -48,29 +48,33 @@
 							<div class="col-lg-7 text-truncate audiowall-wall-name">
 								{{ $wall->name }}
 							</div>
-							<div class="col-lg-5">
-								<span class="badge badge-dark badge-pill audiowall-move-down"><i class="fa fa-arrow-down"></i></span>
-								<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
-								<span class="badge badge-dark badge-pill audiowall-edit"><i class="fa fa-pencil"></i></span>
-								<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
-							</div>
+							@if($set->hasEdit(Auth::user()))
+								<div class="col-lg-5">
+									<span class="badge badge-dark badge-pill audiowall-move-down"><i class="fa fa-arrow-down"></i></span>
+									<span class="badge badge-dark badge-pill audiowall-move-up"><i class="fa fa-arrow-up"></i></span>
+									<span class="badge badge-dark badge-pill audiowall-edit"><i class="fa fa-pencil"></i></span>
+									<span class="badge badge-dark badge-pill audiowall-remove" data-content="Click again to delete page" data-state="ready"><i class="fa fa-times"></i></span>
+								</div>
+							@endif
 						</div>
 					</div>
 				@endforeach
 
-				<div class="list-group-item audiowall-add-yes" {!! ($set->walls()->count() >= 8) ? "style=\"display:none;\"" : "" !!}>Add new page</div>
-				<div class="list-group-item audiowall-add-no" {!! ($set->walls()->count() < 8) ? "style=\"display:none;\"" : "" !!}>Page limit reached</div>
-				<div class="list-group-item form-inline audiowall-add-row" style="display:none;">
-					<div class="form-row no-gutters">
-						<div class="col-lg-7">
-							<input type="text" class="form-control form-control-sm">
-						</div>
-						<div class="col-lg-5">
-							<button class="btn btn-sm btn-warning audiowall-add-add">Add</button>
-							<button class="btn btn-sm btn-danger audiowall-add-cancel">Cancel</button>
+				@if($set->hasEdit(Auth::user()))
+					<div class="list-group-item audiowall-add-yes" {!! ($set->walls()->count() >= 8) ? "style=\"display:none;\"" : "" !!}>Add new page</div>
+					<div class="list-group-item audiowall-add-no" {!! ($set->walls()->count() < 8) ? "style=\"display:none;\"" : "" !!}>Page limit reached</div>
+					<div class="list-group-item form-inline audiowall-add-row" style="display:none;">
+						<div class="form-row no-gutters">
+							<div class="col-lg-7">
+								<input type="text" class="form-control form-control-sm audiowall-add-row-input">
+							</div>
+							<div class="col-lg-5">
+								<button class="btn btn-sm btn-warning audiowall-add-add">Add</button>
+								<button class="btn btn-sm btn-danger audiowall-add-cancel">Cancel</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				@endif
 			</div>
 			@if($set->hasEdit(Auth::user()))
 				<div class="row">
@@ -89,6 +93,7 @@
 				</div>
 			@endif
 		</div>
+
 		<div class="col-lg-8 audiowall-wall-container">
 			@foreach($set->walls as $wall)
 				<div class="row wall-page" data-wall-page="{{ $wall->page }}" {!! ($wall->page > 0) ? "style=\"display:none;\"" : "" !!}>
@@ -116,28 +121,28 @@
 						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}" data-item-length="{{ ($item == null) ? "" : $item->audio->length() }}" data-item-length-string="{{ ($item == null) ? "" : $item->audio->length_string() }}">
 							<div class="row no-gutters">
 								<div class="col-3">
-									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}></i>
+									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box" {!! ($item == null or !$set->hasEdit(Auth::user())) ? "style=\"visibility: hidden;\"" : "" !!}></i>
 								</div>
 								<div class="col-6">
-																	<div class="audiowall-time" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}>
-									<div class="audiowall-time-text">
-											{{ ($item != null) ? $item->audio->length_string() : '' }}
+									<div class="audiowall-time" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}>
+										<div class="audiowall-time-text">
+												{{ ($item != null) ? $item->audio->length_string() : '' }}
+										</div>
+										<div class="audiowall-time-play">
+											<i class="fa fa-play"></i>
+										</div>
 									</div>
-									<div class="audiowall-time-play">
-										<i class="fa fa-play"></i>
+									<div class="audiowall-add-btn audiowall-move" style="display:none;">
+										<div class="audiowall-time-add">
+											Add
+										</div>
+										<div class="audiowall-time-plus">
+											<i class="fa fa-plus"></i>
+										</div>
 									</div>
-								</div>
-								<div class="audiowall-add-btn audiowall-move" style="display:none;">
-									<div class="audiowall-time-add">
-										Add
-									</div>
-									<div class="audiowall-time-plus">
-										<i class="fa fa-plus"></i>
-									</div>
-								</div>
 								</div>
 								<div class="col-3">
-									<i class="audiowall-move audiowall-move-only fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
+									<i class="audiowall-move audiowall-move-only fa fa-exchange fa-lg audiowall-action-box pull-right" {!! ($item == null or !$set->hasEdit(Auth::user())) ? "style=\"visibility: hidden;\"" : "" !!}></i>
 								</div>
 							</div>
 							<div class="row audiowall-title no-gutters">
@@ -175,9 +180,17 @@
 							<i class="fa fa-play"></i>
 						</div>
 					</div>
+					<div class="audiowall-add-btn audiowall-move" style="display:none;">
+						<div class="audiowall-time-add">
+							Add
+						</div>
+						<div class="audiowall-time-plus">
+							<i class="fa fa-plus"></i>
+						</div>
+					</div>
 				</div>
 				<div class="col-3">
-					<i class="audiowall-move fa fa-exchange fa-lg audiowall-action-box pull-right"></i>
+					<i class="audiowall-move audiowall-move-only fa fa-exchange fa-lg audiowall-action-box pull-right" style="visibility: hidden;"></i>
 				</div>
 			</div>
 			<div class="row audiowall-title no-gutters">

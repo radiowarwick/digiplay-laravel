@@ -17,6 +17,9 @@ class CreateAudiowallPermissionTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('aw_sets_permissions');
+        Schema::dropIfExists('aw_sets_owner');
+
         Schema::create('aw_set_permissions', function(Blueprint $table){
             $table->increments('id');
             $table->integer('set_id');
