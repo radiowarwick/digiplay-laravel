@@ -17,8 +17,7 @@ class CreateAudiowallPermissionTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('aw_sets_permissions');
-        Schema::dropIfExists('aw_sets_owner');
+        Schema::drop('aw_sets_permissions');
 
         Schema::create('aw_set_permissions', function(Blueprint $table){
             $table->increments('id');
@@ -36,18 +35,22 @@ class CreateAudiowallPermissionTable extends Migration
             $table->timestamps();
         });
 
-        $owners = DB::select('SELECT * FROM aw_sets_owner');
-        foreach($owners as $owner) {
-            $user = User::where('id', $owner->user_id)->first();
+        // if old table exists translate old data then destroy
+        if(Schema::hasTable('aw_sets_owner')) {
+            $owners = DB::select('SELECT * FROM aw_sets_owner');
+            foreach($owners as $owner) {
+                $user = User::where('id', $owner->user_id)->first();
 
-            $new_permission = new AudiowallSetPermission;
+                $new_permission = new AudiowallSetPermission;
 
-            $new_permission->username = $user->username;
-            $new_permission->set_id = $owner->set_id;
-            $new_permission->level = 4;
+                $new_permission->username = $user->username;
+                $new_permission->set_id = $owner->set_id;
+                $new_permission->level = 4;
 
-            $new_permission->save();
+                $new_permission->save();
+            }
         }
+        Schema::dropIfExists('aw_sets_owner');
     }
 
     /**
