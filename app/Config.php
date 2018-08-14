@@ -10,11 +10,17 @@ class Config extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public static function get_location_by_key($key) {
+    public static function getLocationByKey($key) {
     	$config = Config::where('parameter', 'security_key')->where('val', $key)->first();
     	if(is_null($config))
     		return null;
     	return $config->location;
+    }
+
+    public static function updateLocationValue($location, $parameter, $value) {
+        $config = Config::where('location', $location)->where('parameter', $parameter)->first();
+        $config->val = $value;
+        $config->save();
     }
 
     public function scopeLocation($query, $key) {

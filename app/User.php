@@ -29,7 +29,7 @@ class User extends Authenticatable
     public function audiowall() {
         $current_audiowall = UserConfig::where('userid', $this->id)->where('configid', 1)->first();
         if(is_null($current_audiowall))
-            return -1;
+            return 0;
         else
             return $current_audiowall->val;
     }

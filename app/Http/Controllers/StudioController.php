@@ -14,7 +14,7 @@ class StudioController extends Controller
 			if(is_null($key))
 				return $next($request);
 
-			$location = Config::get_location_by_key($key);
+			$location = Config::getLocationByKey($key);
 			if(is_null($location))
 				abort(404, 'Page not found');
 
@@ -37,20 +37,31 @@ class StudioController extends Controller
 
 		
 		if (auth()->attempt($request->only(['username', 'password']), true)) {
-			$location_configs = Config::location($request->get('location'));
+			$location = $request->get('location');
 
-			$userid_config = $location_configs->where('parameter', 'userid')->first();
-			$userid_config->val = auth()->user()->id;
-			$userid_config->save();
+			Config::updateLocationValue($location, 'userid', auth()->user()->id);
+			Config::updateLocationValue($location, 'user_aw_set', auth()->user()->audiowall());
 
-			$aw_config = $location_configs->where('parameter', 'user_aw_set')->first();
-			$aw_config->val = 0; //TODO
-			$aw_config->save();
+			$can_update = 'false';
+			if(auth()->user()->hasPermission('Music Admin'))
+				$can_update = 'true';
+			Config::updateLocationValue($location, 'can_update', $can_update);
 
-			return redirect()->route('studio-view');
+			return redirect()->route('studio-view', $key);
 		}
 
 		return redirect()->back()->withErrors('Username and/or Password is wrong!');
+	}
+
+	public function getLogout(Request $request, $key) {
+		auth()->logout();
+
+		$location = $request->get('location');
+		Config::updateLocationValue($location, 'userid', 0);
+		Config::updateLocationValue($location, 'user_aw_set', 0);
+		Config::updateLocationValue($location, 'can_update', 'false');
+
+		return redirect()->route('studio-login', $key);
 	}
 
 	public function getView(Request $request, $key) {

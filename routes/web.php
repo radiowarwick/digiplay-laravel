@@ -55,7 +55,8 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/audiowall/create', 'AudiowallController@postCreateAudiowall')->name('audiowall-create');
 
 	// Studio Interface
-	Route::get('/studio/{key}', 'StudioController@getView');
+	Route::get('/studio/{key}', 'StudioController@getView')->name('studio-view');
+	Route::get('/studio/{key}/logout', 'StudioController@getLogout')->name('studio-logout');
 
 	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');

@@ -9,7 +9,6 @@
 		<h4 class="text-warning text-center">{{ Session::get('status') }}</h4>
 	@endif
 	<form method="POST" action="{{ route('studio-login-post', $key) }}">
-		{{ csrf_field() }}
 		<div class="form-group">
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
@@ -36,7 +35,7 @@
 	</form>
 	@if($errors->any())
 		@foreach ($errors->all() as $error)
-			<p class="text-danger">{{ $error }}</p>
+			<p class="text-warning">{{ $error }}</p>
 		@endforeach
 	@endif
 @endsection
