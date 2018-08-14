@@ -18,6 +18,9 @@ Route::get('/', function(){
 	return view('index');
 })->middleware('auth')->name('index');
 
+Route::get('/studio/{key}/login', 'StudioController@getLogin')->name('studio-login');
+Route::post('/studio/{key}/login', 'StudioController@postLogin')->name('studio-login-post');
+
 Route::group(['middleware' => ['web']], function(){ 
 	Route::get('/login', 'AuthController@getLogin')->name('login');
 	Route::post('/login', 'AuthController@postLogin')->name('login-post');
@@ -33,6 +36,9 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
 	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
+
+	// Studio Interface
+	Route::get('/studio/{key}', 'StudioController@getView');
 });
 
 Route::group(['middleware' => ['permission']], function(){
