@@ -16,6 +16,28 @@ Breadcrumbs::for('audio-search', function($trail){
 	$trail->push('Search', route('audio-search'));
 });
 
+// Audiowall pages
+
+Breadcrumbs::for('audiowall-index', function($trail){
+	$trail->parent('index');
+	$trail->push('Audiowalls', route('audiowall-index'));
+});
+
+Breadcrumbs::for('audiowall-view', function($trail, $set){
+	$trail->parent('audiowall-index');
+	$trail->push($set->name, route('audiowall-view', $set->id));
+});
+
+Breadcrumbs::for('audiowall-settings', function($trail, $set){
+	$trail->parent('audiowall-view', $set);
+	$trail->push('Settings', route('audiowall-settings', $set->id));
+});
+
+Breadcrumbs::for('audiowall-delete', function($trail, $set){
+	$trail->parent('audiowall-view', $set);
+	$trail->push('Delete', route('audiowall-settings', $set->id));
+});
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){

@@ -12,15 +12,57 @@ class Audio extends Model
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = null;
     public function audioArtist() {
-    	return $this->hasOne('App\AudioArtist', 'audioid');
+    	return $this->hasOne('App\AudioArtist', 'audioid', 'id');
     }
 
     public function artist() {
         return $this->audioArtist->artist();
     }
 
+    public function album() {
+        return $this->hasOne('App\Album', 'id', 'music_album');
+    }
+
+    // annoying name to not share column name
+    public function theArchive() {
+        return $this->hasOne('App\Archive', 'id', 'archive');
+    }
+
+    public function filePath() {
+        if($this->archive !== 0) {
+            $folder = substr($this->md5, 0, 1);
+            return $this->theArchive->localpath . '/' . $folder . '/' . $this->md5 . '.flac';
+        }
+        return null;
+    }
+
     public function scopeTracks($query) {
     	return $query->where('type', 1);
+    }
+
+    public function length() {
+        return ($this->end_smpl - $this->start_smpl) / 44100;
+    }
+
+    public function length_string() {
+        $length = $this->length();
+        $string = '';
+
+        $seconds = $length % 60;
+        $length = floor($length / 60);
+        $string = sprintf('%02d', $seconds) . 's';
+
+        // length bigger than 0 so has minutes
+        if($length > 0) {
+            $minutes = $length % 60;
+            $length = floor($length / 60);
+            $string = $minutes . 'm ' . $string;
+        }
+        // length bigger than 0 so has hours
+        if($length > 0)
+            $string = sprintf('%02d', $length) . 'h ' . $string;
+
+        return $string;
     }
 
     /*
@@ -74,6 +116,6 @@ class Audio extends Model
             }
         });
 
-        return $query->orderBy('audio.id', 'DESC');
+        return $query->orderBy('audio.id', 'DESC')->select('audio.*');
     }
 }

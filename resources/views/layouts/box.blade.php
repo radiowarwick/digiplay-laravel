@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title>RAW Digiplay - @yield('title')</title>
 
-		<meta lang="en">
-		<meta name="viewport" content="width=device-width">
+		<meta name="viewport" content="width=device-width, initial-scale=1">	
+		<meta charset="utf-8">
+
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
+
 		<script src="/js/app.js"></script>
 		<script type="text/javascript">
 			window.particlesJS.load('particles-js', '/js/particles.json', function() {
