@@ -1,0 +1,99 @@
+.audiowall-item {
+	width: 100%;
+	padding: 5px;
+	border-radius: 4px;
+	height: 160px;
+	text-align: center;
+	margin: 5px 0;
+	opacity: 1;
+	transition: opacity 0.5s ease-in-out;
+	display: inline-block;
+
+
+	.row {
+		margin: inherit;
+		padding: 0;
+	}
+
+	.audiowall-title {
+		line-height: 1.2rem;
+	    overflow: hidden;
+	    height: 6.5rem;
+	    font-size: 1.4rem;
+	}
+}
+
+.audiowall-item-transparent {
+	opacity: 0.2;
+	transition: opacity 0.5s ease-in-out;
+}
+
+@include media-breakpoint-up(lg) {
+	.audiowall-item {
+		width: 30%;
+		margin: 5px 1%;
+	}
+}
+
+.audiowall-time, .audiowall-add-btn {
+	margin: 0 auto;
+	padding: 5px;
+	background: $yellow;
+	border-radius: 4px;
+	color: $gray-800;
+	cursor: pointer;
+	height: 30px;
+	line-height: 0;
+}
+
+.audiowall-time-text, .audiowall-time-play, .audiowall-time-add, .audiowall-time-plus {
+	display: inline;
+}
+
+.audiowall-trash {
+	width: 40%;
+	margin: 10px auto;
+	font-size: 2rem;
+	text-align: center;
+	background: $yellow;
+	border-radius: 4px;
+	color: $gray-800;
+	cursor: pointer;
+}
+
+.audiowall-item-template {
+	display: none;
+}
+
+.audiowall-action-box {
+	background: $yellow;
+	border-radius: 4px;
+	color: $gray-800;
+	display: block;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.audiowall-colour-option {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.audiowall-colour-option-container {
+	margin: 0 auto;
+}
+
+.audiowall-edit-example {
+	margin: 10px auto;
+	width: 80%;
+	text-align: center;
+	padding: 10px;
+	border-radius: 4px;
+	font-size: 1.5rem;
+}

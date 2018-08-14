@@ -65,9 +65,9 @@ class GroupController extends Controller
 			else if(!is_null($group_permission)) {
 				$group_permission->delete();
 			}
-
-			return redirect()->route('admin-group-permission', $group_id)->with('messages', ['Permissions updated']);
 		}
+
+		return redirect()->route('admin-group-permission', $group_id)->with('messages', ['Permissions updated']);
 	}
 
 	public function getMembers(Request $request, $group_id) {

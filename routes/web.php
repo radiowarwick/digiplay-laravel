@@ -27,18 +27,38 @@ Route::group(['middleware' => ['web']], function(){
 	Route::get('/logout', 'AuthController@getLogout')->name('logout');
 });
 
-Route::get('/users', function(){
-	$users = App\User::all();
-	return view('users', ['users' => $users]);
-});
-
 Route::group(['middleware' => ['auth']], function(){
+	Route::get('/', function(){
+		return view('index');
+	})->name('index');
+
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
 	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
 
+	// Audio Preview
+	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
+
+	// Audiowalls
+	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
+	Route::get('/audiowall/{id}', 'AudiowallController@getView')->name('audiowall-view')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/activate', 'AudiowallController@getActivate')->name('audiowall-activate')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/settings', 'AudiowallController@getSettings')->name('audiowall-settings')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/settings/remove/{username}', 'AudiowallController@getSettingsRemove')->name('audiowall-setting-remove')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/delete', 'AudiowallController@getDelete')->name('audiowall-delete-confirm')->where('id', '[0-9]+');
+	Route::get('/audiowall/{id}/delete/yes', 'AudiowallController@getDeleteYes')->name('audiowall-delete-yes')->where('id', '[0-9]+');
+
+	Route::post('/audiowall/{id}/settings/name', 'AudiowallController@postSettingsName')->name('audiowall-setting-name')->where('id', '[0-9]+');
+	Route::post('/audiowall/{id}/settings/add', 'AudiowallController@postSettingsAdd')->name('audiowall-setting-add')->where('id', '[0-9]+');
+	Route::post('/audiowall/{id}/settings/update/{username}', 'AudiowallController@postSettingsUpdate')->name('audiowall-setting-update')->where('id', '[0-9]+');
+	Route::post('/audiowall/{id}/save', 'AudiowallController@postSaveAudiowall')->name('audiowall-save')->where('id', '[0-9]+');
+	Route::post('/audiowall/create', 'AudiowallController@postCreateAudiowall')->name('audiowall-create');
+
 	// Studio Interface
 	Route::get('/studio/{key}', 'StudioController@getView');
+
+	// API/AJAX call
+	Route::post('ajax/search', 'Api\SearchController@postSearch');
 });
 
 Route::group(['middleware' => ['permission']], function(){
@@ -46,12 +66,12 @@ Route::group(['middleware' => ['permission']], function(){
 
 	Route::group(['middleware' => ['permission:Can edit groups']], function(){
 		Route::get('/admin/groups/', 'Admin\GroupController@getIndex')->name('admin-group-index');
-		Route::get('/admin/groups/{id}/permission', 'Admin\GroupController@getPermission')->name('admin-group-permission');
-		Route::get('/admin/groups/{id}/members', 'Admin\GroupController@getMembers')->name('admin-group-members');
+		Route::get('/admin/groups/{id}/permission', 'Admin\GroupController@getPermission')->name('admin-group-permission')->where('id', '[0-9]+');
+		Route::get('/admin/groups/{id}/members', 'Admin\GroupController@getMembers')->name('admin-group-members')->where('id', '[0-9]+');
 
 		Route::post('/admin/groups/create', 'Admin\GroupController@postCreate')->name('admin-group-create');
-		Route::post('/admin/groups/{id}/permission', 'Admin\GroupController@postPermission')->name('admin-group-permission-post');
-		Route::post('/admin/groups/{id}/members/add', 'Admin\GroupController@postAddMember')->name('admin-group-member-add-post');
-		Route::get('/admin/groups/{id}/members/remove/{username}', 'Admin\GroupController@getRemoveMember')->name('admin-group-member-remove');
+		Route::post('/admin/groups/{id}/permission', 'Admin\GroupController@postPermission')->name('admin-group-permission-post')->where('id', '[0-9]+');
+		Route::post('/admin/groups/{id}/members/add', 'Admin\GroupController@postAddMember')->name('admin-group-member-add-post')->where('id', '[0-9]+');
+		Route::get('/admin/groups/{id}/members/remove/{username}', 'Admin\GroupController@getRemoveMember')->name('admin-group-member-remove')->where('id', '[0-9]+');
 	});
 });
