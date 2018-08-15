@@ -13718,6 +13718,73 @@ ol.breadcrumb li.active {
   font-size: 1.5rem;
 }
 
+div.studio-container {
+  padding: 0;
+}
+
+div.studio-container,
+div.studio-container-row,
+div.studio-col-left,
+div.studio-col-right,
+div.studio-tab-content {
+  height: 100%;
+}
+
+div.studio-tab-content,
+div.studio-col-right {
+  padding: 0 5px !important;
+}
+
+div.studio-now-next {
+  font-size: 1.4rem;
+  color: #d8b222;
+  background: #2b2b2b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 60px;
+  position: fixed;
+  top: 0;
+}
+
+footer.studio-footer {
+  height: 75px;
+}
+
+body.studio-body {
+  padding-top: 60px;
+  padding-bottom: 75px;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+a.studio-tab {
+  background: #454444 !important;
+  border: solid #d8b222 1px !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+  border-top-width: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+a.studio-tab.active {
+  color: #d8b222 !important;
+  background: #2b2b2b !important;
+  border-left-width: 1px !important;
+  border-right-width: 1px !important;
+  border-top-width: 1px !important;
+  border-bottom-width: 0 !important;
+}
+
+a.studio-tab.studio-reset {
+  background: #dc3545 !important;
+}
+
+a.studio-tab:hover {
+  border-color: #d8b222;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

@@ -74,6 +74,8 @@ class StudioController extends Controller
 	}
 
 	public function getView(Request $request, $key) {
-		dd("TODO");
+		$location = $request->get('location');
+
+		return view('studio.view')->with('key', $key)->with('location', $location);
 	}
 }
