@@ -24,8 +24,8 @@
 				<label class="col-sm-2 col-form-label" for="location">Location</label>
 				<div class="col-sm-4">
 					<select class="form-control" name="location">
-						<option value="1" default>Studio 1</option>
-						<option value="2">Studio 2</option>
+						<option value="1" {{ ($location == 1) ? 'selected' : '' }}>Studio 1</option>
+						<option value="2" {{ ($location == 2) ? 'selected' : '' }}>Studio 2</option>
 					</select>
 				</div>
 			</div>

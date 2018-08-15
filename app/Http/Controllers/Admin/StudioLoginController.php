@@ -13,13 +13,14 @@ class StudioLoginController extends Controller
 		$now = date('Y-m-d');
 		$logins = StudioLogin::onDate($now)->where('location', 1)->get();
 
-		return view('admin.studio.index')->with('time', $now)->with('logins', $logins);
+		return view('admin.studio.index')->with('time', $now)->with('logins', $logins)->with('location', 1);
 	}
 
 	public function postIndex(Request $request) {
 		$time = $request->get('date');
-		$logins = StudioLogin::onDate($time)->where('location', $request->get('location'))->get();
+		$location = $request->get('location');
+		$logins = StudioLogin::onDate($time)->where('location', $location)->get();
 
-		return view('admin.studio.index')->with('time', $time)->with('logins', $logins);
+		return view('admin.studio.index')->with('time', $time)->with('logins', $logins)->with('location', $location);
 	}
 }
