@@ -61,3 +61,10 @@ Breadcrumbs::for('admin-group-permission', function($trail, $group_id){
 	$trail->parent('admin-group-index');
 	$trail->push('Permissions', route('admin-group-permission', $group_id));
 });
+
+// Admin Studio Logins
+
+Breadcrumbs::for('admin-studio-index', function($trail){
+	$trail->parent('admin-index');
+	$trail->push('Studio Logins');
+});

@@ -17,4 +17,8 @@ class StudioLogin extends Model
     public function user() {
     	return $this->hasOne('\App\User', 'username', 'username');
     }
+
+    public function scopeOnDate($query, $date) {
+        return $query->whereDate('created_at', \Carbon\Carbon::parse($date));
+    }
 }

@@ -75,4 +75,9 @@ Route::group(['middleware' => ['permission']], function(){
 		Route::post('/admin/groups/{id}/members/add', 'Admin\GroupController@postAddMember')->name('admin-group-member-add-post')->where('id', '[0-9]+');
 		Route::get('/admin/groups/{id}/members/remove/{username}', 'Admin\GroupController@getRemoveMember')->name('admin-group-member-remove')->where('id', '[0-9]+');
 	});
+
+	Route::group(['middleware' => ['permission:Can view studio logins']], function(){
+		Route::get('/admin/studio/', 'Admin\StudioLoginController@getIndex')->name('admin-studio-index');
+		Route::post('/admin/studio/', 'Admin\StudioLoginController@postIndex')->name('admin-studio-index');
+	});
 });
