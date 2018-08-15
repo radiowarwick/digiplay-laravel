@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Config;
+use App\StudioLogin;
 
 class StudioController extends Controller
 {
@@ -35,17 +36,21 @@ class StudioController extends Controller
 			'password' => 'required',
 		]);
 
-		
 		if (auth()->attempt($request->only(['username', 'password']), true)) {
 			$location = $request->get('location');
 
 			Config::updateLocationValue($location, 'userid', auth()->user()->id);
 			Config::updateLocationValue($location, 'user_aw_set', auth()->user()->audiowall());
 
-			$can_update = 'false';
+			$canUpdate = 'false';
 			if(auth()->user()->hasPermission('Music Admin'))
-				$can_update = 'true';
-			Config::updateLocationValue($location, 'can_update', $can_update);
+				$canUpdate = 'true';
+			Config::updateLocationValue($location, 'can_update', $canUpdate);
+
+			$studioLogin = new StudioLogin;
+			$studioLogin->username = auth()->user()->username;
+			$studioLogin->location = $location;
+			$studioLogin->save();
 
 			return redirect()->route('studio-view', $key);
 		}
@@ -54,13 +59,17 @@ class StudioController extends Controller
 	}
 
 	public function getLogout(Request $request, $key) {
-		auth()->logout();
-
 		$location = $request->get('location');
+		
+		$studioLogin = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
+		$studioLogin->logout_at = now();
+		$studioLogin->save();
+		
 		Config::updateLocationValue($location, 'userid', 0);
 		Config::updateLocationValue($location, 'user_aw_set', 0);
 		Config::updateLocationValue($location, 'can_update', 'false');
 
+		auth()->logout();
 		return redirect()->route('studio-login', $key);
 	}
 
