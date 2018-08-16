@@ -13840,6 +13840,10 @@ a.studio-tab-flash {
   }
 }
 
+div.studio-song-search {
+  padding: 10px 10px 0px 10px;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

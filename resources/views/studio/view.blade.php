@@ -55,7 +55,39 @@
 					</ul>
 					<div class="tab-content studio-tab-content">
 						<div class="tab-pane show active" id="music" role="tabpanel">
-							Some Music here
+							<div class="studio-song-search border-warning border-bottom">
+								<div class="input-group">
+									<input class="form-control" type="text" name="query" placeholder="Search...">
+									<span class="input-group-btn">
+										<button type="submit" class="btn btn-search btn-warning">
+											Search
+										</button>
+									</span>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="studio-check-title" checked>
+									<label class="form-check-label" for="studio-check-title">Title</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="studio-check-artist" checked>
+									<label class="form-check-label" for="studio-check-artist">Artist</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="studio-check-album" checked>
+									<label class="form-check-label" for="studio-check-album">Album</label>
+								</div>
+							</div>
+							<div class="studio-song-search-results">
+								<div class="studio-song-search-none">
+									<h2>No results found or search too vague. Please refine your search.</h2>
+								</div>
+								<div class="studio-song-search-table">
+								</div>
+								<div class="studio-song-search-loading text-center">
+									<h1>Searching...</h1>
+									<h1><i class="fa fa-spinner fa-pulse"></i></h1>
+								</div>
+							</div>
 						</div>
 						<div class="tab-pane" id="messages" role="tabpanel">
 							<div class="container-fluid studio-message-list border-bottom border-warning">
