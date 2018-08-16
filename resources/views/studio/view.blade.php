@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 		
 		<script src="/js/app.js"></script>
+		<script src="/js/studio/main.js"></script>
 	</head>
 	<body class="text-white studio-body" style>
 		<div class="container-fluid studio-now-next border-bottom border-warning border-3">
@@ -21,7 +22,7 @@
 		<div class="container-fluid studio-container">
 			<div class="row no-gutters studio-container-row">
 				<div class="col-sm-7 border-right border-warning border-3 studio-col-left">
-					<ul class="nav nav-tabs nav-justified">
+					<ul class="nav nav-tabs nav-justified studio-tabs">
 						<li class="nav-item">
 							<a class="nav-link active studio-tab" data-toggle="tab" href="#music" role="tab">
 								<i class="fa fa-music"></i>
@@ -58,11 +59,12 @@
 						</div>
 						<div class="tab-pane" id="messages" role="tabpanel">
 							<div class="container-fluid studio-message-list border-bottom border-warning">
-								<div class="row studio-message-header border-bottom">
+								<div class="row no-gutters studio-message-header border-bottom">
+									<div class="col-sm-1"></div>
 									<div class="col-sm-3">
 										Sender
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-5">
 										Subject
 									</div>
 									<div class="col-sm-3">
@@ -70,11 +72,16 @@
 									</div>
 								</div>
 								@foreach($emails as $email)
-									<div class="row studio-message-row border-top">
-										<div class="col-sm-3 text-truncate">
-											{{ $email->sender }}
+									<div data-message-id="{{ $email->id }}" class="row no-gutters studio-message-row border-top">
+										<div class="col-sm-1 text-warning">
+											@if($email->new_flag == 't')
+												<i class="fa fa-envelope"></i>
+											@endif
 										</div>
-										<div class="col-sm-6 text-truncate">
+										<div class="col-sm-3 text-truncate">
+											{{ preg_replace('/<.*>/', '', $email->sender) }}
+										</div>
+										<div class="col-sm-5 text-truncate">
 											{{ $email->subject }}
 										</div>
 										<div class="col-sm-3">
@@ -82,6 +89,11 @@
 										</div>
 									</div>
 								@endforeach
+							</div>
+							<div class="container-fluid studio-message-container">
+								<h3 class="text-truncate" id="studio-message-subject"></h3>
+								<p id="studio-message-body">
+								</p>
 							</div>
 						</div>
 					</div>

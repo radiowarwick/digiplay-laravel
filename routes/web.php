@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth']], function(){
 	// Studio Interface
 	Route::get('/studio/{key}', 'StudioController@getView')->name('studio-view');
 	Route::get('/studio/{key}/logout', 'StudioController@getLogout')->name('studio-logout');
+	Route::get('/studio/{key}/message/{id}', 'StudioController@getMessage')->where('id', '[0-9]+');
 
 	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');

@@ -9,6 +9,10 @@ div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-
 div.studio-tab-content, div.studio-col-right {
 }
 
+div.studio-col-left {
+	padding-top: 42px;
+}
+
 div.studio-now-next {
 	font-size: 1.4rem;
 	color: #d8b222;
@@ -66,9 +70,42 @@ div.studio-message-header {
 
 div.studio-message-row {
 	padding: 5px;
+	cursor: pointer;
+}
+
+div.studio-message-row:hover, div.studio-message-row.active {
+	background: lighten($gray-800, 20%);
+}
+
+div.studio-message-row.active {
+	cursor: default;
 }
 
 div.studio-message-list {
 	height: 30%;
 	overflow-y: scroll;
+	padding: 0;
+}
+
+div.studio-message-container {
+	height: 70%;
+	overflow-y: scroll;
+}
+
+ul.studio-tabs {
+	height: 42px;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+a.studio-tab-flash {
+	animation: kf-studio-tab-flash 2s steps(1, start) infinite;
+}
+
+@keyframes kf-studio-tab-flash {
+	50% {
+		background: $yellow;
+		color: $gray-800;
+	}
 }

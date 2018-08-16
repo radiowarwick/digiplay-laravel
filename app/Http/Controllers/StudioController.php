@@ -81,4 +81,21 @@ class StudioController extends Controller
 
 		return view('studio.view')->with('key', $key)->with('location', $location)->with('emails', $emails);
 	}
+
+	public function getMessage(Request $request, $key, $location) {
+		$email = Email::find($location);
+		if(is_null($email))
+			abort(404, 'Page not found');
+
+		if($email->new_flag == 't') {
+			$email->new_flag = 'f';
+			$email->save();
+		}
+
+		return response()->json([
+			'id' => $email->id,
+			'subject' => $email->subject,
+			'body' => strip_tags($email->body)
+		]);
+	}
 }

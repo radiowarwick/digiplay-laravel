@@ -13731,6 +13731,10 @@ div.studio-tab-content,
   height: 100%;
 }
 
+div.studio-col-left {
+  padding-top: 42px;
+}
+
 div.studio-now-next {
   font-size: 1.4rem;
   color: #d8b222;
@@ -13787,11 +13791,53 @@ div.studio-message-header {
 
 div.studio-message-row {
   padding: 5px;
+  cursor: pointer;
+}
+
+div.studio-message-row:hover,
+div.studio-message-row.active {
+  background: #5e5e5e;
+}
+
+div.studio-message-row.active {
+  cursor: default;
 }
 
 div.studio-message-list {
   height: 30%;
   overflow-y: scroll;
+  padding: 0;
+}
+
+div.studio-message-container {
+  height: 70%;
+  overflow-y: scroll;
+}
+
+ul.studio-tabs {
+  height: 42px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+a.studio-tab-flash {
+  -webkit-animation: kf-studio-tab-flash 2s steps(1, start) infinite;
+          animation: kf-studio-tab-flash 2s steps(1, start) infinite;
+}
+
+@-webkit-keyframes kf-studio-tab-flash {
+  50% {
+    background: #d8b222;
+    color: #2b2b2b;
+  }
+}
+
+@keyframes kf-studio-tab-flash {
+  50% {
+    background: #d8b222;
+    color: #2b2b2b;
+  }
 }
 
 .logo-lg {
