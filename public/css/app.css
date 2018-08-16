@@ -13726,13 +13726,9 @@ div.studio-container,
 div.studio-container-row,
 div.studio-col-left,
 div.studio-col-right,
-div.studio-tab-content {
-  height: 100%;
-}
-
 div.studio-tab-content,
-div.studio-col-right {
-  padding: 0 5px !important;
+#messages {
+  height: 100%;
 }
 
 div.studio-now-next {
@@ -13759,7 +13755,7 @@ body.studio-body {
 }
 
 a.studio-tab {
-  background: #454444 !important;
+  background: #5e5e5e !important;
   border: solid #d8b222 1px !important;
   border-left-width: 0 !important;
   border-right-width: 0 !important;
@@ -13770,7 +13766,7 @@ a.studio-tab {
 
 a.studio-tab.active {
   color: #d8b222 !important;
-  background: #2b2b2b !important;
+  background: #454444 !important;
   border-left-width: 1px !important;
   border-right-width: 1px !important;
   border-top-width: 1px !important;
@@ -13783,6 +13779,19 @@ a.studio-tab.studio-reset {
 
 a.studio-tab:hover {
   border-color: #d8b222;
+}
+
+div.studio-message-header {
+  font-size: 1.2rem;
+}
+
+div.studio-message-row {
+  padding: 5px;
+}
+
+div.studio-message-list {
+  height: 30%;
+  overflow-y: scroll;
 }
 
 .logo-lg {

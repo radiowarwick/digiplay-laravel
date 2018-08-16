@@ -2,12 +2,11 @@ div.studio-container {
 	padding: 0;
 }
 
-div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content {
+div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content, #messages {
 	height: 100%;
 }
 
 div.studio-tab-content, div.studio-col-right {
-	padding: 0 5px !important;
 }
 
 div.studio-now-next {
@@ -34,7 +33,7 @@ body.studio-body {
 }
 
 a.studio-tab {
-	background: lighten($gray-800, 10%) !important;
+	background: lighten($gray-800, 20%) !important;
 	border: solid $yellow 1px !important;
 	border-left-width: 0 !important;
 	border-right-width: 0 !important;
@@ -45,7 +44,7 @@ a.studio-tab {
 
 a.studio-tab.active {
 	color: $yellow !important;
-	background: $gray-800 !important;
+	background: lighten($gray-800, 10%) !important;
 	border-left-width: 1px !important;
 	border-right-width: 1px !important;
 	border-top-width: 1px !important;
@@ -59,4 +58,17 @@ a.studio-tab.studio-reset {
 
 a.studio-tab:hover {
 	border-color: $yellow;
+}
+
+div.studio-message-header {
+	font-size: 1.2rem;
+}
+
+div.studio-message-row {
+	padding: 5px;
+}
+
+div.studio-message-list {
+	height: 30%;
+	overflow-y: scroll;
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Config;
 use App\StudioLogin;
+use App\Email;
 
 class StudioController extends Controller
 {
@@ -76,6 +77,8 @@ class StudioController extends Controller
 	public function getView(Request $request, $key) {
 		$location = $request->get('location');
 
-		return view('studio.view')->with('key', $key)->with('location', $location);
+		$emails = Email::latest()->get();
+
+		return view('studio.view')->with('key', $key)->with('location', $location)->with('emails', $emails);
 	}
 }

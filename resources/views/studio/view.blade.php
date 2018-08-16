@@ -57,7 +57,32 @@
 							Some Music here
 						</div>
 						<div class="tab-pane" id="messages" role="tabpanel">
-							Some messages here
+							<div class="container-fluid studio-message-list border-bottom border-warning">
+								<div class="row studio-message-header border-bottom">
+									<div class="col-sm-3">
+										Sender
+									</div>
+									<div class="col-sm-6">
+										Subject
+									</div>
+									<div class="col-sm-3">
+										Date/Time
+									</div>
+								</div>
+								@foreach($emails as $email)
+									<div class="row studio-message-row border-top">
+										<div class="col-sm-3 text-truncate">
+											{{ $email->sender }}
+										</div>
+										<div class="col-sm-6 text-truncate">
+											{{ $email->subject }}
+										</div>
+										<div class="col-sm-3">
+											{{ date('d/m/y H:i', $email->datetime) }}
+										</div>
+									</div>
+								@endforeach
+							</div>
 						</div>
 					</div>
 				</div>
