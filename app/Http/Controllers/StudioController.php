@@ -43,15 +43,15 @@ class StudioController extends Controller
 			Config::updateLocationValue($location, 'userid', auth()->user()->id);
 			Config::updateLocationValue($location, 'user_aw_set', auth()->user()->audiowall());
 
-			$canUpdate = 'false';
+			$can_update = 'false';
 			if(auth()->user()->hasPermission('Music Admin'))
-				$canUpdate = 'true';
-			Config::updateLocationValue($location, 'can_update', $canUpdate);
+				$can_update = 'true';
+			Config::updateLocationValue($location, 'can_update', $can_update);
 
-			$studioLogin = new StudioLogin;
-			$studioLogin->username = auth()->user()->username;
-			$studioLogin->location = $location;
-			$studioLogin->save();
+			$studio_login = new StudioLogin;
+			$studio_login->username = auth()->user()->username;
+			$studio_login->location = $location;
+			$studio_login->save();
 
 			return redirect()->route('studio-view', $key);
 		}
@@ -62,9 +62,9 @@ class StudioController extends Controller
 	public function getLogout(Request $request, $key) {
 		$location = $request->get('location');
 		
-		$studioLogin = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
-		$studioLogin->logout_at = now();
-		$studioLogin->save();
+		$studio_login = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
+		$studio_login->logout_at = now();
+		$studio_login->save();
 		
 		Config::updateLocationValue($location, 'userid', 0);
 		Config::updateLocationValue($location, 'user_aw_set', 0);
@@ -78,12 +78,20 @@ class StudioController extends Controller
 		$location = $request->get('location');
 
 		$emails = Email::latest()->get();
+		$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
+		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
 
-		return view('studio.view')->with('key', $key)->with('location', $location)->with('emails', $emails);
+		return view('studio.view')->with([
+			'key' => $key,
+			'location' => $location,
+			'emails' => $emails,
+			'censor_start' => $censor_start,
+			'censor_end' => $censor_end
+		]);
 	}
 
-	public function getMessage(Request $request, $key, $location) {
-		$email = Email::find($location);
+	public function getMessage(Request $request, $key, $id) {
+		$email = Email::find($id);
 		if(is_null($email))
 			abort(404, 'Page not found');
 

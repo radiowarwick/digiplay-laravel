@@ -13727,7 +13727,8 @@ div.studio-container-row,
 div.studio-col-left,
 div.studio-col-right,
 div.studio-tab-content,
-#messages {
+#messages,
+#music {
   height: 100%;
 }
 
@@ -13785,24 +13786,6 @@ a.studio-tab:hover {
   border-color: #d8b222;
 }
 
-div.studio-message-header {
-  font-size: 1.2rem;
-}
-
-div.studio-message-row {
-  padding: 5px;
-  cursor: pointer;
-}
-
-div.studio-message-row:hover,
-div.studio-message-row.active {
-  background: #5e5e5e;
-}
-
-div.studio-message-row.active {
-  cursor: default;
-}
-
 div.studio-message-list {
   height: 30%;
   overflow-y: scroll;
@@ -13842,6 +13825,74 @@ a.studio-tab-flash {
 
 div.studio-song-search {
   padding: 10px 10px 0px 10px;
+  height: 80px;
+}
+
+div.studio-song-search-results {
+  height: calc(100% - 80px);
+  overflow-y: scroll;
+}
+
+#messages .icon {
+  width: 25px;
+  color: #d8b222;
+}
+
+#messages .sender,
+#messages .date {
+  width: 20%;
+}
+
+#messages .subject {
+  width: auto;
+}
+
+#messages table {
+  table-layout: fixed;
+}
+
+#messages .active,
+#messages .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+#messages table th {
+  border-top-width: 0;
+}
+
+#messages tbody tr:not(.active) {
+  cursor: pointer;
+}
+
+#music .icon {
+  width: 25px;
+  color: #d8b222;
+}
+
+#music .title,
+#music .artist,
+#music .album {
+  width: 25%;
+}
+
+#music .length {
+  width: auto;
+}
+
+#music table {
+  table-layout: fixed;
+}
+
+#music .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+#music table th {
+  border-top-width: 0;
+}
+
+#music tbody tr {
+  cursor: pointer;
 }
 
 .logo-lg {

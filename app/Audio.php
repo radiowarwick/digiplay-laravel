@@ -70,6 +70,7 @@ class Audio extends Model
     *   "query"     =>  (string) name to search
     *   "type"      =>  (array) types to search, as string, Song, Prerec, Jingle, Advert
     *   "filter"    =>  (array) types of filter, as string, title, artist, album
+    *   "censor"    =>  (boolean) true to include censored tracks
     */
     public function scopeSearch($query, $params) {
         $allowed_types = [null, 'Music', 'Jingle', 'Advert', 'Prerec'];
@@ -100,6 +101,9 @@ class Audio extends Model
                 $query->join('albums', 'audio.music_album', '=', 'albums.id');
             }
         }
+
+        if(!(isset($params['censor']) and $params['censor'] === true))
+            $query->where('censor', 'f');
 
         // do filter wheres
         $query->where(function($query) use (&$filters, &$strip_query){

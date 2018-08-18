@@ -12,6 +12,11 @@
 		<script src="/js/studio/main.js"></script>
 	</head>
 	<body class="text-white studio-body" style>
+		<script type="text/javascript">
+			const CENSOR_START = {{ $censor_start }};
+			const CENSOR_END = {{ $censor_end }};
+		</script>
+
 		<div class="container-fluid studio-now-next border-bottom border-warning border-3">
 			<div class="row">
 				<div class="col-sm-6">On now: RAW Jukebox</div>
@@ -78,12 +83,29 @@
 								</div>
 							</div>
 							<div class="studio-song-search-results">
-								<div class="studio-song-search-none">
-									<h2>No results found or search too vague. Please refine your search.</h2>
+								<div class="studio-song-search-welcome">
+									<h1>Welcome to Digiplay, {{ auth()->user()->name }}!</h1>
+									<h2>Please search for a song.</h2>
 								</div>
-								<div class="studio-song-search-table">
+								<div class="studio-song-search-none" style="display:none;">
+									<h2>No results found, please refine your search.</h2>
 								</div>
-								<div class="studio-song-search-loading text-center">
+								<div class="studio-song-search-table" style="display:none;">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th class="icon"></th>
+												<th class="artist">Artist</th>
+												<th class="title">Title</th>
+												<th class="album">Album</th>
+												<th class="length">Length</th>
+											</tr>
+										</thead>
+										<tbody class="studio-song-search-table-results">
+										</tbody>
+									</table>
+								</div>
+								<div class="studio-song-search-loading text-center" style="display:none;">
 									<h1>Searching...</h1>
 									<h1><i class="fa fa-spinner fa-pulse"></i></h1>
 								</div>
@@ -91,36 +113,36 @@
 						</div>
 						<div class="tab-pane" id="messages" role="tabpanel">
 							<div class="container-fluid studio-message-list border-bottom border-warning">
-								<div class="row no-gutters studio-message-header border-bottom">
-									<div class="col-sm-1"></div>
-									<div class="col-sm-3">
-										Sender
-									</div>
-									<div class="col-sm-5">
-										Subject
-									</div>
-									<div class="col-sm-3">
-										Date/Time
-									</div>
-								</div>
-								@foreach($emails as $email)
-									<div data-message-id="{{ $email->id }}" class="row no-gutters studio-message-row border-top">
-										<div class="col-sm-1 text-warning">
-											@if($email->new_flag == 't')
-												<i class="fa fa-envelope"></i>
-											@endif
-										</div>
-										<div class="col-sm-3 text-truncate">
-											{{ preg_replace('/<.*>/', '', $email->sender) }}
-										</div>
-										<div class="col-sm-5 text-truncate">
-											{{ $email->subject }}
-										</div>
-										<div class="col-sm-3">
-											{{ date('d/m/y H:i', $email->datetime) }}
-										</div>
-									</div>
-								@endforeach
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="icon"></th>
+											<th class="sender">Sender</th>
+											<th class="subject">Subject</th>
+											<th class="date">Date/Time</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($emails as $email)
+											<tr data-message-id="{{ $email->id }}">
+												<td class="icon">
+													@if($email->new_flag == 't')
+														<i class="fa fa-envelope"></i>
+													@endif											
+												</td>
+												<td class="sender text-truncate">
+													{{ preg_replace('/<.*>/', '', $email->sender) }}
+												</td>
+												<td class="subject text-truncate">
+													{{ $email->subject }}
+												</td>
+												<td class="date text-truncate">
+													{{ date('d/m/y H:i', $email->datetime) }}
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							</div>
 							<div class="container-fluid studio-message-container">
 								<h3 class="text-truncate" id="studio-message-subject"></h3>
