@@ -11,7 +11,7 @@
 		<script src="/js/app.js"></script>
 		<script src="/js/studio/main.js"></script>
 	</head>
-	<body class="text-white studio-body" style>
+	<body class="studio-body" style>
 		<script type="text/javascript">
 			const CENSOR_START = {{ $censor_start }};
 			const CENSOR_END = {{ $censor_end }};
@@ -85,7 +85,7 @@
 							<div class="studio-song-search-results">
 								<div class="studio-song-search-welcome">
 									<h1>Welcome to Digiplay, {{ auth()->user()->name }}!</h1>
-									<h2>Please search for a song.</h2>
+									<h2>Search for a song or load songs from playlists</h2>
 								</div>
 								<div class="studio-song-search-none" style="display:none;">
 									<h2>No results found, please refine your search.</h2>
@@ -153,7 +153,29 @@
 					</div>
 				</div>
 				<div class="col-sm-5 studio-col-right">
-					<h3>Plan - Default</h3>
+					<div class="studio-showplan-header">
+						<h3>Plan - Default</h3>
+					</div>
+					<div class="studio-showplan">
+						@foreach($showplan->items as $item)
+							<div class="studio-card card" data-item-id="{{ $item->id }}">
+								<div class="card-body">
+									@if($item->audio->censor == 't')
+										<i class="censor fa fa-exclamation-circle"></i>
+									@else
+										<i class="fa fa-music"></i>
+									@endif
+									{{ $item->audio->title }} - {{ $item->audio->artist->name }}
+									<div class="pull-right">
+										{{ $item->audio->lengthString() }}
+										<span class="studio-card-remove">
+											<i class="fa fa-times-circle fa-lg"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+						@endforeach
+					</div>
 				</div>
 			</div>
 		</div>

@@ -83,7 +83,52 @@ function search(event) {
 }
 
 function load_song(event) {
-	console.log($(this).attr("data-audio-id"));
+	id = $(this).attr("data-audio-id");
+	$.get(loc + "addplan/" + id, function(data){
+		if(data.message == "success") {
+			card = $("<div class=\"studio-card card\" data-item-id=\"" + data.id + "\"></div>");
+			card.append($("<div class=\"card-body\"></div>"));
+
+			right = $("<div class=\"pull-right\"></div>");
+			right.text(data.length_string + " ");
+			right.html(right.html() + "<span class=\"studio-card-remove\"><i class=\"fa fa-lg fa-times-circle\"></i></span>");
+
+			if(data.censor == "t")
+				icon = "<i class=\"censor fa fa-exclamation-circle\"></i>";
+			else
+				icon = "<i class=\"fa fa-music\"></i>";
+
+			card_body = card.find(".card-body");
+			card_body.text(" " + data.title + " - " + data.artist);
+			card_body.html(icon + card_body.html());
+			card_body.append(right);
+
+			$(".studio-showplan").append(card);
+			reset_showplan_binds();
+		}
+	});
+}
+
+
+function remove_song(event) {
+	event.stopPropagation();
+
+	item = $(this).closest(".studio-card");
+	$.get(loc + "removeplan/" + item.attr("data-item-id"), function(data){
+		if(data.message == "success") {
+			item.remove();
+		}
+	});
+}
+
+function select_song(event) {
+	item = $(this);
+	$.get(loc + 'selectitem/' + item.attr("data-item-id"), function(data){
+		if(data.message == "success") {
+			$(".studio-card").removeClass("active");
+			item.addClass("active");
+		}
+	});
 }
 
 function reset_message_binds() {
@@ -96,8 +141,17 @@ function reset_search_result_binds() {
 	$(".studio-song-search-table-results").find("tr").dblclick(load_song);
 }
 
+function reset_showplan_binds() {
+	$(".studio-card-remove").unbind("click");
+	$(".studio-card-remove").click(remove_song);
+
+	$(".studio-card").unbind("dblclick");
+	$(".studio-card").dblclick(select_song);
+}
+
 $(document).ready(function(){
 	reset_message_binds();
+	reset_showplan_binds();
 
 	$("[name='query']").keypress(function(event){
 		keycode = event.keyCode || event.which;

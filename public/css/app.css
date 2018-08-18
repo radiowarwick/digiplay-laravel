@@ -13757,6 +13757,7 @@ body.studio-body {
   height: 100%;
   position: absolute;
   width: 100%;
+  background: #b5b5b5;
 }
 
 a.studio-tab {
@@ -13790,11 +13791,14 @@ div.studio-message-list {
   height: 30%;
   overflow-y: scroll;
   padding: 0;
+  background: #454444;
+  color: white;
 }
 
 div.studio-message-container {
   height: 70%;
   overflow-y: scroll;
+  background: white;
 }
 
 ul.studio-tabs {
@@ -13826,11 +13830,13 @@ a.studio-tab-flash {
 div.studio-song-search {
   padding: 10px 10px 0px 10px;
   height: 80px;
+  background: #454444;
 }
 
 div.studio-song-search-results {
   height: calc(100% - 80px);
   overflow-y: scroll;
+  background: white;
 }
 
 #messages .icon {
@@ -13866,7 +13872,6 @@ div.studio-song-search-results {
 
 #music .icon {
   width: 25px;
-  color: #d8b222;
 }
 
 #music .censor {
@@ -13887,16 +13892,63 @@ div.studio-song-search-results {
   table-layout: fixed;
 }
 
-#music .table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
 #music table th {
   border-top-width: 0;
 }
 
 #music tbody tr {
   cursor: pointer;
+}
+
+#music label {
+  color: white;
+}
+
+.studio-card {
+  padding: 5px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: white;
+  background: #5e5e5e !important;
+}
+
+.studio-card .card-body {
+  padding: 0;
+}
+
+.studio-card .studio-card-remove {
+  color: #d8b222;
+}
+
+.studio-card .censor {
+  color: #dc3545;
+}
+
+.studio-card:hover {
+  background: #2b2b2b !important;
+}
+
+.studio-card.active {
+  background: #d8b222 !important;
+  color: #2b2b2b;
+  cursor: default;
+}
+
+.studio-card.active .studio-card-remove {
+  color: #2b2b2b;
+}
+
+.studio-showplan-header {
+  height: 42px;
+  border-bottom: solid #d8b222 3px;
+  background: #454444;
+  color: white;
+}
+
+.studio-showplan {
+  height: calc(100% - 42px);
+  overflow-y: scroll;
 }
 
 .logo-lg {

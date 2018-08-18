@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Config;
 use App\StudioLogin;
 use App\Email;
+use App\Showplan;
+use App\ShowplanItem;
 
 class StudioController extends Controller
 {
@@ -70,6 +72,10 @@ class StudioController extends Controller
 		Config::updateLocationValue($location, 'user_aw_set', 0);
 		Config::updateLocationValue($location, 'can_update', 'false');
 
+		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+		$showplan = Showplan::find($showplan_id);
+		$showplan->items()->delete();
+
 		auth()->logout();
 		return redirect()->route('studio-login', $key);
 	}
@@ -80,13 +86,16 @@ class StudioController extends Controller
 		$emails = Email::latest()->get();
 		$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
 		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
+		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+		$showplan = Showplan::find($showplan_id);
 
 		return view('studio.view')->with([
 			'key' => $key,
 			'location' => $location,
 			'emails' => $emails,
 			'censor_start' => $censor_start,
-			'censor_end' => $censor_end
+			'censor_end' => $censor_end,
+			'showplan' => $showplan
 		]);
 	}
 
@@ -105,5 +114,52 @@ class StudioController extends Controller
 			'subject' => $email->subject,
 			'body' => strip_tags($email->body)
 		]);
+	}
+
+	public function getAddShowplan(Request $request, $key, $id) {
+		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $request->get('location'))->first()->val;
+		$showplan = Showplan::find($showplan_id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+
+		$position = count($showplan->items) + 1;
+
+		$item = new ShowplanItem;
+		$item->audio_id = $id;
+		$item->showplan_id = $showplan_id;
+		$item->position = $position;
+		$item->save();
+
+		return response()->json([
+			'message' => 'success',
+			'id' => $item->id,
+			'title' => $item->audio->title,
+			'artist' => $item->audio->artist->name,
+			'length_string' => $item->audio->lengthString(),
+			'censor' => $item->audio->censor
+		]);
+	}
+
+	public function getRemoveShowplan(Request $request, $key, $id) {
+		$item = ShowplanItem::find($id);
+		if(is_null($item))
+			abort(404, 'Page not found');
+		$parent = $item->showplan;
+		
+		$item->delete();
+		$parent->reposition();
+
+		return response()->json(['message' => 'success']);
+	}
+
+	public function getSelectShowplanItem(Request $request, $key, $id) {
+		$item = ShowplanItem::find($id);
+		if(is_null($item))
+			abort(404, 'Page not found');
+
+		$md5 = $item->audio->md5;
+		Config::updateLocationValue($request->get('location'), 'next_on_showplan', $md5);
+
+		return response()->json(['message' => 'success']);
 	}
 }

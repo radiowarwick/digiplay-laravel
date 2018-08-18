@@ -34,6 +34,7 @@ body.studio-body {
 	height: 100%;
 	position: absolute;
 	width: 100%;
+	background: #b5b5b5;
 }
 
 a.studio-tab {
@@ -68,11 +69,14 @@ div.studio-message-list {
 	height: 30%;
 	overflow-y: scroll;
 	padding: 0;
+	background: lighten($gray-800, 10%);
+	color: white;
 }
 
 div.studio-message-container {
 	height: 70%;
 	overflow-y: scroll;
+	background: white;
 }
 
 ul.studio-tabs {
@@ -96,11 +100,13 @@ a.studio-tab-flash {
 div.studio-song-search {
     padding: 10px 10px 0px 10px;
     height: 80px;
+    background: lighten($gray-800, 10%);
 }
 
 div.studio-song-search-results {
 	height: calc(100% - 80px);
 	overflow-y: scroll;
+	background: white;
 }
 
 #messages {
@@ -137,7 +143,6 @@ div.studio-song-search-results {
 #music {
 	.icon {
 		width: 25px;
-		color: $yellow;
 	}
 
 	.censor {
@@ -156,11 +161,6 @@ div.studio-song-search-results {
 		table-layout: fixed;
 	}
 
-
-	.table-hover tbody tr:hover {
-		background-color: rgba(0, 0, 0, 0.25);
-	}
-
 	table th {
 		border-top-width: 0;
 	}
@@ -168,4 +168,55 @@ div.studio-song-search-results {
 	tbody tr {
 		cursor: pointer;
 	}
+
+	label {
+		color: white;
+	}
+}
+
+.studio-card {
+	padding: 5px;
+	margin: 10px;
+	cursor: pointer;
+	font-size: 1.2rem;
+	color: white;
+	background: lighten($gray-800, 20%) !important;
+
+	.card-body {
+		padding: 0;
+	}
+
+	.studio-card-remove {
+		color: $yellow;
+	}
+
+	.censor {
+		color: $red;
+	}
+}
+
+.studio-card:hover {
+	background: $gray-800 !important;
+}
+
+.studio-card.active {
+	background: $yellow !important;
+	color: $gray-800;
+	cursor: default;
+
+	.studio-card-remove {
+		color: $gray-800;
+	}
+}
+
+.studio-showplan-header {
+	height: 42px;
+	border-bottom: solid $yellow 3px;
+	background: lighten($gray-800, 10%);
+	color: white;
+}
+
+.studio-showplan {
+	height: calc(100% - 42px);
+	overflow-y: scroll;
 }

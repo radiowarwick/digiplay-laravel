@@ -29,7 +29,7 @@ class SearchController extends Controller
 			$entry['album'] = $result->album->name;
 			$entry['type'] = $result->type;
 			$entry['length'] = $result->length();
-			$entry['length_string'] = $result->length_string();
+			$entry['length_string'] = $result->lengthString();
 			$entry['censor'] = $result->censor;
 
 			$json[] = $entry;

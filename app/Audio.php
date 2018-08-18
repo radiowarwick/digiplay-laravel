@@ -44,7 +44,7 @@ class Audio extends Model
         return ($this->end_smpl - $this->start_smpl) / 44100;
     }
 
-    public function length_string() {
+    public function lengthString() {
         $length = $this->length();
         $string = '';
 

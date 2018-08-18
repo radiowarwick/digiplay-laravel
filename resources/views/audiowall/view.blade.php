@@ -118,7 +118,7 @@
 							}
 						@endphp
 
-						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}" data-item-length="{{ ($item == null) ? "" : $item->audio->length() }}" data-item-length-string="{{ ($item == null) ? "" : $item->audio->length_string() }}">
+						<div class="audiowall-item" data-bg="{{ $bg_colour }}" data-fg="{{ $fg_colour }}"  style="color:#{{ $fg_colour }};background:#{{ $bg_colour }}" data-wall-item="{{ $i }}" data-wall-audio-id="{{ ($item == null) ? "" : $item->audio_id }}" data-item-length="{{ ($item == null) ? "" : $item->audio->length() }}" data-item-length-string="{{ ($item == null) ? "" : $item->audio->lengthString() }}">
 							<div class="row no-gutters">
 								<div class="col-3">
 									<i class="audiowall-settings fa fa-gear fa-lg audiowall-action-box" {!! ($item == null or !$set->hasEdit(Auth::user())) ? "style=\"visibility: hidden;\"" : "" !!}></i>
@@ -126,7 +126,7 @@
 								<div class="col-6">
 									<div class="audiowall-time" {!! ($item == null) ? "style=\"display:none;\"" : "" !!}>
 										<div class="audiowall-time-text">
-												{{ ($item != null) ? $item->audio->length_string() : '' }}
+												{{ ($item != null) ? $item->audio->lengthString() : '' }}
 										</div>
 										<div class="audiowall-time-play">
 											<i class="fa fa-play"></i>
