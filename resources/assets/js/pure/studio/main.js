@@ -46,9 +46,9 @@ function search(event) {
 
 		data = {
 			"query": query,
-			"type": ["Song"],
+			"type": ["Music"],
 			"filter": filter,
-			"censor": !is_censor_period(),
+			"censor": is_censor_period(),
 			"limit": 50
 		};
 		$.post("/ajax/search", data, function(data){
@@ -60,7 +60,7 @@ function search(event) {
 					if(data[i].censor == "f")
 						row.append("<td class=\"icon\"><i class=\"fa fa-music\"></i></td>");
 					else
-						row.append("<td class=\"icon\"><i class=\"fa fa-exclamation-circle\"></i></td>");
+						row.append("<td class=\"icon censor\"><i class=\"fa fa-exclamation-circle\"></i></td>");
 
 					row.append("<td class=\"artist text-truncate\">" + data[i].artist + "</td>");
 					row.append("<td class=\"title text-truncate\">" + data[i].title + "</td>");

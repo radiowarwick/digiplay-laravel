@@ -102,7 +102,8 @@ class Audio extends Model
             }
         }
 
-        if(!(isset($params['censor']) and $params['censor'] === true))
+        // Apply filter if param is not set or (if set) value is not "false"
+        if(!(isset($params['censor']) and $params['censor'] == "false"))
             $query->where('censor', 'f');
 
         // do filter wheres

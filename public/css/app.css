@@ -13869,6 +13869,10 @@ div.studio-song-search-results {
   color: #d8b222;
 }
 
+#music .censor {
+  color: #dc3545;
+}
+
 #music .title,
 #music .artist,
 #music .album {

@@ -18,7 +18,7 @@ class SearchController extends Controller
 		else
 			$limit = $request->get('limit');
 
-		$results = Audio::search($request)->limit(25)->get();
+		$results = Audio::search($request)->limit($limit)->get();
 
 		$json = [];
 		foreach($results as $result) {
