@@ -10,6 +10,7 @@ use App\Email;
 use App\Showplan;
 use App\ShowplanItem;
 use App\Log;
+use App\Playlist;
 
 class StudioController extends Controller
 {
@@ -90,6 +91,7 @@ class StudioController extends Controller
 		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
 		$showplan = Showplan::find($showplan_id);
 		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
+		$playlists = Playlist::studio()->get();
 
 		return view('studio.view')->with([
 			'key' => $key,
@@ -98,7 +100,8 @@ class StudioController extends Controller
 			'censor_start' => $censor_start,
 			'censor_end' => $censor_end,
 			'showplan' => $showplan,
-			'log' => $log
+			'log' => $log,
+			'playlists' => $playlists
 		]);
 	}
 

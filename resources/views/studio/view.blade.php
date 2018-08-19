@@ -150,6 +150,52 @@
 								</p>
 							</div>
 						</div>
+						<div class="tab-pane" id="playlists" role="tabplanel">
+							<div class="studio-playlist-container">
+								@foreach($playlists as $playlist)
+									<div class="card">
+										<div class="card-header" data-toggle="collapse" href="#playlist-{{ $playlist->id }}">
+											<div class="card-icon">
+												<i class="fa fa-lg fa-arrow-circle-right"></i>
+											</div>
+											{{ $playlist->name }}
+										</div>
+										<div class="card-body studio-playlist-card collapse" id="playlist-{{ $playlist->id }}">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th class="icon"></th>
+														<th class="artist">Artist</th>
+														<th class="title">Title</th>
+														<th class="album">Album</th>
+														<th class="length">Length</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach($playlist->audio as $audio)
+														<tr data-audio-id="{{ $audio->id }}">
+															@if($audio->censor == 't')
+																<td class="icon censor">
+																	<i class="fa fa-exclamation-circle"></i>
+																</td>
+															@else
+																<td class="icon">
+																	<i class="fa fa-music"></i>
+																</td>
+															@endif
+															<td class="artist text-truncate">{{ $audio->artist->name }}</td>
+															<td class="title text-truncate">{{ $audio->title }}</td>
+															<td class="album text-truncate">{{ $audio->album->name }}</td>
+															<td class="length text-truncate">{{ $audio->lengthString() }}</td>
+														</tr>
+													@endforeach
+												</tbody>
+											</table>
+										</div>
+									</div>
+								@endforeach
+							</div>
+						</div>
 						<div class="tab-pane" id="log" role="tabplanel">
 							<div class="container-fluid studio-log-add border-bottom border-warning">
 								<div class="form-inline studio-log-form">

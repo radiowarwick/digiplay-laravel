@@ -13729,7 +13729,8 @@ div.studio-col-right,
 div.studio-tab-content,
 #messages,
 #music,
-#log {
+#log,
+#playlists {
   height: 100%;
 }
 
@@ -13875,37 +13876,47 @@ div.studio-song-search-results {
   cursor: pointer;
 }
 
-#music .icon {
+#music .icon,
+.studio-playlist-card .icon {
   width: 25px;
 }
 
-#music .censor {
+#music .censor,
+.studio-playlist-card .censor {
   color: #dc3545;
 }
 
 #music .title,
 #music .artist,
-#music .album {
+#music .album,
+.studio-playlist-card .title,
+.studio-playlist-card .artist,
+.studio-playlist-card .album {
   width: 25%;
 }
 
-#music .length {
+#music .length,
+.studio-playlist-card .length {
   width: auto;
 }
 
-#music table {
+#music table,
+.studio-playlist-card table {
   table-layout: fixed;
 }
 
-#music table th {
+#music table th,
+.studio-playlist-card table th {
   border-top-width: 0;
 }
 
-#music tbody tr {
+#music tbody tr,
+.studio-playlist-card tbody tr {
   cursor: pointer;
 }
 
-#music label {
+#music label,
+.studio-playlist-card label {
   color: white;
 }
 
@@ -13924,6 +13935,16 @@ div.studio-song-search-results {
 
 #log table th {
   border-top-width: 0;
+}
+
+#playlists .card-icon {
+  color: #d8b222;
+  display: inline;
+}
+
+#playlists .card {
+  color: white;
+  margin: 10px;
 }
 
 .studio-card {
@@ -13983,6 +14004,17 @@ div.studio-song-search-results {
   background: white;
   height: calc(100% - 60px);
   overflow-y: scroll;
+  padding: 0;
+}
+
+.studio-playlist-container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.studio-playlist-card {
+  background: white;
+  color: black;
   padding: 0;
 }
 

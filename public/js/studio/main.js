@@ -181,6 +181,8 @@ $(document).ready(function(){
 
 	$("[name='submit-log']").click(log_song);
 
+	$(".studio-playlist-container").find("tr[data-audio-id]").dblclick(load_song);
+
 	loc = location.href;
 	if(loc.substr(loc.length - 1) != '/')
 		loc = loc + '/';

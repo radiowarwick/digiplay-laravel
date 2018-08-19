@@ -2,7 +2,7 @@ div.studio-container {
 	padding: 0;
 }
 
-div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content, #messages, #music, #log {
+div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content, #messages, #music, #log, #playlists {
 	height: 100%;
 }
 
@@ -141,7 +141,7 @@ div.studio-song-search-results {
 	}
 }
 
-#music {
+#music, .studio-playlist-card {
 	.icon {
 		width: 25px;
 	}
@@ -190,6 +190,18 @@ div.studio-song-search-results {
 
 	table th {
 		border-top-width: 0;
+	}
+}
+
+#playlists {
+	.card-icon {
+		color: $yellow;
+		display: inline;
+	}
+
+	.card {
+		color: white;
+		margin: 10px;
 	}
 }
 
@@ -250,5 +262,16 @@ div.studio-song-search-results {
 	background: white;
 	height: calc(100% - 60px);
 	overflow-y: scroll;
+	padding: 0;
+}
+
+.studio-playlist-container {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+.studio-playlist-card {
+	background: white;
+	color: black;
 	padding: 0;
 }
