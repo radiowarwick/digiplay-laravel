@@ -2,7 +2,7 @@ div.studio-container {
 	padding: 0;
 }
 
-div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content, #messages, #music {
+div.studio-container, div.studio-container-row, div.studio-col-left, div.studio-col-right, div.studio-tab-content, #messages, #music, #log {
 	height: 100%;
 }
 
@@ -35,6 +35,7 @@ body.studio-body {
 	position: absolute;
 	width: 100%;
 	background: #b5b5b5;
+	user-select: none;
 }
 
 a.studio-tab {
@@ -174,6 +175,24 @@ div.studio-song-search-results {
 	}
 }
 
+#log {
+	.title, .artist {
+		width: 40%;
+	}
+
+	.date {
+		width: auto;
+	}
+
+	table {
+		table-layout: fixed;
+	}
+
+	table th {
+		border-top-width: 0;
+	}
+}
+
 .studio-card {
 	padding: 5px;
 	margin: 10px;
@@ -219,4 +238,17 @@ div.studio-song-search-results {
 .studio-showplan {
 	height: calc(100% - 42px);
 	overflow-y: scroll;
+}
+
+.studio-log-add {
+	height: 60px;
+	background: lighten($gray-800, 10%);
+	padding: 10px;
+}
+
+.studio-log-table {
+	background: white;
+	height: calc(100% - 60px);
+	overflow-y: scroll;
+	padding: 0;
 }

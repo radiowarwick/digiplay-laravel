@@ -9,6 +9,7 @@ use App\StudioLogin;
 use App\Email;
 use App\Showplan;
 use App\ShowplanItem;
+use App\Log;
 
 class StudioController extends Controller
 {
@@ -88,6 +89,7 @@ class StudioController extends Controller
 		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
 		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
 		$showplan = Showplan::find($showplan_id);
+		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
 
 		return view('studio.view')->with([
 			'key' => $key,
@@ -95,7 +97,8 @@ class StudioController extends Controller
 			'emails' => $emails,
 			'censor_start' => $censor_start,
 			'censor_end' => $censor_end,
-			'showplan' => $showplan
+			'showplan' => $showplan,
+			'log' => $log
 		]);
 	}
 
@@ -159,6 +162,23 @@ class StudioController extends Controller
 
 		$md5 = $item->audio->md5;
 		Config::updateLocationValue($request->get('location'), 'next_on_showplan', $md5);
+
+		return response()->json(['message' => 'success']);
+	}
+
+	public function postLog(Request $request, $key) {
+		$location = $request->get('location');
+		$artist = $request->get('artist');
+		$title = $request->get('title');
+
+		$log = new Log;
+		$log->audioid = null;
+		$log->location = $location;
+		$log->userid = auth()->user()->id;
+		$log->track_title = $title;
+		$log->track_artist = $artist;
+		$log->datetime = time();
+		$log->save();
 
 		return response()->json(['message' => 'success']);
 	}

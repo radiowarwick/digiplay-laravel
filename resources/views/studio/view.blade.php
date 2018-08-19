@@ -150,6 +150,35 @@
 								</p>
 							</div>
 						</div>
+						<div class="tab-pane" id="log" role="tabplanel">
+							<div class="container-fluid studio-log-add border-bottom border-warning">
+								<div class="form-inline studio-log-form">
+									<input type="text" class="form-control mr-sm-2 studio-log-artist" name="artist" class="studio-log-artist" placeholder="Artist">
+									<input type="text" class="form-control mr-sm-2 studio-log-title" name="title" class="studio-log-title" placeholder="Title">
+									<button type="button" class="btn btn-warning" name="submit-log">Log</button>
+								</div>
+							</div>
+							<div class="container-fluid studio-log-table">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="artist">Artist</th>
+											<th class="title">Title</th>
+											<th class="date">Date/Time</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($log as $log_entry)
+											<tr>
+												<td class="artist">{{ $log_entry->track_artist }}</td>
+												<td class="title">{{ $log_entry->track_title }}</td>
+												<td class="date">{{ date('d/m/y H:i', $log_entry->datetime) }}</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-5 studio-col-right">

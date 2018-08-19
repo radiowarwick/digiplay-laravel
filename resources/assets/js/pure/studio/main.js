@@ -131,6 +131,25 @@ function select_song(event) {
 	});
 }
 
+function log_song(event) {
+	artist = $(".studio-log-artist").val();
+	title = $(".studio-log-title").val();
+
+	if(artist.length > 0 && title.length > 0) {
+		data = {
+			"artist": artist,
+			"title": title
+		};
+
+		$.post(loc + "log", data, function(data){
+			if(data.message == "success") {
+				$(".studio-log-artist").val("");
+				$(".studio-log-title").val("");
+			}
+		});
+	}
+}
+
 function reset_message_binds() {
 	$("[data-message-id]").unbind("click");
 	$("[data-message-id]").click(view_message);
@@ -159,6 +178,8 @@ $(document).ready(function(){
 			search(event);
 	});
 	$(".btn-search").click(search);
+
+	$("[name='submit-log']").click(log_song);
 
 	loc = location.href;
 	if(loc.substr(loc.length - 1) != '/')
