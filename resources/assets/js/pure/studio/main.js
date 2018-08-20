@@ -184,7 +184,7 @@ $(document).ready(function(){
 
 	$(".studio-playlist-container").find("tr[data-audio-id]").dblclick(load_song);
 
-	$(".sender").each(function(){
+	$(".sender, .subject, #studio-message-subject").each(function(){
 		$(this).html(emojione.unicodeToImage($(this).html()));
 	});
 
