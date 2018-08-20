@@ -13805,6 +13805,19 @@ div.studio-message-container {
   height: 70%;
   overflow-y: scroll;
   background: white;
+  padding: 0;
+}
+
+div.studio-message-container h3 {
+  background: #5e5e5e;
+  color: white;
+  padding: 5px;
+  height: 45px;
+}
+
+div.studio-message-container p {
+  font-size: 1.2rem;
+  padding: 0 5px;
 }
 
 ul.studio-tabs {
@@ -13876,6 +13889,10 @@ div.studio-song-search-results {
   cursor: pointer;
 }
 
+#messages img.emojione {
+  max-width: 24px;
+}
+
 #music .icon,
 .studio-playlist-card .icon {
   width: 25px;
@@ -13945,6 +13962,11 @@ div.studio-song-search-results {
 #playlists .card {
   color: white;
   margin: 10px;
+  border-width: 0;
+}
+
+#playlists .card-header {
+  background: #5e5e5e !important;
 }
 
 .studio-card {

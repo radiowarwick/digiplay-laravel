@@ -145,7 +145,7 @@
 								</table>
 							</div>
 							<div class="container-fluid studio-message-container">
-								<h3 class="text-truncate" id="studio-message-subject"></h3>
+								<h3 class="text-truncate border-bottom border-warning border-3" id="studio-message-subject"></h3>
 								<p id="studio-message-body">
 								</p>
 							</div>

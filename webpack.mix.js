@@ -15,3 +15,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
 
 mix.copyDirectory('resources/assets/js/pure', 'public/js');
+mix.copyDirectory('node_modules/emojione-assets/png/32', 'public/img/emoji');

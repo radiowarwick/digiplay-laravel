@@ -78,7 +78,21 @@ div.studio-message-container {
 	height: 70%;
 	overflow-y: scroll;
 	background: white;
+	padding: 0;
+
+	h3 {
+		background: lighten($gray-800, 20%);
+		color: white;
+		padding: 5px;
+		height: 45px;
+	}
+	
+	p {
+		font-size: 1.2rem;
+		padding: 0 5px;
+	}
 }
+
 
 ul.studio-tabs {
 	height: 42px;
@@ -138,6 +152,10 @@ div.studio-song-search-results {
 
 	tbody tr:not(.active) {
 		cursor: pointer;
+	}
+
+	img.emojione {
+		max-width: 24px;
 	}
 }
 
@@ -202,6 +220,11 @@ div.studio-song-search-results {
 	.card {
 		color: white;
 		margin: 10px;
+		border-width: 0;
+	}
+
+	.card-header {
+		background: lighten($gray-800, 20%) !important;
 	}
 }
 

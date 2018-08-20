@@ -14,6 +14,7 @@ function view_message(event) {
 		$("#studio-message-subject").text(data.subject);
 		$("#studio-message-body").text(data.body);
 		$("#studio-message-body").html($("#studio-message-body").html().replace(/\n/g,'<br/>'));
+		$("#studio-message-body").html(emojione.unicodeToImage($("#studio-message-body").html()));
 
 		id = data.id;
 		$("[data-message-id]").removeClass("active");
@@ -182,6 +183,10 @@ $(document).ready(function(){
 	$("[name='submit-log']").click(log_song);
 
 	$(".studio-playlist-container").find("tr[data-audio-id]").dblclick(load_song);
+
+	$(".sender").each(function(){
+		$(this).html(emojione.unicodeToImage($(this).html()));
+	});
 
 	loc = location.href;
 	if(loc.substr(loc.length - 1) != '/')
