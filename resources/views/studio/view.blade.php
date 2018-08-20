@@ -260,12 +260,13 @@
 		<footer class="footer studio-footer bg-dark text-warning border-top border-warning border-3">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-3">
-						<div class="logo-sm">
+					<div class="logo-sm">
 							@include('layouts.logo')
-						</div>
 					</div>
-					<div class="col-sm-7"></div>
+					<div class="studio-time">
+						<h2>12:51:00 AM</h2>
+						<h5>Thursday 6th January</h5>
+					</div>
 					<div class="col-sm-2">
 						<a href="{{ route('studio-logout', $key) }}" class="btn btn-lg btn-block btn-warning pull-right">Log Out</a>
 					</div>

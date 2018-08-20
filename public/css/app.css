@@ -13751,6 +13751,15 @@ div.studio-now-next {
 
 footer.studio-footer {
   height: 75px;
+  padding: 0;
+}
+
+footer.studio-footer .logo-sm {
+  margin: 10px 0px 10px 20px;
+}
+
+footer.studio-footer .col-sm-2 {
+  margin: 10px 0 10px auto;
 }
 
 body.studio-body {
@@ -14038,6 +14047,11 @@ div.studio-song-search-results {
   background: white;
   color: black;
   padding: 0;
+}
+
+.studio-time h2,
+.studio-time h5 {
+  margin: 0;
 }
 
 .logo-lg {

@@ -160,7 +160,7 @@ function websocket_message(event) {
 			row = $("<tr></tr>");
 			row.append("<td class=\"artist text-truncate\">" + payload.track_artist + "</td>");
 			row.append("<td class=\"title text-truncate\">" + payload.track_title + "</td>");
-			row.append("<td class=\"date text-truncate\">" + moment().format("DD/MM/YY HH:MM") + "</td>");
+			row.append("<td class=\"date text-truncate\">" + moment().format("DD/MM/YY HH:mm") + "</td>");
 			table.prepend(row);
 		}
 	}
@@ -234,6 +234,11 @@ $(document).ready(function(){
 	$(".sender, .subject, #studio-message-subject").each(function(){
 		$(this).html(emojione.unicodeToImage($(this).html()));
 	});
+
+	setInterval(function(){ 
+		$('.studio-time h2').html(moment().format('hh:mm:ss A'));
+		$('.studio-time h5').html(moment().format('dddd Do MMMM YYYY'));
+	}, 1000);
 
 	ws = new WebSocket(WEBSOCKET);
 	ws.onmessage = websocket_message;
