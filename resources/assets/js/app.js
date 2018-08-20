@@ -5,9 +5,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-require('particles.js');
+window.bootstrap = require('./bootstrap');
+window.particles = require('particles.js');
+window.moment = require('moment');
 
-emojione = require('emojione');
+window.emojione = require('emojione');
 emojione.imageTitleTag = false;
 emojione.imagePathPNG = '/img/emoji/';

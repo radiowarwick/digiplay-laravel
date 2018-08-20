@@ -117,9 +117,25 @@ class StudioController extends Controller
 
 		return response()->json([
 			'id' => $email->id,
-			'subject' => $email->subject,
+			'subject' => strip_tags($email->subject),
 			'body' => strip_tags($email->body)
 		]);
+	}
+
+	public function getLatestMessages(Request $request, $key, $id) {
+		$emails = Email::where('id', '>', $id)->get();
+		$json = [];
+
+		foreach ($emails as $email) {
+			$json[] = [
+				'id' => $email->id,
+				'subject' => strip_tags($email->subject),
+				'sender' => strip_tags($email->sender),
+				'date' => date('d/m/y H:i', $email->datetime)
+			];
+		}
+
+		return response()->json($json);
 	}
 
 	public function getAddShowplan(Request $request, $key, $id) {

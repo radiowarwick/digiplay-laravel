@@ -151,6 +151,49 @@ function log_song(event) {
 	}
 }
 
+function websocket_message(event) {
+	data = JSON.parse(event.data);
+	if(data.channel == "t_log") {
+		payload = JSON.parse(data.payload);
+		if(payload.location == LOCATION) {
+			table = $("#log").find("tbody");
+			row = $("<tr></tr>");
+			row.append("<td class=\"artist text-truncate\">" + payload.track_artist + "</td>");
+			row.append("<td class=\"title text-truncate\">" + payload.track_title + "</td>");
+			row.append("<td class=\"date text-truncate\">" + moment().format("DD/MM/YY HH:MM") + "</td>");
+			table.prepend(row);
+		}
+	}
+	else if(data.channel == "t_messages") {
+		update_messages();
+	}
+}
+
+function update_messages() {
+	tab = $("[href='#messages']");
+	if(!tab.hasClass("active") && !tab.hasClass("studio-tab-flash")) {
+		tab.addClass("studio-tab-flash");
+	}
+
+	table = $("#messages").find("tbody");
+	recent_id = table.find("tr").first().attr("data-message-id");
+	$.get(loc + "messages/" + recent_id, function(data){
+		for(i = 0; i < data.length; i++) {
+			row = $("<tr data-message-id=\"" + data[i].id + "\"></tr>");
+			row.append("<td class=\"icon\"><i class=\"fa fa-envelope\"></i></td>");
+			row.append("<td class=\"sender\">" + emojione.unicodeToImage(data[i].sender) + "</td>");
+			row.append("<td class=\"subject\">" + emojione.unicodeToImage(data[i].subject) + "</td>");
+			row.append("<td class=\"date\">" + data[i].date + "</td>");
+			table.prepend(row);
+		}
+		reset_message_binds();
+	});
+}
+
+function message_stop_flash() {
+	$("[href='#messages']").removeClass("studio-tab-flash");
+}
+
 function reset_message_binds() {
 	$("[data-message-id]").unbind("click");
 	$("[data-message-id]").click(view_message);
@@ -170,6 +213,10 @@ function reset_showplan_binds() {
 }
 
 $(document).ready(function(){
+	loc = location.href;
+	if(loc.substr(loc.length - 1) != '/')
+		loc = loc + '/';
+	
 	reset_message_binds();
 	reset_showplan_binds();
 
@@ -181,14 +228,13 @@ $(document).ready(function(){
 	$(".btn-search").click(search);
 
 	$("[name='submit-log']").click(log_song);
-
 	$(".studio-playlist-container").find("tr[data-audio-id]").dblclick(load_song);
+	$("[href='#messages']").click(message_stop_flash);
 
 	$(".sender, .subject, #studio-message-subject").each(function(){
 		$(this).html(emojione.unicodeToImage($(this).html()));
 	});
 
-	loc = location.href;
-	if(loc.substr(loc.length - 1) != '/')
-		loc = loc + '/';
+	ws = new WebSocket(WEBSOCKET);
+	ws.onmessage = websocket_message;
 });

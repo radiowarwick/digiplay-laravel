@@ -15,6 +15,8 @@
 		<script type="text/javascript">
 			const CENSOR_START = {{ $censor_start }};
 			const CENSOR_END = {{ $censor_end }};
+			const WEBSOCKET = "{{ env('WEBSOCKET') }}";
+			const LOCATION = {{ $location }};
 		</script>
 
 		<div class="container-fluid studio-now-next border-bottom border-warning border-3">
@@ -216,9 +218,9 @@
 									<tbody>
 										@foreach($log as $log_entry)
 											<tr>
-												<td class="artist">{{ $log_entry->track_artist }}</td>
-												<td class="title">{{ $log_entry->track_title }}</td>
-												<td class="date">{{ date('d/m/y H:i', $log_entry->datetime) }}</td>
+												<td class="artist text-truncate">{{ $log_entry->track_artist }}</td>
+												<td class="title text-truncate">{{ $log_entry->track_title }}</td>
+												<td class="date text-truncate">{{ date('d/m/y H:i', $log_entry->datetime) }}</td>
 											</tr>
 										@endforeach
 									</tbody>
