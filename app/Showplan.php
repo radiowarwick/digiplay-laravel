@@ -20,4 +20,19 @@ class Showplan extends Model
 			$item->save();
 		}
 	}
+
+	public function permissions() {
+		return $this->hasMany('App\ShowplanPermission', 'showplan_id', 'id');
+	}
+
+	public function canEdit($user) {
+		if($user->hasPermission('Showplan admin'))
+			return true;
+
+		foreach($this->permissions as $permission) {
+			if($permission->user->username == $user->username)
+				return true;
+		}
+		return false;
+	}
 }

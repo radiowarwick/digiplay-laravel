@@ -33,4 +33,8 @@ class User extends Authenticatable
         else
             return $current_audiowall->val;
     }
+
+    public function showplans() {
+        // return $this->hasManyThrough('App\Showplan', 'App\ShowplanPermission', '')
+    }
 }

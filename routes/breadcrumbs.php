@@ -38,6 +38,13 @@ Breadcrumbs::for('audiowall-delete', function($trail, $set){
 	$trail->push('Delete', route('audiowall-settings', $set->id));
 });
 
+// Showplan pages
+
+Breadcrumbs::for('showplan-index', function($trail){
+	$trail->parent('index');
+	$trail->push('Showplans', route('showplan-index'));
+});
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){

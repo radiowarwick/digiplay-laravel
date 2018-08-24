@@ -65,6 +65,10 @@ Route::group(['middleware' => ['auth']], function(){
 
 	Route::post('/studio/{key}/log', 'StudioController@postLog');
 
+	// Showplans
+	Route::get('/showplan', 'ShowplanController@getIndex')->name('showplan-index');
+	Route::get('/showplan/{id}', 'ShowplanController@getEdit')->name('showplan-edit')->where('id', '[0-9]+');
+
 	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');
 });
