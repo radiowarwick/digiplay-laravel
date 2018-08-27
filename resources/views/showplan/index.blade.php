@@ -9,6 +9,14 @@
 @section('content')
 	<h1>Showplans</h1>
 
+	<p>
+		Showplans allow you to create a playlist of songs before your shows. Simply create a showplan, search for songs and add them. When you get into either studio you can load up your showplan after you've logged in.
+	</p>
+
+	<p>
+		Please note that if your showplan contains songs marked as explicit then they will not load before the watershed!
+	</p>
+
 	@if($can_create)
 		<form class="form-inline" method="POST" action="{{ route('showplan-create') }}">
 			{{ csrf_field() }}
@@ -30,6 +38,7 @@
 	<table class="table table-responsive">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Name</th>
 				<th>Edit</th>
 				<th>Settings</th>

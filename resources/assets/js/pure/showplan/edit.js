@@ -95,6 +95,10 @@ function add_item(event) {
 	$.get(loc + "add/" + id, function(data){
 		if(data.message == "success") {
 			row = $("<tr data-item-id=\"" + data.audio.item + "\"></tr>");
+			if(data.audio.censor == "f")
+				row.append("<td class=\"icon\"><i class=\"fa fa-music\"></i></td>");
+			else
+				row.append("<td class=\"text-danger icon\"><i class=\"fa fa-exclamation-circle\"></i></td>");
 			row.append("<td>" + data.audio.artist + "</td>");
 			row.append("<td>" + data.audio.title + "</td>");
 			row.append("<td>" + data.audio.album + "</td>");

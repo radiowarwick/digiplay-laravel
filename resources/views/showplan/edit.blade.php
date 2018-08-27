@@ -33,6 +33,7 @@
 	<table class="table table-showplan table-responsive">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Artist</th>
 				<th>Title</th>
 				<th>Album</th>
@@ -44,6 +45,11 @@
 		<tbody>
 			@foreach($showplan->items as $item)
 				<tr data-item-id="{{ $item->id }}">
+					@if($item->audio->censor == "f")
+						<td><i class="fa fa-music"></i></td>
+					@else
+						<td class="text-danger"><i class="fa fa-exclamation-circle"></i></td>
+					@endif
 					<td>{{ $item->audio->artist->name }}</td>
 					<td>{{ $item->audio->title }}</td>
 					<td>{{ $item->audio->album->name }}</td>
