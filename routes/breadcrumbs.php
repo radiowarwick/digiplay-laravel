@@ -45,6 +45,11 @@ Breadcrumbs::for('showplan-index', function($trail){
 	$trail->push('Showplans', route('showplan-index'));
 });
 
+Breadcrumbs::for('showplan-edit', function($trail, $showplan){
+	$trail->parent('showplan-index');
+	$trail->push($showplan->name, route('showplan-edit', $showplan->id));
+});
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){

@@ -68,6 +68,8 @@ Route::group(['middleware' => ['auth']], function(){
 	// Showplans
 	Route::get('/showplan', 'ShowplanController@getIndex')->name('showplan-index');
 	Route::get('/showplan/{id}', 'ShowplanController@getEdit')->name('showplan-edit')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/swap/{first_id}/{second_id}', 'ShowplanController@getSwapItems')->where('id', '[0-9]+')->where('first_id', '[0-9]+')->where('second_id', '[0-9]+');
+	Route::get('/showplan/{id}/remove/{item_id}', 'ShowplanController@getRemoveItem')->where('id', '[0-9]+')->where('item_id', '[0-9]+');
 
 	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');

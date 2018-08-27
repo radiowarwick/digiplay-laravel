@@ -3,7 +3,7 @@
 @section('title', 'Showplan - ' . $showplan->name)
 
 @section('breadcrumbs')
-	{{ Breadcrumbs::render('showplan-index') }}
+	{{ Breadcrumbs::render('showplan-edit', $showplan) }}
 @endsection
 
 @section('content')
@@ -22,15 +22,22 @@
 		</thead>
 		<tbody>
 			@foreach($showplan->items as $item)
-				<tr>
+				<tr data-item-id="{{ $item->id }}">
 					<td>{{ $item->audio->artist->name }}</td>
 					<td>{{ $item->audio->title }}</td>
 					<td>{{ $item->audio->album->name }}</td>
 					<td>{{ $item->audio->lengthString() }}</td>
-					<td></td>
-					<td></td>
+					<td class="text-warning">
+						<i class="fa fa-lg fa-arrow-circle-up showplan-move-up"></i>
+						<i class="fa fa-lg fa-arrow-circle-down showplan-move-down"></i>
+					</td>
+					<td>
+						<button class="btn btn-danger showplan-remove">Remove</button>
+					</td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
+
+	<script type="text/javascript" src="/js/showplan/edit.js"></script>
 @endsection
