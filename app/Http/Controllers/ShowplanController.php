@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\Showplan;
 use App\ShowplanItem;
@@ -96,6 +97,16 @@ class ShowplanController extends Controller
 		return redirect()->route('showplan-index');
 	}
 
+	public function getSettings(Request $request, $id) {
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()))
+			abort(403, 'Not authorised');
+
+		return view('showplan.settings')->with('showplan', $showplan);
+	}
+
 	public function postCreate(Request $request) {
 		$request->validate([
 			'name' => 'required'
@@ -118,5 +129,61 @@ class ShowplanController extends Controller
 		}
 		else
 			return redirect()->back()->withErrors(['You may only have 5 showplans at a time']);
+	}
+
+	public function postSettingName(Request $request, $id) {
+		$request->validate([
+			'name' => 'required'
+		]);
+
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()))
+			abort(403, 'Not authorised');
+
+		$showplan->name = $request->get('name');
+		$showplan->save();
+
+		return redirect()->back();
+	}
+
+	public function postSettingAdd(Request $request, $id) {
+		$request->validate([
+			'username' => [
+				'required',
+				'exists:users',
+				Rule::unique('showplan_permissions')->where(function($query) use (&$id){
+					return $query->where('showplan_id', $id);
+				})
+			],
+		]);
+
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()))
+			abort(403, 'Not authorised');
+
+		$permission = new ShowplanPermission;
+		$permission->username = $request->get('username');
+		$permission->level = 1;
+		$permission->showplan_id = $id;
+		$permission->save();
+
+		return redirect()->back();
+	}
+
+	public function getSettingRemove(Request $request, $id, $username) {
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()))
+			abort(403, 'Not authorised');
+
+		$permission = ShowplanPermission::where('username', $username)->where('showplan_id', $id)->where('level', 1)->first();
+		$permission->delete();
+
+		return redirect()->back();
 	}
 }

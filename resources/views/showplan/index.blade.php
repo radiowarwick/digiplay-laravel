@@ -39,12 +39,16 @@
 		<tbody>
 			@foreach($showplans as $showplan)
 				<tr>
-					<td>{{ $showplan->name }}</td>
 					<td>
-						<a class="btn btn-warning" href="#">Edit</a>
+						{{ $showplan->name }}
 					</td>
 					<td>
-						<a class="btn btn-warning" href="#">Settings</a>
+						<a class="btn btn-warning" href="{{ route('showplan-edit', $showplan->id) }}">Edit</a>
+					</td>
+					<td>
+						@if($showplan->isOwner(auth()->user()))
+							<a class="btn btn-warning" href="{{ route('showplan-settings', $showplan->id) }}">Settings</a>
+						@endif
 					</td>
 					<td>
 						@if($showplan->id > 4)

@@ -55,6 +55,11 @@ Breadcrumbs::for('showplan-delete', function($trail, $showplan){
 	$trail->push('Delete', route('showplan-delete', $showplan->id));
 });
 
+Breadcrumbs::for('showplan-settings', function($trail, $showplan){
+	$trail->parent('showplan-edit', $showplan);
+	$trail->push('Settings', route('showplan-settings', $showplan->id));
+});
+
 
 // Admin pages
 
