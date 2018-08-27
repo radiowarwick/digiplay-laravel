@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Showplan;
 use App\ShowplanItem;
+use App\ShowplanPermission;
 
 class ShowplanController extends Controller
 {
 	public function getIndex(Request $request) {
-		$showplans = Showplan::all();
+		$showplans = auth()->user()->showplans();
 
 		return view('showplan.index')->with('showplans', $showplans);
 	}
@@ -64,7 +65,31 @@ class ShowplanController extends Controller
 
 		$item->delete();
 		$showplan->reposition();
-		
+
 		return response()->json(['message' => 'success']);
+	}
+
+	public function postCreate(Request $request) {
+		$request->validate([
+			'name' => 'required'
+		]);
+
+		$user_showplan_count = count(ShowplanPermission::where('username', auth()->user()->username)->where('level', 2)->get());
+
+		if($user_showplan_count < 5 or auth()->user()->hasPermission('Showplan admin')) {
+			$showplan = new Showplan;
+			$showplan->name = $request->get('name');
+			$showplan->save();
+
+			$permission = new ShowplanPermission;
+			$permission->level = 2;
+			$permission->username = auth()->user()->username;
+			$permission->showplan_id = $showplan->id;
+			$permission->save();
+
+			return redirect()->route('showplan-edit', $showplan->id);
+		}
+		else
+			return redirect()->back()->withErrors(['You may only have 5 showplans at a time']);
 	}
 }

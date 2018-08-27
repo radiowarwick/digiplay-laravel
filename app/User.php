@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Adldap\Laravel\Facades\Adldap;
 
+use App\Showplan;
+
 class User extends Authenticatable
 {
 	use Notifiable;
@@ -35,6 +37,12 @@ class User extends Authenticatable
     }
 
     public function showplans() {
-        // return $this->hasManyThrough('App\Showplan', 'App\ShowplanPermission', '')
+        $showplans = Showplan::all();
+        $editable = [];
+        foreach($showplans as $showplan) {
+            if($showplan->canEdit($this))
+                $editable[] = $showplan; 
+        }
+        return collect($editable);
     }
 }

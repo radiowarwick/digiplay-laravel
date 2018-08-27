@@ -16,7 +16,6 @@ class CreateShowplansTable extends Migration
         Schema::create('new_showplans', function(Blueprint $table){
             $table->increments('id');
             $table->text('name');
-            $table->text('owner');
             $table->timestamps();
         });
 
@@ -30,22 +29,18 @@ class CreateShowplansTable extends Migration
 
         $showplan = new App\Showplan;
         $showplan->name = 'Studio 1';
-        $showplan->owner = 'cpowell';
         $showplan->save();
 
         $showplan = new App\Showplan;
         $showplan->name = 'Studio 2';
-        $showplan->owner = 'cpowell';
         $showplan->save();
 
         $showplan = new App\Showplan;
         $showplan->name = 'Studio 3';
-        $showplan->owner = 'cpowell';
         $showplan->save();
 
         $showplan = new App\Showplan;
         $showplan->name = 'Studio 4';
-        $showplan->owner = 'cpowell';
         $showplan->save();
     }
 
