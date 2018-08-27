@@ -131,4 +131,9 @@ $(document).ready(function(){
 	$(".showplan-remove").click(remove_item);
 
 	$(".btn-search").click(search);
+	$("[name='query']").keypress(function(event){
+		keycode = event.keyCode || event.which;
+		if(keycode == '13')
+			search(event);
+	});
 });
