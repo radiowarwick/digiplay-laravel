@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Showplan;
 use App\ShowplanItem;
 use App\ShowplanPermission;
+use App\Audio;
 
 class ShowplanController extends Controller
 {
@@ -54,7 +55,7 @@ class ShowplanController extends Controller
 		return response()->json(['message' => 'success']);
 	}
 
-	function getRemoveItem(Request $request, $id, $item_id) {
+	public function getRemoveItem(Request $request, $id, $item_id) {
 		$showplan = Showplan::find($id);
 		if(is_null($showplan))
 			abort(404, 'Page not found');
@@ -71,6 +72,34 @@ class ShowplanController extends Controller
 		$showplan->reposition();
 
 		return response()->json(['message' => 'success']);
+	}
+
+	public function getAddItem(Request $request, $id, $audio_id) {
+		$showplan = Showplan::find($id);
+		$audio = Audio::find($audio_id);
+		if(is_null($showplan) or is_null($audio))
+			abort(404, 'Page not found');
+		else if(!$showplan->canEdit(auth()->user()))
+			abort(403, 'Not authorised');
+
+		$item = new ShowplanItem;
+		$item->audio_id = $audio_id;
+		$item->showplan_id = $id;
+		$item->position = 9999;
+		$item->save();
+
+		$showplan->reposition();
+
+		return response()->json([
+			'message' => 'success',
+			'audio' => [
+				'title' => $audio->title,
+				'artist' => $audio->artist->name,
+				'album' => $audio->album->name,
+				'length' => $audio->lengthString(),
+				'item' => $item->id,
+				'censor' => $audio->censor
+		]]);
 	}
 
 	public function getDelete(Request $request, $id) {

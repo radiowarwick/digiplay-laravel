@@ -1,0 +1,19 @@
+.showplan-search-results {
+	table-layout: fixed;
+
+	.icon {
+		width: 25px;
+	}
+
+	.artist, .title, .album {
+		width: 25%;
+	}
+
+	.length {
+		width: 10%;
+	}
+
+	.add {
+		width: auto;
+	}
+}

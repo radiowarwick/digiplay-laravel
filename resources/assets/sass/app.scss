@@ -17,6 +17,7 @@
 @import "_nav";
 @import "_audiowall";
 @import "_studio";
+@import "_showplan";
 
 // Logo
 @import "logo";
@@ -85,4 +86,8 @@ body {
 	.card-title {
 		color: $yellow;
 	}
+}
+
+.modal-very-lg {
+	max-width: 80%;
 }

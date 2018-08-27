@@ -14054,6 +14054,28 @@ div.studio-song-search-results {
   margin: 0;
 }
 
+.showplan-search-results {
+  table-layout: fixed;
+}
+
+.showplan-search-results .icon {
+  width: 25px;
+}
+
+.showplan-search-results .artist,
+.showplan-search-results .title,
+.showplan-search-results .album {
+  width: 25%;
+}
+
+.showplan-search-results .length {
+  width: 10%;
+}
+
+.showplan-search-results .add {
+  width: auto;
+}
+
 .logo-lg {
   height: 200px;
   display: block;
@@ -14153,5 +14175,9 @@ body {
 
 .card .card-title {
   color: #d8b222;
+}
+
+.modal-very-lg {
+  max-width: 80%;
 }
 

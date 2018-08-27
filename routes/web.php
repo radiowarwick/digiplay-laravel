@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/showplan/{id}/delete/yes', 'ShowplanController@getDeleteYes')->name('showplan-delete-yes')->where('id', '[0-9]+');
 	Route::get('/showplan/{id}/settings', 'ShowplanController@getSettings')->name('showplan-settings')->where('id', '[0-9]+');
 	Route::get('/showplan/{id}/settings/remove/{username}', 'ShowplanController@getSettingRemove')->name('showplan-setting-remove')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/add/{audio_id}', 'ShowplanController@getAddItem')->where('id', '[0-9]+')->where('audio_id', '[0-9]+');
 
 	Route::post('/showplan/create', 'ShowplanController@postCreate')->name('showplan-create');
 	Route::post('/showplan/{id}/settings/name', 'ShowplanController@postSettingName')->name('showplan-setting-name');
