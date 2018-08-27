@@ -13,7 +13,10 @@ class ShowplanController extends Controller
 	public function getIndex(Request $request) {
 		$showplans = auth()->user()->showplans();
 
-		return view('showplan.index')->with('showplans', $showplans);
+		$user_showplan_count = count(ShowplanPermission::where('username', auth()->user()->username)->where('level', 2)->get());
+		$can_create = ($user_showplan_count < 5 or auth()->user()->hasPermission('Showplan admin'));
+
+		return view('showplan.index')->with('showplans', $showplans)->with('can_create', $can_create);
 	}
 
 	public function getEdit(Request $request, $id) {
@@ -67,6 +70,30 @@ class ShowplanController extends Controller
 		$showplan->reposition();
 
 		return response()->json(['message' => 'success']);
+	}
+
+	public function getDelete(Request $request, $id) {
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()) or $showplan->id <= 4)
+			abort(403, 'Not authorised');
+
+		return view('showplan.delete')->with('showplan', $showplan);
+	}
+
+	public function getDeleteYes(Request $request, $id) {
+		$showplan = Showplan::find($id);
+		if(is_null($showplan))
+			abort(404, 'Page not found');
+		else if(!$showplan->isOwner(auth()->user()) or $showplan->id <= 4)
+			abort(403, 'Not authorised');
+
+		$showplan->permissions()->delete();
+		$showplan->items()->delete();
+		$showplan->delete();
+
+		return redirect()->route('showplan-index');
 	}
 
 	public function postCreate(Request $request) {

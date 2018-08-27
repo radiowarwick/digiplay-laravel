@@ -70,6 +70,8 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/showplan/{id}', 'ShowplanController@getEdit')->name('showplan-edit')->where('id', '[0-9]+');
 	Route::get('/showplan/{id}/swap/{first_id}/{second_id}', 'ShowplanController@getSwapItems')->where('id', '[0-9]+')->where('first_id', '[0-9]+')->where('second_id', '[0-9]+');
 	Route::get('/showplan/{id}/remove/{item_id}', 'ShowplanController@getRemoveItem')->where('id', '[0-9]+')->where('item_id', '[0-9]+');
+	Route::get('/showplan/{id}/delete', 'ShowplanController@getDelete')->name('showplan-delete')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/delete/yes', 'ShowplanController@getDeleteYes')->name('showplan-delete-yes')->where('id', '[0-9]+');
 
 	Route::post('/showplan/create', 'ShowplanController@postCreate')->name('showplan-create');
 

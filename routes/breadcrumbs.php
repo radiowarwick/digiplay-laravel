@@ -50,6 +50,12 @@ Breadcrumbs::for('showplan-edit', function($trail, $showplan){
 	$trail->push($showplan->name, route('showplan-edit', $showplan->id));
 });
 
+Breadcrumbs::for('showplan-delete', function($trail, $showplan){
+	$trail->parent('showplan-edit', $showplan);
+	$trail->push('Delete', route('showplan-delete', $showplan->id));
+});
+
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){

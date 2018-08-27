@@ -35,4 +35,16 @@ class Showplan extends Model
 		}
 		return false;
 	}
+
+	public function isOwner($user) {
+		if($user->hasPermission('Showplan admin'))
+			return true;
+	
+		foreach($this->permissions as $permission) {
+			if($permission->user->username == $user->username and $permission->level == 2)
+				return true;
+		}
+		return false;
+
+	}
 }
