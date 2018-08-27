@@ -38,7 +38,6 @@
 	<table class="table table-responsive">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Name</th>
 				<th>Edit</th>
 				<th>Settings</th>
