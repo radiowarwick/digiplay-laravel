@@ -14,6 +14,13 @@
 if(!is_null(env('BASE_URL', null)))
 	URL::forceRootUrl(env('BASE_URL'));
 
+Route::get('/', function(){
+	return view('index');
+})->middleware('auth')->name('index');
+
+Route::get('/studio/{key}/login', 'StudioController@getLogin')->name('studio-login');
+Route::post('/studio/{key}/login', 'StudioController@postLogin')->name('studio-login-post');
+
 Route::group(['middleware' => ['web']], function(){ 
 	Route::get('/login', 'AuthController@getLogin')->name('login');
 	Route::post('/login', 'AuthController@postLogin')->name('login-post');
@@ -50,8 +57,34 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/audiowall/{id}/save', 'AudiowallController@postSaveAudiowall')->name('audiowall-save')->where('id', '[0-9]+');
 	Route::post('/audiowall/create', 'AudiowallController@postCreateAudiowall')->name('audiowall-create');
 
-	// API/AJAX call
+	// Studio Interface
+	Route::get('/studio/{key}', 'StudioController@getView')->name('studio-view');
+	Route::get('/studio/{key}/logout', 'StudioController@getLogout')->name('studio-logout');
+	Route::get('/studio/{key}/message/{id}', 'StudioController@getMessage')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/messages/{id}', 'StudioController@getLatestMessages')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/addplan/{id}', 'StudioController@getAddShowplan')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/removeplan/{id}', 'StudioController@getRemoveShowplan')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/selectitem/{id}', 'StudioController@getSelectShowplanItem')->where('id', '[0-9]+');
 
+	Route::post('/studio/{key}/log', 'StudioController@postLog');
+	Route::post('/studio/{key}/loadplan', 'StudioController@postLoadShowplan')->name('studio-load-plan');
+
+	// Showplans
+	Route::get('/showplan', 'ShowplanController@getIndex')->name('showplan-index');
+	Route::get('/showplan/{id}', 'ShowplanController@getEdit')->name('showplan-edit')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/swap/{first_id}/{second_id}', 'ShowplanController@getSwapItems')->where('id', '[0-9]+')->where('first_id', '[0-9]+')->where('second_id', '[0-9]+');
+	Route::get('/showplan/{id}/remove/{item_id}', 'ShowplanController@getRemoveItem')->where('id', '[0-9]+')->where('item_id', '[0-9]+');
+	Route::get('/showplan/{id}/delete', 'ShowplanController@getDelete')->name('showplan-delete')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/delete/yes', 'ShowplanController@getDeleteYes')->name('showplan-delete-yes')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/settings', 'ShowplanController@getSettings')->name('showplan-settings')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/settings/remove/{username}', 'ShowplanController@getSettingRemove')->name('showplan-setting-remove')->where('id', '[0-9]+');
+	Route::get('/showplan/{id}/add/{audio_id}', 'ShowplanController@getAddItem')->where('id', '[0-9]+')->where('audio_id', '[0-9]+');
+
+	Route::post('/showplan/create', 'ShowplanController@postCreate')->name('showplan-create');
+	Route::post('/showplan/{id}/settings/name', 'ShowplanController@postSettingName')->name('showplan-setting-name');
+	Route::post('/showplan/{id}/settings/add', 'ShowplanController@postSettingAdd')->name('showplan-setting-add');
+
+	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');
 });
 
@@ -67,5 +100,10 @@ Route::group(['middleware' => ['permission']], function(){
 		Route::post('/admin/groups/{id}/permission', 'Admin\GroupController@postPermission')->name('admin-group-permission-post')->where('id', '[0-9]+');
 		Route::post('/admin/groups/{id}/members/add', 'Admin\GroupController@postAddMember')->name('admin-group-member-add-post')->where('id', '[0-9]+');
 		Route::get('/admin/groups/{id}/members/remove/{username}', 'Admin\GroupController@getRemoveMember')->name('admin-group-member-remove')->where('id', '[0-9]+');
+	});
+
+	Route::group(['middleware' => ['permission:Can view studio logins']], function(){
+		Route::get('/admin/studio/', 'Admin\StudioLoginController@getIndex')->name('admin-studio-index');
+		Route::post('/admin/studio/', 'Admin\StudioLoginController@postIndex')->name('admin-studio-index');
 	});
 });

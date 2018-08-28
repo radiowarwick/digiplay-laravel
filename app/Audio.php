@@ -44,7 +44,7 @@ class Audio extends Model
         return ($this->end_smpl - $this->start_smpl) / 44100;
     }
 
-    public function length_string() {
+    public function lengthString() {
         $length = $this->length();
         $string = '';
 
@@ -70,6 +70,7 @@ class Audio extends Model
     *   "query"     =>  (string) name to search
     *   "type"      =>  (array) types to search, as string, Song, Prerec, Jingle, Advert
     *   "filter"    =>  (array) types of filter, as string, title, artist, album
+    *   "censor"    =>  (boolean) true to include censored tracks
     */
     public function scopeSearch($query, $params) {
         $allowed_types = [null, 'Music', 'Jingle', 'Advert', 'Prerec'];
@@ -100,6 +101,10 @@ class Audio extends Model
                 $query->join('albums', 'audio.music_album', '=', 'albums.id');
             }
         }
+
+        // Apply filter if param is not set or (if set) value is not "false"
+        if(!(isset($params['censor']) and $params['censor'] == "false"))
+            $query->where('censor', 'f');
 
         // do filter wheres
         $query->where(function($query) use (&$filters, &$strip_query){
