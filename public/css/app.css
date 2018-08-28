@@ -14081,6 +14081,15 @@ div.studio-song-search-results {
   width: auto;
 }
 
+.audio-progress {
+  margin: 5px 0;
+  height: 25px;
+}
+
+.audio-progress .progress-bar {
+  padding: 0 5px;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

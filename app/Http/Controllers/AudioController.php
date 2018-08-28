@@ -73,4 +73,8 @@ class AudioController extends Controller
 
         return view('audio.upload');
     }
+
+    public function postUplad(Request $request) {
+        
+    }
 }
