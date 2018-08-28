@@ -231,7 +231,26 @@
 				</div>
 				<div class="col-sm-5 studio-col-right">
 					<div class="studio-showplan-header">
-						<h3>Plan - Default</h3>
+						<form class="form-inline" method="POST" action="{{ route('studio-load-plan', $key) }}">
+							<h2 class="mb-2 mr-sm-2">Plan</h2>
+							@if(count($showplans) > 0)
+								<select class="form-control mb-2 mr-sm-2" name="showplan">
+									<option value="0">
+										Select plan to load
+									</option>
+										@foreach($showplans as $showplan_iteration)
+											@if($showplan_iteration->id > 4)
+												<option value="{{ $showplan_iteration->id }}">
+													{{ $showplan_iteration->name }}
+												</option>
+											@endif
+										@endforeach
+								</select>
+								<button class="btn btn-warning mb-2" type="submit">Load</button>
+							@else
+								<h5 class="mb-2">No showplans to load</h5>
+							@endif
+						</form>
 					</div>
 					<div class="studio-showplan">
 						@foreach($showplan->items as $item)

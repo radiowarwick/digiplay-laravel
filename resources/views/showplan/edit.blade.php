@@ -7,7 +7,14 @@
 @endsection
 
 @section('content')
-	<h1>Showplan - {{ $showplan->name }}</h1>
+	<div class="row">
+		<div class="col-sm-10">
+			<h1 class="text-truncate">Showplan - {{ $showplan->name }}</h1>
+		</div>
+		<div class="col-sm-2">
+			<a href="{{ route('showplan-settings', $showplan->id) }}" class="btn btn-warning">Settings</a>
+		</div>
+	</div>
 
 	<div class="input-group">
 		<input class="form-control" type="text" name="query" placeholder="Search...">

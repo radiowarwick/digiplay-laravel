@@ -92,6 +92,7 @@ class StudioController extends Controller
 		$showplan = Showplan::find($showplan_id);
 		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
 		$playlists = Playlist::studio()->get();
+		$showplans = auth()->user()->showplans();
 
 		return view('studio.view')->with([
 			'key' => $key,
@@ -101,7 +102,8 @@ class StudioController extends Controller
 			'censor_end' => $censor_end,
 			'showplan' => $showplan,
 			'log' => $log,
-			'playlists' => $playlists
+			'playlists' => $playlists,
+			'showplans' => $showplans
 		]);
 	}
 
@@ -200,5 +202,34 @@ class StudioController extends Controller
 		$log->save();
 
 		return response()->json(['message' => 'success']);
+	}
+
+	public function postLoadShowplan(Request $request, $key) {
+		$location = $request->get('location');
+		$showplan = Showplan::find($request->get('showplan'));
+
+		if(!is_null($showplan) and $showplan->canEdit(auth()->user())) {
+			$studio_showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+			$studio_showplan = Showplan::find($studio_showplan_id);
+			$studio_showplan->items()->delete();
+
+			$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
+			$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
+			$hour = (int) date('H');
+			$censor_period = ($hour >= $censor_start && $hour < $censor_end);
+
+			$i = 1;
+			foreach($showplan->items as $item) {
+				if(!$censor_period or $item->audio->censor == 'f') {
+					$new_item = new ShowplanItem;
+					$new_item->showplan_id = $studio_showplan_id;
+					$new_item->audio_id = $item->audio_id;
+					$new_item->position = $i++;
+					$new_item->save();
+				}
+			}
+		}
+
+		return redirect()->route('studio-view', $key);
 	}
 }

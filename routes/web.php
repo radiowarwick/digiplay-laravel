@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/studio/{key}/selectitem/{id}', 'StudioController@getSelectShowplanItem')->where('id', '[0-9]+');
 
 	Route::post('/studio/{key}/log', 'StudioController@postLog');
+	Route::post('/studio/{key}/loadplan', 'StudioController@postLoadShowplan')->name('studio-load-plan');
 
 	// Showplans
 	Route::get('/showplan', 'ShowplanController@getIndex')->name('showplan-index');
