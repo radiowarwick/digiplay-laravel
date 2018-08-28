@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Adldap\Laravel\Facades\Adldap;
 
+use App\Showplan;
+
 class User extends Authenticatable
 {
 	use Notifiable;
@@ -29,8 +31,18 @@ class User extends Authenticatable
     public function audiowall() {
         $current_audiowall = UserConfig::where('userid', $this->id)->where('configid', 1)->first();
         if(is_null($current_audiowall))
-            return -1;
+            return 0;
         else
             return $current_audiowall->val;
+    }
+
+    public function showplans() {
+        $showplans = Showplan::all();
+        $editable = [];
+        foreach($showplans as $showplan) {
+            if($showplan->canEdit($this))
+                $editable[] = $showplan; 
+        }
+        return collect($editable);
     }
 }

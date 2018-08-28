@@ -13718,6 +13718,369 @@ ol.breadcrumb li.active {
   font-size: 1.5rem;
 }
 
+div.studio-container {
+  padding: 0;
+}
+
+div.studio-container,
+div.studio-container-row,
+div.studio-col-left,
+div.studio-col-right,
+div.studio-tab-content,
+#messages,
+#music,
+#log,
+#playlists {
+  height: 100%;
+}
+
+div.studio-col-left {
+  padding-top: 42px;
+}
+
+div.studio-now-next {
+  font-size: 1.4rem;
+  color: #d8b222;
+  background: #2b2b2b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 60px;
+  position: fixed;
+  top: 0;
+}
+
+footer.studio-footer {
+  height: 75px;
+  padding: 0;
+}
+
+footer.studio-footer .logo-sm {
+  margin: 10px 0px 10px 20px;
+}
+
+footer.studio-footer .col-sm-2 {
+  margin: 10px 0 10px auto;
+}
+
+body.studio-body {
+  padding-top: 60px;
+  padding-bottom: 75px;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  background: #b5b5b5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+a.studio-tab {
+  background: #5e5e5e !important;
+  border: solid #d8b222 1px !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+  border-top-width: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+a.studio-tab.active {
+  color: #d8b222 !important;
+  background: #454444 !important;
+  border-left-width: 1px !important;
+  border-right-width: 1px !important;
+  border-top-width: 1px !important;
+  border-bottom-width: 0 !important;
+}
+
+a.studio-tab.studio-reset {
+  background: #dc3545 !important;
+}
+
+a.studio-tab:hover {
+  border-color: #d8b222;
+}
+
+div.studio-message-list {
+  height: 30%;
+  overflow-y: scroll;
+  padding: 0;
+  background: #454444;
+  color: white;
+}
+
+div.studio-message-container {
+  height: 70%;
+  overflow-y: scroll;
+  background: white;
+  padding: 0;
+}
+
+div.studio-message-container h3 {
+  background: #5e5e5e;
+  color: white;
+  padding: 5px;
+  height: 45px;
+}
+
+div.studio-message-container p {
+  font-size: 1.2rem;
+  padding: 0 5px;
+}
+
+ul.studio-tabs {
+  height: 42px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+a.studio-tab-flash {
+  -webkit-animation: kf-studio-tab-flash 2s steps(1, start) infinite;
+          animation: kf-studio-tab-flash 2s steps(1, start) infinite;
+}
+
+@-webkit-keyframes kf-studio-tab-flash {
+  50% {
+    background: #d8b222;
+    color: #2b2b2b;
+  }
+}
+
+@keyframes kf-studio-tab-flash {
+  50% {
+    background: #d8b222;
+    color: #2b2b2b;
+  }
+}
+
+div.studio-song-search {
+  padding: 10px 10px 0px 10px;
+  height: 80px;
+  background: #454444;
+}
+
+div.studio-song-search-results {
+  height: calc(100% - 80px);
+  overflow-y: scroll;
+  background: white;
+}
+
+#messages .icon {
+  width: 25px;
+  color: #d8b222;
+}
+
+#messages .sender,
+#messages .date {
+  width: 20%;
+}
+
+#messages .subject {
+  width: auto;
+}
+
+#messages table {
+  table-layout: fixed;
+}
+
+#messages .active,
+#messages .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+#messages table th {
+  border-top-width: 0;
+}
+
+#messages tbody tr:not(.active) {
+  cursor: pointer;
+}
+
+#messages img.emojione {
+  max-width: 24px;
+}
+
+#music .icon,
+.studio-playlist-card .icon {
+  width: 25px;
+}
+
+#music .censor,
+.studio-playlist-card .censor {
+  color: #dc3545;
+}
+
+#music .title,
+#music .artist,
+#music .album,
+.studio-playlist-card .title,
+.studio-playlist-card .artist,
+.studio-playlist-card .album {
+  width: 25%;
+}
+
+#music .length,
+.studio-playlist-card .length {
+  width: auto;
+}
+
+#music table,
+.studio-playlist-card table {
+  table-layout: fixed;
+}
+
+#music table th,
+.studio-playlist-card table th {
+  border-top-width: 0;
+}
+
+#music tbody tr,
+.studio-playlist-card tbody tr {
+  cursor: pointer;
+}
+
+#music label,
+.studio-playlist-card label {
+  color: white;
+}
+
+#log .title,
+#log .artist {
+  width: 35%;
+}
+
+#log .date {
+  width: auto;
+}
+
+#log table {
+  table-layout: fixed;
+}
+
+#log table th {
+  border-top-width: 0;
+}
+
+#playlists .card-icon {
+  color: #d8b222;
+  display: inline;
+}
+
+#playlists .card {
+  color: white;
+  margin: 10px;
+  border-width: 0;
+}
+
+#playlists .card-header {
+  background: #5e5e5e !important;
+}
+
+.studio-card {
+  padding: 5px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: white;
+  background: #5e5e5e !important;
+}
+
+.studio-card .card-body {
+  padding: 0;
+}
+
+.studio-card .studio-card-remove {
+  color: #d8b222;
+}
+
+.studio-card .censor {
+  color: #dc3545;
+}
+
+.studio-card:hover {
+  background: #2b2b2b !important;
+}
+
+.studio-card.active {
+  background: #d8b222 !important;
+  color: #2b2b2b;
+  cursor: default;
+}
+
+.studio-card.active .studio-card-remove {
+  color: #2b2b2b;
+}
+
+.studio-showplan-header {
+  height: 60px;
+  border-bottom: solid #d8b222 3px;
+  background: #454444;
+  color: white;
+  padding: 7px 0;
+}
+
+.studio-showplan-header select {
+  max-width: 50%;
+}
+
+.studio-showplan {
+  height: calc(100% - 60px);
+  overflow-y: scroll;
+}
+
+.studio-log-add {
+  height: 60px;
+  background: #454444;
+  padding: 10px;
+}
+
+.studio-log-table {
+  background: white;
+  height: calc(100% - 60px);
+  overflow-y: scroll;
+  padding: 0;
+}
+
+.studio-playlist-container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.studio-playlist-card {
+  background: white;
+  color: black;
+  padding: 0;
+}
+
+.studio-time h2,
+.studio-time h5 {
+  margin: 0;
+}
+
+.showplan-search-results {
+  table-layout: fixed;
+}
+
+.showplan-search-results .icon {
+  width: 25px;
+}
+
+.showplan-search-results .artist,
+.showplan-search-results .title,
+.showplan-search-results .album {
+  width: 25%;
+}
+
+.showplan-search-results .length {
+  width: 10%;
+}
+
+.showplan-search-results .add {
+  width: auto;
+}
+
 .logo-lg {
   height: 200px;
   display: block;
@@ -13817,5 +14180,9 @@ body {
 
 .card .card-title {
   color: #d8b222;
+}
+
+.modal-very-lg {
+  max-width: 80%;
 }
 

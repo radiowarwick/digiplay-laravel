@@ -38,6 +38,29 @@ Breadcrumbs::for('audiowall-delete', function($trail, $set){
 	$trail->push('Delete', route('audiowall-settings', $set->id));
 });
 
+// Showplan pages
+
+Breadcrumbs::for('showplan-index', function($trail){
+	$trail->parent('index');
+	$trail->push('Showplans', route('showplan-index'));
+});
+
+Breadcrumbs::for('showplan-edit', function($trail, $showplan){
+	$trail->parent('showplan-index');
+	$trail->push($showplan->name, route('showplan-edit', $showplan->id));
+});
+
+Breadcrumbs::for('showplan-delete', function($trail, $showplan){
+	$trail->parent('showplan-edit', $showplan);
+	$trail->push('Delete', route('showplan-delete', $showplan->id));
+});
+
+Breadcrumbs::for('showplan-settings', function($trail, $showplan){
+	$trail->parent('showplan-edit', $showplan);
+	$trail->push('Settings', route('showplan-settings', $showplan->id));
+});
+
+
 // Admin pages
 
 Breadcrumbs::for('admin-index', function($trail){
@@ -60,4 +83,11 @@ Breadcrumbs::for('admin-group-members', function($trail, $group_id){
 Breadcrumbs::for('admin-group-permission', function($trail, $group_id){
 	$trail->parent('admin-group-index');
 	$trail->push('Permissions', route('admin-group-permission', $group_id));
+});
+
+// Admin Studio Logins
+
+Breadcrumbs::for('admin-studio-index', function($trail){
+	$trail->parent('admin-index');
+	$trail->push('Studio Logins');
 });

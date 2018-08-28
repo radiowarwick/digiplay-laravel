@@ -197,6 +197,7 @@ function delete_move(event) {
 			items.find(".audiowall-move-only").css("visibility", "visible");			
 		}
 		items.find(".audiowall-settings").css("visibility", "visible");
+		$("[data-wall-audio-id='']").find(".audiowall-move-only").css("visibility", "hidden");
 		items.find(".audiowall-time").show();
 
 		item_undim_all();

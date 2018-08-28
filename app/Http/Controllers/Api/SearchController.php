@@ -13,7 +13,12 @@ class SearchController extends Controller
 			'query' => 'required'
 		]);
 
-		$results = Audio::search($request)->limit(25)->get();
+		if(is_null($request->get('limit')))
+			$limit = 25;
+		else
+			$limit = $request->get('limit');
+
+		$results = Audio::search($request)->limit($limit)->get();
 
 		$json = [];
 		foreach($results as $result) {
@@ -24,7 +29,8 @@ class SearchController extends Controller
 			$entry['album'] = $result->album->name;
 			$entry['type'] = $result->type;
 			$entry['length'] = $result->length();
-			$entry['length_string'] = $result->length_string();
+			$entry['length_string'] = $result->lengthString();
+			$entry['censor'] = $result->censor;
 
 			$json[] = $entry;
 		}

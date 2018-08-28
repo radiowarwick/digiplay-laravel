@@ -20,13 +20,17 @@ class CreateAudiowallPermissionTable extends Migration
     {
         Schema::dropIfExists('aw_sets_permissions');
 
+        if(Schema::hasTable('v_audiowalls'))
+            DB::statement('DROP VIEW v_audiowalls');
+
+        Schema::dropIfExists('aw_styles_props');
         Schema::table('aw_items', function (Blueprint $table){
             $table->dropColumn('style_id');
         });
-
-        Schema::dropIfExists('aw_styles_props');
-        Schema::dropIfExists('aw_styles');
         Schema::dropIfExists('aw_props');
+        Schema::dropIfExists('aw_styles');
+        
+
 
         if(!Schema::hasTable('aw_set_permissions')) {
             Schema::create('aw_set_permissions', function(Blueprint $table){
@@ -78,8 +82,6 @@ class CreateAudiowallPermissionTable extends Migration
         }
         Schema::dropIfExists('aw_sets_owner');
 
-        if(Schema::hasTable('v_audiowalls'))
-            DB::statement('DROP VIEW v_audiowalls');
         DB::statement('CREATE VIEW v_audiowalls AS
             SELECT audio.md5,
                 audio.filetype AS type,

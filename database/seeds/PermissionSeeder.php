@@ -24,6 +24,10 @@ class PermissionSeeder extends Seeder
             'name' => 'Audiowall admin',
         ]);
 
+        DB::table('permissions')->insert([
+            'name' => 'Can view studio logins'
+        ]);
+
     	DB::table('group_permissions')->insert([
     		'group_id' => 1,
     		'permission_id' => 1,
