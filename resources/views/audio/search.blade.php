@@ -20,12 +20,12 @@
 	  		<th class="artist">Artist</th>
 	  		<th class="album">Album</th>
 	  		<th class="length">Length</th>
-        @foreach($results as $r)
+        @foreach($results as $result)
           <tr>
-            <td class="title"> {{ $r->title }} </td>
-            <td class="artist"> {{ $r->artist->name }} </td>
-            <td class="album"> {{ $r->album->name }} </td>
-            <td class="length">  2m </td>
+            <td class="title"> {{ $result->title }} </td>
+            <td class="artist"> {{ $result->artist->name }} </td>
+            <td class="album"> {{ $result->album->name }} </td>
+            <td class="length">  {{ $result->lengthString() }} </td>
            </td>
           </tr>
         @endforeach
