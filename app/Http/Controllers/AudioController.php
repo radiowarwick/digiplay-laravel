@@ -66,4 +66,11 @@ class AudioController extends Controller
             'Accept-Ranges' => 'bytes'
         ]);
     }
+
+    public function getUpload(Request $request) {
+        if(!auth()->user()->hasPermission('Audio upload'))
+            abort(403, 'Not authorised');
+
+        return view('audio.upload');
+    }
 }
