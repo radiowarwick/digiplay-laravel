@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@yield('title', 'Audio Upload')
+@section('title', 'Audio Upload')
 
 @section('breadcrumbs')
 	{{ Breadcrumbs::render('audio-upload') }}
