@@ -21,8 +21,8 @@
 
 		<div class="container-fluid studio-now-next border-bottom border-warning border-3">
 			<div class="row">
-				<div class="col-sm-6">On now: RAW Jukebox</div>
-				<div class="col-sm-6">On next: RAW Jukebox</div>
+{{-- 				<div class="col-sm-6">On now: RAW Jukebox</div>
+				<div class="col-sm-6">On next: RAW Jukebox</div> --}}
 			</div>
 		</div>
 
