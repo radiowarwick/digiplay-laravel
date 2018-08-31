@@ -6,7 +6,9 @@ function upload(event) {
 		$("#btn-upload").attr("disabled", "disabled");
 		$("input[name=\"file\"]").attr("disabled", "disabled");
 
-		form_data = new FormData($("#form-upload"));
+		form_data = new FormData();
+		form_data.append("file", $("#form-upload").find("[name=\"file\"]").get(0).files[0]);
+		form_data.append("_token", $("#form-upload").find("[name=\"_token\"]").val());
 
 		$.ajax({
 			url: "/audio/upload",
@@ -27,10 +29,15 @@ function upload(event) {
 	}
 }
 
+function uploaded(event) {
+	console.log("UPLOADED");
+}
+
 function progress_update(event) {
 	if(event.lengthComputable) {
-		percent = Math.round((event.loaded / event.total) * 100);
-		$(".progress-bar").style("width", percent + "%");
+		percent = Math.round((event.loaded / event.total) * 100) + "%";
+		$(".progress-bar").css("width", percent);
+		$(".progress-bar").text(percent);
 	}
 }
 

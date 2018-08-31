@@ -14090,6 +14090,11 @@ div.studio-song-search-results {
   padding: 0 5px;
 }
 
+.audio-upload-card-body {
+  background: white;
+  color: black;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

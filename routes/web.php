@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio upload
 	Route::get('/audio/upload', 'AudioController@getUpload')->name('audio-upload');
 
+	Route::post('/audio/upload', 'AudioController@postUpload');
+
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
 
