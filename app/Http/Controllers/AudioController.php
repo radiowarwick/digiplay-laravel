@@ -115,7 +115,12 @@ class AudioController extends Controller
 			]);
 		}
 
-		$path = $request->file('file')->store('uploads');
+		$original_filename = $request->file('file')->getClientOriginalName();
+		$original_filename = $this->normalizeString($original_filename);
+		$dot = strpos($original_filename, '.');
+		$original_filename = substr_replace($original_filename, ' ' . mt_rand(1, 1000), $dot, 0);
+
+		$path = $request->file('file')->storeAs('uploads', $original_filename);
 		$path = storage_path('app/' . $path);
 		$metadata = $this->audioFileMetadata($path);
 
@@ -124,6 +129,11 @@ class AudioController extends Controller
 		$metadata['status'] = 'success';
 
 		return response()->json($metadata);
+	}
+
+	private function normalizeString($string) {
+		$string = str_replace(['\\', '?', '!', ':', '"', '\'', '*', '[', ']', '/', ':', ';', ','], '', $string);
+		return $string;
 	}
 
 	private function audioFileMetadata($file_path) {

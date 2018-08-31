@@ -61,9 +61,20 @@
 						</div>
 					</div>
 					<div class="row form-group">
+						<label class="col-sm-2 col-form-label">Audio Type</label>
 						<div class="col-sm-10">
-							<button class="btn btn-success" type="submit">Import</button>
-							<button class="btn btn-danger" type="button">Delete</button>
+							<select class="form-control" name="type">
+								<option value="1">Music</option>
+								<option value="2">Jingle</option>
+								<option value="3">Advert</option>
+								<option value="4">Prerec</option>
+							</select>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-sm-10">
+							<button class="btn btn-success btn-import" type="button">Import</button>
+							<button class="btn btn-danger btn-delete" type="button">Delete</button>
 						</div>
 					</div>
 				</form>
