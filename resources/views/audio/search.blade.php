@@ -14,6 +14,7 @@
 	<h3>You got {{ $total }} results</h3>
   
   @if($total>0)
+  <div class="table-responsive">
     <table class="table table-striped" cellspacing="0">
       <thead>
 	  		<th class="title">Title</th>
@@ -31,6 +32,7 @@
         @endforeach
       </thead>
     </table>
+  </div>
   @endif
 
 	{{ $results->appends(['q' => $q])->links() }}
