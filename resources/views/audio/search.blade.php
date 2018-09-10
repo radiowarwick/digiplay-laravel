@@ -17,12 +17,14 @@
   <div class="table-responsive">
     <table class="table table-striped" cellspacing="0">
       <thead>
+	  		<th class="type">Type</th>
 	  		<th class="title">Title</th>
 	  		<th class="artist">Artist</th>
 	  		<th class="album">Album</th>
 	  		<th class="length">Length</th>
         @foreach($results as $result)
           <tr>
+            <td class="title">  {{ $result->getTypeString() }}</td>
             <td class="title"> {{ $result->title }} </td>
             <td class="artist"> {{ $result->artist->name }} </td>
             <td class="album"> {{ $result->album->name }} </td>

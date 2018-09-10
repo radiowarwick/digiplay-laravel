@@ -128,4 +128,11 @@ class Audio extends Model
 
         return $query->orderBy('audio.id', 'DESC')->select('audio.*');
     }
-}
+      
+    public function getTypeString(){
+      $typeID = $this->type;
+      $types = array("Track","Jingle","Advert","Prerec");
+      return $types[$typeID-1];
+    }
+
+  }
