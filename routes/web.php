@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 	Route::post('/audio/upload', 'AudioUploadController@postUpload');
 	Route::post('/audio/upload/delete', 'AudioUploadController@postDelete');
+	Route::post('/audio/upload/import', 'AudioUploadController@postImport');
 
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
