@@ -11,3 +11,12 @@
 	background: white;
 	color: black;
 }
+
+.audio-upload-card {
+	margin: 10px 0;
+
+	.card-header {
+		user-select: none;
+		cursor: pointer;
+	}
+}

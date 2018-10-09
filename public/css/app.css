@@ -14095,6 +14095,18 @@ div.studio-song-search-results {
   color: black;
 }
 
+.audio-upload-card {
+  margin: 10px 0;
+}
+
+.audio-upload-card .card-header {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+}
+
 .logo-lg {
   height: 200px;
   display: block;
