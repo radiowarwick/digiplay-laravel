@@ -43,11 +43,15 @@ function uploaded(data) {
 	card.find("[for=\"censor-\"]").attr("for", "censor-" + random);
 	card.find("#censor-").attr("id", "censor-" + random);
 
+	card.find(".length").text(data["length"]);
+
 	setValueRandom(card, "title", random, data["title"]);
 	setValueRandom(card, "artist", random, data["artist"]);
 	setValueRandom(card, "album", random, data["album"]);
 
-	card.find(".file-name").text(data["filename"]);
+	display_filename = data["filename"].replace(/ [0-9]{1,4}\./, ".");
+
+	card.find(".file-name").text(display_filename);
 	card.find(".card-body").attr("data-filename", data["filename"]);
 
 	$(".card-container").append(card);
@@ -72,6 +76,10 @@ function import_audio(event) {
 	body = $(this).closest(".card-body");
 	body.find(".error").html("");
 
+	button = body.find(".btn-import");
+	button.attr("disabled", "disabled");
+	button.html("<i class=\"fa fa-spinner fa-pulse\"></i>");
+
 	data = {
 		"_token": $("[name=\"_token\"]").val(),
 		"filename": body.attr("data-filename").trim(),
@@ -81,6 +89,7 @@ function import_audio(event) {
 		"censored": body.find("[name=\"censored\"]").is(":checked"),
 		"type": body.find("[name=\"type\"]").val()
 	};
+
 	body.find("input,select").each(function(){
 		data[$(this).attr("name")] = $(this).val().trim();
 	});
@@ -91,8 +100,12 @@ function import_audio(event) {
 	if(data["artist"] == "")
 		errors.push("You must give the track an artist.");
 
-	if(errors.length > 0)
+	if(errors.length > 0) {
 		body.find(".error").html(errors.join("<br>"));
+
+		button.removeAttr("disabled");
+		button.html("Import");
+	}
 	else {
 		$.ajax({
 			url: "/audio/upload/import",
@@ -101,6 +114,9 @@ function import_audio(event) {
 			success: function(result){
 				if(result.status == "error") {
 					body.find(".error").html(result.errors.join("<br>"));
+			
+					button.removeAttr("disabled");
+					button.html("Import");
 				}
 				else {
 					body.on("hidden.bs.collapse", function(event){
@@ -124,7 +140,12 @@ function import_audio(event) {
 
 function delete_audio(event) {
 	card = $(this).closest(".card");
-	filename = card.find(".card-header").text().trim();
+	filename = card.find(".card-body").attr("data-filename");
+
+	button = card.find(".btn-delete");
+	button.attr("disabled", "disabled");
+	button.html("<i class=\"fa fa-spinner fa-pulse\"></i>");
+	card.find(".error").html("");
 
 	$.ajax({
 		url: "/audio/upload/delete",
@@ -134,12 +155,20 @@ function delete_audio(event) {
 			"_token": $("[name=\"_token\"]").val()
 		},
 		success: function(result){
-			card.hide({
-				effect: "blind",
-				complete: function(){
-					card.remove();
-				}
-			});
+			if(result.status == "ok") {
+				card.hide({
+					effect: "blind",
+					complete: function(){
+						card.remove();
+					}
+				});
+			}
+			else {
+				card.find(".error").html("Failed to delete track.");
+
+				button.removeAttr("disabled");
+				button.html("Delete");
+			}
 		}
 	})
 }

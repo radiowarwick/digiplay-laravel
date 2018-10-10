@@ -33,7 +33,7 @@
 			<div class="card audio-upload-card">
 				<div class="card-header" data-toggle="collapse" href="#track-{{ $file['random'] }}">
 					<i class="text-warning fa fa-lg fa-arrow-circle-right"></i>
-					{{ $file['filename'] }}
+					{{ preg_replace('/ [0-9]{1,4}\./', '.', $file['filename']) }}
 				</div>
 				<div class="card-body audio-upload-card-body collapse" id="track-{{ $file['random'] }}" data-filename="{{ $file['filename'] }}">
 					<form>
@@ -75,6 +75,12 @@
 									<option value="3">Advert</option>
 									<option value="4">Prerec</option>
 								</select>
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="col-sm-2 col-form-label">Length</label>
+							<div class="col-sm-10">
+								{{ $file['length'] }}
 							</div>
 						</div>
 						<div class="row form-group">
@@ -138,6 +144,11 @@
 							<option value="3">Advert</option>
 							<option value="4">Prerec</option>
 						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-2 col-form-label">Length</label>
+					<div class="col-sm-10" class="length">
 					</div>
 				</div>
 				<div class="row form-group">
