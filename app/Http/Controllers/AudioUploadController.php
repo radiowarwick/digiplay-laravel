@@ -16,13 +16,6 @@ class AudioUploadController extends Controller
 		'audio/mp3',
 		'audio/vnd.wav'
 	];
-	
-	CONST ACCEPTABLE_BITRATES = [
-		'audio/flac' => 1,
-		'audio/mpeg' => 256,
-		'audio/mp3' => 256,
-		'audio/vnd.wav' => 256,
-	];
 
 	public function __construct() {
 		$this->middleware('permission:Audio admin');
@@ -37,9 +30,12 @@ class AudioUploadController extends Controller
 		foreach($files as $file) {
 			$path = storage_path('app/' . $file);
 
+			$mime = "";
+
 			$metadata = $this->audioFileMetadata($path);
 			$metadata['origin'] = auth()->user()->name;
 			$metadata['random'] = mt_rand(0, 10000);
+			$metadata['acceptable_bitrate'] = (256 <= $metadata['bitrate']);
 
 			$metadatas[] = $metadata;
 		}
@@ -69,7 +65,7 @@ class AudioUploadController extends Controller
 		$path = storage_path('app/' . $path);
 		$metadata = $this->audioFileMetadata($path);
 
-		$metadata['acceptable_bitrate'] = (AudioUploadController::ACCEPTABLE_BITRATES[$mime] >= $metadata['bitrate']);
+		$metadata['acceptable_bitrate'] = (256 <= $metadata['bitrate']);
 		$metadata['origin'] = auth()->user()->name;
 		$metadata['status'] = 'success';
 		$metadata['random'] = mt_rand(0, 10000);

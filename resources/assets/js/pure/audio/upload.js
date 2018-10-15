@@ -54,6 +54,9 @@ function uploaded(data) {
 	card.find(".file-name").text(display_filename);
 	card.find(".card-body").attr("data-filename", data["filename"]);
 
+	if(!data["acceptable_bitrate"])
+		card.find(".bitrate").show();
+
 	$(".card-container").append(card);
 	reset_binds();
 }

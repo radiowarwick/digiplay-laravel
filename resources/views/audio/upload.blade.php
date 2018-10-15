@@ -88,6 +88,11 @@
 							</div>
 						</div>
 						<div class="row form-group">
+							<div class="col-sm-12 text-danger bitrate" {!! ($file['acceptable_bitrate']) ? "style=\"display:none;\"" : "" !!}>
+								The track is below the recommended bitrate!
+							</div>
+						</div>
+						<div class="row form-group">
 							<div class="col-sm-10">
 								<button class="btn btn-success btn-import" type="button">Import</button>
 								<button class="btn btn-danger btn-delete" type="button">Delete</button>
@@ -148,11 +153,17 @@
 				</div>
 				<div class="row form-group">
 					<label class="col-sm-2 col-form-label">Length</label>
-					<div class="col-sm-10" class="length">
+					<div class="col-sm-10">
+						<span class="length"></span>
 					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-12 text-danger error">
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-12 text-danger bitrate" style="display:none;">
+						The track is below the recommended bitrate!
 					</div>
 				</div>
 				<div class="row form-group">
