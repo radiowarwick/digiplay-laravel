@@ -71,7 +71,7 @@ function progress_update(event) {
 	if(event.lengthComputable) {
 		percent = Math.round((event.loaded / event.total) * 100) + "%";
 		$(".progress-bar").css("width", percent);
-		$(".progress-bar").text(percent);
+		$(".progress-bar").text(percent + " - " + filename);
 	}
 }
 
@@ -184,7 +184,7 @@ function reset_binds() {
 	$(".btn-delete").click(delete_audio);
 }
 
-var card_template;
+var card_template, filename;
 
 $(document).ready(function(){
 	$("#btn-upload").click(upload);
@@ -192,8 +192,11 @@ $(document).ready(function(){
 	$(".btn-delete").click(delete_audio);
 
 	$("input[name=\"file\"]").change(function(event){
+		fileparts = $(this).val().split("\\");
+		filename = fileparts[fileparts.length - 1];
+
 		$(".progress-bar").css("width", "auto");
-		$(".progress-bar").text("0%");
+		$(".progress-bar").text("0% - " + filename);
 	});
 
 	card_template = $(".audio-upload-card-template").clone();
