@@ -71,7 +71,7 @@
 							<div class="form-check form-check-inline">
 								<input type="checkbox" class="form-check-input" id="Prerec" value="Prerec" name="types[]"   {{ (!empty($types) and in_array('Prerec', $types)) ? 'checked' : '' }}>
 								<label class="form-check-label" for="Prerec">
-									Prerecord
+									Prerec
 								</label>
 							</div>
 						@endif
