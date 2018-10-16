@@ -131,7 +131,7 @@ class Audio extends Model
       
     public function getTypeString(){
       $typeID = $this->type;
-      $types = array("Track","Jingle","Advert","Prerec");
+      $types = array('Music', 'Jingle', 'Advert', 'Prerec');
       return $types[$typeID-1];
     }
 
