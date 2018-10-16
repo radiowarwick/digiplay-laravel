@@ -23,16 +23,16 @@ class AudioController extends Controller
 		$selectedOptions = $request->input('options');
 		$selectedTypes = $request->input('types');
 
-		if(is_null($searchTerm) or strlen($searchTerm) <= 3 or empty($selectedOptions) or empty($selectedTypes)) {
+		if(is_null($searchTerm) or empty($selectedOptions) or empty($selectedTypes)) {
 			if(is_null($searchTerm))
 				$searchTerm = '';
 			return view('audio.invalid-search', ['q' => $searchTerm]);
 		}
 	
 		$params = array(
-			"query" => $searchTerm,
-			"type" => $selectedTypes,
-			"filter" => $selectedOptions
+			'query' => $searchTerm,
+			'type' => $selectedTypes,
+			'filter' => $selectedOptions
 	  	);
 
 		$titleResults = Audio::search($params);
