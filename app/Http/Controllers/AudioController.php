@@ -28,19 +28,27 @@ class AudioController extends Controller
 				$searchTerm = '';
 			return view('audio.invalid-search', ['q' => $searchTerm]);
 		}
+
 	
 		$params = array(
 			'query' => $searchTerm,
 			'type' => $selectedTypes,
 			'filter' => $selectedOptions
 	  	);
-
 		$audioResults = Audio::search($params);
-
 		$total = $audioResults->count();
 		$paginateResults = $audioResults->paginate(25)->appends($_GET);
 
-		return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm, 'options' => $selectedOptions, 'types' => $selectedTypes]);
+		$showOptions = ($selectedOptions != ['title', 'artist', 'album'] or $selectedTypes != ['Music']);
+
+		return view('audio.search', [
+			'results' => $paginateResults,
+			'total' => $total,
+			'q' => $searchTerm,
+			'options' => $selectedOptions,
+			'types' => $selectedTypes,
+			'showOptions' => $showOptions
+		]);
 	}
 
 	public function getPreview(Request $request, $id) {

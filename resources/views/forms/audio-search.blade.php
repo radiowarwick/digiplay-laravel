@@ -20,8 +20,7 @@
 			</div>
 		</div>
 
-
-		<div class="card collapse" id="audio-search-options">
+		<div class="card {{ (!isset($showOptions) or $showOptions == false) ? 'collapse' : 'show' }}" id="audio-search-options">
 			<div class="card-body">
 				<div class="form-group row">
 					<div class="col-sm-2">Attributes</div>
