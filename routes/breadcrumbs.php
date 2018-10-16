@@ -19,6 +19,11 @@ Breadcrumbs::for('audio-search', function($trail){
 Breadcrumbs::for('audio-upload', function($trail){
 	$trail->parent('audio-index');
 	$trail->push('Upload', route('audio-upload'));
+}
+
+Breadcrumbs::for('audio-view', function($trail, $audio){
+	$trail->parent('audio-index');
+	$trail->push($audio->title, route('audio-view', $audio->id));
 });
 
 // Audiowall pages

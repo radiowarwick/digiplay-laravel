@@ -80,5 +80,18 @@ class AudioController extends Controller
 			'Accept-Ranges' => 'bytes'
 		]);
 	}
+
+	public function getView(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+
+		$can_edit = auth()->user()->hasPermission('Audio admin');
+
+		return view('audio.view', [
+			'audio' => $audio,
+			'can_edit' => $can_edit
+		]);
+	}
 }
 
