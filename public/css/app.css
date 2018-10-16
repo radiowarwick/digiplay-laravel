@@ -14127,7 +14127,8 @@ div.studio-song-search-results {
   border: solid 3px #d8b222;
 }
 
-.audio-player #wavesurfer {
+.audio-player #wavesurfer,
+.audio-player #wavesurfer-timeline {
   width: 100%;
 }
 

@@ -74,8 +74,13 @@ class Audio extends Model
 	*   "censor"    =>  (boolean) true to include censored tracks
 	*/
 	public function scopeSearch($query, $params) {
-		$allowed_types = [null, 'Music', 'Jingle', 'Advert', 'Prerec'];
+		$allowed_types = [null, 'Music', 'Jingle', 'Advert'];
 		$filtered_types = [];
+
+		// If the user has permissions, Prerec is an allowed type
+		if(auth()->user()->hasPermission('Can schedule prerecs')){
+		  array_push($allowed_types, 'Prerec');
+		}
 
 		// Fill filtered types with index of each allowed type
 		foreach($params['type'] as $type) {
@@ -159,5 +164,19 @@ class Audio extends Model
 		$typeID = $this->type;
 		$types = array('Music', 'Jingle', 'Advert', 'Prerec');
 		return $types[$typeID-1];
+	}
+	  
+	public function getTypeString() {
+	  $typeID = $this->type;
+	  $types = array('Music', 'Jingle', 'Advert', 'Prerec');
+	  return $types[$typeID-1];
+	}
+
+	public function getVocalIn() {
+		return ($this->vocal_start / 44100);
+	}
+
+	public function getVocalOut() {
+		return ($this->vocal_out / 44100);
 	}
 }

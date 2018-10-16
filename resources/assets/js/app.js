@@ -8,7 +8,10 @@
 window.bootstrap = require('./bootstrap');
 window.particles = require('particles.js');
 window.moment = require('moment');
+
 window.WaveSurfer = require('wavesurfer.js');
+window.WaveSurferRegions = require('wavesurfer.js/dist/plugin/wavesurfer.regions.min.js');
+window.WaveSurferTimeline = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js');
 
 window.emojione = require('emojione');
 emojione.imageTitleTag = false;

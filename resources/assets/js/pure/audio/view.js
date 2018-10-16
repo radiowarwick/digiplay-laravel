@@ -5,7 +5,25 @@ $(document).ready(function(){
 		container: "#wavesurfer",
 		waveColor: "white",
 		progressColor: "#d8b222",
-		skipLength: 10
+		skipLength: 10,
+		plugins: [
+			WaveSurferRegions.create({
+				regions: [
+					{
+						start: $("#btn-set-vocal-in").attr("data-seconds"),
+						end: $("#btn-set-vocal-out").attr("data-seconds"),
+						drag: false,
+						resize: false,
+						color: "rgba(255, 0, 0, 0.5)"
+					}
+				]
+			}),
+			WaveSurferTimeline.create({
+				container: "#wavesurfer-timeline",
+				primaryFontColor: "#fff",
+				secondaryFontColor: "#fff"
+			})
+		]
 	});
 
 	href = window.location.href.split("/");
@@ -16,7 +34,6 @@ $(document).ready(function(){
 	$("#btn-forward").click(function(){
 		ws.skipForward();
 	});
-
 	$("#btn-backward").click(function(){
 		ws.skipBackward();
 	});
@@ -30,4 +47,25 @@ $(document).ready(function(){
 		else
 			btn.html("<i class=\"fa fa-play\"></i>");
 	});
+
+	$("#btn-set-vocal-out").click(function(){
+		set_vocal($(this));
+	});
+	$("#btn-set-vocal-in").click(function(){
+		set_vocal($(this));
+	});
 });
+
+function set_vocal(btn) {
+	time = ws.getCurrentTime();
+	btn.attr("data-seconds", time);
+
+	ws.regions.clear();
+	ws.regions.add({
+		start: $("#btn-set-vocal-in").attr("data-seconds"),
+		end: $("#btn-set-vocal-out").attr("data-seconds"),
+		drag: false,
+		resize: false,
+		color: "rgba(255, 0, 0, 0.5)"
+	});
+}

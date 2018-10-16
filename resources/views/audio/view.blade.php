@@ -13,6 +13,7 @@
 
 	<div class="row audio-player">
 		<div id="wavesurfer"></div>
+		<div id="wavesurfer-timeline"></div>
 
 		<div class="btn-group mr-sm-3">
 			<button type="button" id="btn-backward" class="btn btn-sm btn-warning">
@@ -27,10 +28,10 @@
 		</div>
 
 		<div class="btn-group">
-			<button type="button" class="btn btn-sm btn-success">
+			<button type="button" id="btn-set-vocal-in" class="btn btn-sm btn-success" data-seconds="{{ $audio->getVocalIn() }}">
 				Set Vocal In
 			</button>
-			<button type="button" class="btn btn-sm btn-danger">
+			<button type="button" id="btn-set-vocal-out" class="btn btn-sm btn-danger" data-seconds="{{ $audio->getVocalOut() }}">
 				Set Vocal Out
 			</button>
 		</div>
