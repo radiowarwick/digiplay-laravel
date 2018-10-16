@@ -29,3 +29,14 @@
 		font-size: 1.2rem;
 	}
 }
+
+.audio-player {
+	padding: 5px;
+    border-radius: 4px;
+    background: lighten($gray-800, 10%);
+    border: solid 3px $yellow;
+
+    #wavesurfer {
+    	width: 100%;
+    }
+}

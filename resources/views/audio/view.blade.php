@@ -7,7 +7,34 @@
 @endsection
 
 @section('content')
+	<script src="/js/audio/view.js"></script>
+
 	<h1>Track Editing</h1>
+
+	<div class="row audio-player">
+		<div id="wavesurfer"></div>
+
+		<div class="btn-group mr-sm-3">
+			<button type="button" id="btn-backward" class="btn btn-sm btn-warning">
+				<i class="fa fa-backward"></i>
+			</button>
+			<button type="button" id="btn-play-pause" class="btn btn-sm btn-warning">
+				<i class="fa fa-play"></i>
+			</button>
+			<button type="button" id="btn-forward" class="btn btn-sm btn-warning">
+				<i class="fa fa-forward"></i>
+			</button>
+		</div>
+
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-success">
+				Set Vocal In
+			</button>
+			<button type="button" class="btn btn-sm btn-danger">
+				Set Vocal Out
+			</button>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-sm-8">
