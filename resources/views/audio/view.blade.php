@@ -41,19 +41,19 @@
 		<div class="col-sm-8">
 			<div class="form-group">
 				<label for="title">Title</label>
-				<input type="text" id="title" class="form-control" value="{{ $audio->title }}" {{ (!$can_edit) ? 'disabled' : '' }}>
+				<input type="text" id="title" class="form-control" value="{{ $audio->title }}" {{ (!$canEdit) ? 'disabled' : '' }}>
 			</div>
 			<div class="form-group">
 				<label for="artist">Artist</label>
-				<input type="text" id="artist" class="form-control" value="{{ $audio->artist->name }}" {{ (!$can_edit) ? 'disabled' : '' }}>
+				<input type="text" id="artist" class="form-control" value="{{ $audio->artist->name }}" {{ (!$canEdit) ? 'disabled' : '' }}>
 			</div>
 			<div class="form-group">
 				<label for="album">Album</label>
-				<input type="text" id="album" class="form-control" value="{{ $audio->album->name }}" {{ (!$can_edit) ? 'disabled' : '' }}>
+				<input type="text" id="album" class="form-control" value="{{ $audio->album->name }}" {{ (!$canEdit) ? 'disabled' : '' }}>
 			</div>
 			<div class="form-group">
 				<label for="type">Audio Type</label>
-				<select class="form-control" id="type" {{ (!$can_edit) ? 'disabled' : '' }}>
+				<select class="form-control" id="type" {{ (!$canEdit) ? 'disabled' : '' }}>
 					<option value="1">Music</option>
 					<option value="2">Jingle</option>
 					<option value="3">Advert</option>
@@ -62,11 +62,11 @@
 			</div>
 			<div class="form-group">
 				<div class="form-check">
-					<input class="form-check-input" id="censor" type="checkbox" {{ $audio->censor == 't' ? 'checked' : '' }}>
+					<input class="form-check-input" id="censor" type="checkbox" {{ $audio->censor == 't' ? 'checked' : '' }} {{ (!$canEdit) ? 'disabled' : '' }}>
 					<label for="censor" class="form-check-label">Censored</label>
 				</div>
 			</div>
-			@if($can_edit)
+			@if($canEdit)
 				<div class="form-group">
 					<button type="submit" class="btn btn-success">Update</button>
 					<button type="submit" class="btn btn-danger">Delete</button>
@@ -85,6 +85,14 @@
 			<div class="row">
 				<div class="col-sm">Upload</div>
 				<div class="col-sm">{{ date("d/m/Y H:i", $audio->import_date) }}</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">Vocal In</div>
+				<div class="col-sm" id="vocal-in">{{ $vocalIn }}</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">Vocal Out</div>
+				<div class="col-sm" id="vocal-out">{{ $vocalOut }}</div>
 			</div>
 		</div>
 	</div>

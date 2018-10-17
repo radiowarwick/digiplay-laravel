@@ -49,16 +49,32 @@ $(document).ready(function(){
 	});
 
 	$("#btn-set-vocal-out").click(function(){
-		set_vocal($(this));
+		set_vocal($(this), "vocal-out");
 	});
 	$("#btn-set-vocal-in").click(function(){
-		set_vocal($(this));
+		set_vocal($(this), "vocal-in");
 	});
 });
 
-function set_vocal(btn) {
-	time = ws.getCurrentTime();
+function set_vocal(btn, id) {
+	time = parseFloat(ws.getCurrentTime());
 	btn.attr("data-seconds", time);
+
+	milliseconds_string = Math.floor((time % 1) * 100);
+	if(milliseconds_string < 0)
+		milliseconds_string = "00";
+	else if(milliseconds_string < 10)
+		milliseconds_string = milliseconds_string + "0";
+
+	seconds_string = Math.floor(time % 60);
+	if(seconds_string < 10)
+		seconds_string = "0" + seconds_string;
+	
+	time = Math.floor(time / 60);
+	if(time == 0)
+		time = "0";
+
+	$("#" + id).text(time + ":" + seconds_string + "." + milliseconds_string);
 
 	ws.regions.clear();
 	ws.regions.add({

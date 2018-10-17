@@ -37,6 +37,7 @@ class AudioController extends Controller
 			'filter' => $selectedOptions,
 			'censor' => true,
 	  	);
+
 		$audioResults = Audio::search($params);
 		$total = $audioResults->count();
 		$paginateResults = $audioResults->paginate(25)->appends($_GET);
@@ -87,12 +88,34 @@ class AudioController extends Controller
 		if($audio === null)
 			abort(404, 'Page not found');
 
-		$can_edit = auth()->user()->hasPermission('Audio admin');
+		$canEdit = auth()->user()->hasPermission('Audio admin');
+
+		$vocalIn = $audio->vocal_start / 44100;
+		$vocalOut = $audio->vocal_end / 44100;
 
 		return view('audio.view', [
 			'audio' => $audio,
-			'can_edit' => $can_edit
+			'canEdit' => $canEdit,
+			'vocalIn' => $this->secondsToString($vocalIn),
+			'vocalOut' => $this->secondsToString($vocalOut)
 		]);
+	}
+
+	private function secondsToString($seconds) {
+		$millisecondsString = ($seconds * 100) % 100;
+		if($millisecondsString == 0)
+			$millisecondsString = '00';
+		else if($millisecondsString < 10)
+			$millisecondsString = $millisecondsString . '0';
+
+		$seconds = floor($seconds);
+		$secondsString = $seconds % 60;
+		if($secondsString < 10)
+			$secondsString = '0' . $secondsString;
+
+		$minutesString = floor($seconds / 60);
+
+		return $minutesString . ':' . $secondsString . '.' . $millisecondsString;
 	}
 }
 
