@@ -1,3 +1,27 @@
+.audio-progress {
+	margin: 5px 0;
+	height: 25px;
+
+	.progress-bar {
+		padding: 0 5px;
+		font-size: 1rem;
+	}
+}
+
+.audio-upload-card-body {
+	background: white;
+	color: black;
+}
+
+.audio-upload-card {
+	margin: 10px 0;
+
+	.card-header {
+		user-select: none;
+		cursor: pointer;
+    }
+}
+
 #audio-search-options {
 	margin-top: 10px;
 

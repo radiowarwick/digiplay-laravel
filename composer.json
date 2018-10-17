@@ -9,6 +9,7 @@
         "adldap2/adldap2-laravel": "^4.0",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "fideloper/proxy": "^4.0",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0"
     },

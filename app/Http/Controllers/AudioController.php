@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 use App\Audio;
 use App\Artist;
 use App\ViewAudio;
@@ -28,7 +30,6 @@ class AudioController extends Controller
 				$searchTerm = '';
 			return view('audio.invalid-search', ['q' => $searchTerm]);
 		}
-
 	
 		$params = array(
 			'query' => $searchTerm,
