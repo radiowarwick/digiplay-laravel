@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);@charset "UTF-8";
 
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -14054,6 +14054,10 @@ div.studio-song-search-results {
   padding: 0;
 }
 
+.studio-time {
+  font-family: 'Roboto Mono', monospace;
+}
+
 .studio-time h2,
 .studio-time h5 {
   margin: 0;
@@ -14106,6 +14110,14 @@ div.studio-song-search-results {
       -ms-user-select: none;
           user-select: none;
   cursor: pointer;
+}
+
+#audio-search-options {
+  margin-top: 10px;
+}
+
+#audio-search-options .col-sm-2 {
+  font-size: 1.2rem;
 }
 
 .logo-lg {

@@ -10,7 +10,7 @@ class Audio extends Model
 {
 	protected $table = 'audio';
 	protected $primaryKey = 'id';
-    public $timestamps = false;
+	public $timestamps = false;
 	
 	public function audioArtist() {
 		return $this->hasOne('App\AudioArtist', 'audioid', 'id');
@@ -153,5 +153,11 @@ class Audio extends Model
 
 		$audio_artist->artistid = $artist->id;
 		$audio_artist->save();
+	}
+
+	public function getTypeString() {
+		$typeID = $this->type;
+		$types = array('Music', 'Jingle', 'Advert', 'Prerec');
+		return $types[$typeID-1];
 	}
 }

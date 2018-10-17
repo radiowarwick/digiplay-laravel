@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Audio;
 use App\Artist;
+use App\ViewAudio;
 
 class AudioController extends Controller
 {
@@ -21,23 +22,34 @@ class AudioController extends Controller
 
 	public function getSearch(Request $request) {
 		$searchTerm = $request->input('q');
+		$selectedOptions = $request->input('options');
+		$selectedTypes = $request->input('types');
 
-		if(is_null($searchTerm) or strlen($searchTerm) <= 3) {
+		if(is_null($searchTerm) or empty($selectedOptions) or empty($selectedTypes)) {
 			if(is_null($searchTerm))
 				$searchTerm = '';
 			return view('audio.invalid-search', ['q' => $searchTerm]);
 		}
+	
+		$params = array(
+			'query' => $searchTerm,
+			'type' => $selectedTypes,
+			'filter' => $selectedOptions
+	  	);
+		$audioResults = Audio::search($params);
+		$total = $audioResults->count();
+		$paginateResults = $audioResults->paginate(25)->appends($_GET);
 
-		$titleResults = Audio::where([
-			['title', 'ILIKE', '%'.trim($searchTerm).'%'],
-			['type', 1]
-		])
-			->orderby('creation_date', 'DESC');
+		$showOptions = ($selectedOptions != ['title', 'artist', 'album'] or $selectedTypes != ['Music']);
 
-		$total = $titleResults->count();
-		$paginateResults = $titleResults->paginate(10);
-
-		return view('audio.search', ['results' => $paginateResults, 'total' => $total, 'q' => $searchTerm]);
+		return view('audio.search', [
+			'results' => $paginateResults,
+			'total' => $total,
+			'q' => $searchTerm,
+			'options' => $selectedOptions,
+			'types' => $selectedTypes,
+			'showOptions' => $showOptions
+		]);
 	}
 
 	public function getPreview(Request $request, $id) {
@@ -69,3 +81,4 @@ class AudioController extends Controller
 		]);
 	}
 }
+
