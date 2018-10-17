@@ -62,7 +62,7 @@
 			</div>
 			<div class="form-group">
 				<div class="form-check">
-					<input class="form-check-input" id="censor" type="checkbox" checked>
+					<input class="form-check-input" id="censor" type="checkbox" {{ $audio->censor == 't' ? 'checked' : '' }}>
 					<label for="censor" class="form-check-label">Censored</label>
 				</div>
 			</div>

@@ -27,7 +27,7 @@
 			</thead>
 			<tbody>
 				@foreach($results as $result)
-					<tr>
+					<tr {!! ($result->censor == 't') ? 'class="bg-danger"' : '' !!}>
 						<td class="icon">
 							<a href="{{ route('audio-view', $result->id) }}">
 								<i class="fa fa-info-circle"></i>
