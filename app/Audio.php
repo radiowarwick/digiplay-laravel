@@ -78,7 +78,7 @@ class Audio extends Model
 		$filtered_types = [];
 
 		// If the user has permissions, Prerec is an allowed type
-		if(auth()->user()->hasPermission('Can schedule prerecs')){
+		if(auth()->user()->hasPermission('Sustainer admin')){
 		  array_push($allowed_types, 'Prerec');
 		}
 

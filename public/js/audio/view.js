@@ -6,6 +6,7 @@ $(document).ready(function(){
 		waveColor: "white",
 		progressColor: "#d8b222",
 		skipLength: 10,
+		cursorColor: "white",
 		plugins: [
 			WaveSurferRegions.create({
 				regions: [

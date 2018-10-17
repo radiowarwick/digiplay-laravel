@@ -6,6 +6,7 @@ $(document).ready(function(){
 		waveColor: "white",
 		progressColor: "#d8b222",
 		skipLength: 10,
+		cursorColor: "white",
 		plugins: [
 			WaveSurferRegions.create({
 				regions: [
@@ -28,7 +29,6 @@ $(document).ready(function(){
 
 	href = window.location.href.split("/");
 	id = href[href.length - 1];
-
 	ws.load("/audio/preview/" + id + ".mp3");
 
 	$("#btn-forward").click(function(){

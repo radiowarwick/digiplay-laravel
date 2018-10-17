@@ -34,7 +34,8 @@ class AudioController extends Controller
 		$params = array(
 			'query' => $searchTerm,
 			'type' => $selectedTypes,
-			'filter' => $selectedOptions
+			'filter' => $selectedOptions,
+			'censor' => true,
 	  	);
 		$audioResults = Audio::search($params);
 		$total = $audioResults->count();

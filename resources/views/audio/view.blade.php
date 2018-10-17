@@ -53,12 +53,18 @@
 			</div>
 			<div class="form-group">
 				<label for="type">Audio Type</label>
-				<select class="form-control" id="type">
+				<select class="form-control" id="type" {{ (!$can_edit) ? 'disabled' : '' }}>
 					<option value="1">Music</option>
 					<option value="2">Jingle</option>
 					<option value="3">Advert</option>
 					<option value="4">Prerec</option>
 				</select>
+			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" id="censor" type="checkbox" checked>
+					<label for="censor" class="form-check-label">Censored</label>
+				</div>
 			</div>
 			@if($can_edit)
 				<div class="form-group">
