@@ -159,8 +159,8 @@ class AudioUploadController extends Controller
 				$album = '(none)';
 			}
 
-			$audio->set_album($album);
-			$audio->set_artist($artist);
+			$audio->setAlbum($album);
+			$audio->setArtist($artist);
 
 			rename($output, $archive->localpath . '/' . $md5_substring . '/' . $md5 . '.flac');
 			Storage::delete('uploads/' . $request->get('filename'));

@@ -130,7 +130,7 @@ class Audio extends Model
 		return $query->orderBy('audio.id', 'DESC')->select('audio.*');
 	}
 
-	public function set_album($album_str) {
+	public function setAlbum($album_str) {
 		$album = Album::where('name', $album_str)->first();
 		if(!isset($album)) {
 			$album = new Album;
@@ -142,7 +142,7 @@ class Audio extends Model
 		$this->save();
 	}
 
-	public function set_artist($artist_str) {
+	public function setArtist($artist_str) {
 		$artist = Artist::where('name', $artist_str)->first();
 		if(!isset($artist)) {
 			$artist = new Artist;
