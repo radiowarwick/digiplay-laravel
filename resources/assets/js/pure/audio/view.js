@@ -31,6 +31,15 @@ $(document).ready(function(){
 	id = href[href.length - 1];
 	ws.load("/audio/preview/" + id + ".mp3");
 
+	ws.on("loading", function(percent){
+		$("#wavesurfer").find(".progress-bar").css("width", percent + "%");
+	});
+
+	ws.on("ready", function(){
+		$("#wavesurfer").find(".progress").remove();
+		$("#wavesurfer-timeline").show();
+	})
+
 	$("#btn-forward").click(function(){
 		ws.skipForward();
 	});

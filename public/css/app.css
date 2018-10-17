@@ -14128,8 +14128,18 @@ div.studio-song-search-results {
 }
 
 .audio-player #wavesurfer,
-.audio-player #wavesurfer-timeline {
+.audio-player #wavesurfer-timeline,
+.audio-player #wavesurfer-loading {
   width: 100%;
+}
+
+.audio-player #wavesurfer {
+  height: 128px;
+}
+
+.audio-player .audio-progress {
+  position: relative;
+  top: 52px;
 }
 
 .logo-lg {

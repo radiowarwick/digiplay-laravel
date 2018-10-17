@@ -12,9 +12,13 @@
 	<h1>Track Editing</h1>
 
 	<div class="row audio-player">
-		<div id="wavesurfer"></div>
-		<div id="wavesurfer-timeline"></div>
-
+		<div id="wavesurfer">
+			<div class="progress audio-progress">
+				<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"></div>
+			</div>			
+		</div>
+		<div id="wavesurfer-timeline" style="display:none;"></div>
+		
 		<div class="btn-group mr-sm-3">
 			<button type="button" id="btn-backward" class="btn btn-sm btn-warning">
 				<i class="fa fa-backward"></i>
