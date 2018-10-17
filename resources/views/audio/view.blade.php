@@ -18,7 +18,7 @@
 			</div>			
 		</div>
 		<div id="wavesurfer-timeline" style="display:none;"></div>
-		
+
 		<div class="btn-group mr-sm-3">
 			<button type="button" id="btn-backward" class="btn btn-sm btn-warning">
 				<i class="fa fa-backward"></i>
@@ -58,10 +58,10 @@
 			<div class="form-group">
 				<label for="type">Audio Type</label>
 				<select class="form-control" id="type" {{ (!$canEdit) ? 'disabled' : '' }}>
-					<option value="1">Music</option>
-					<option value="2">Jingle</option>
-					<option value="3">Advert</option>
-					<option value="4">Prerec</option>
+					<option value="1" {{ $audio->type == 1 ? 'selected' : '' }}>Music</option>
+					<option value="2" {{ $audio->type == 2 ? 'selected' : '' }}>Jingle</option>
+					<option value="3" {{ $audio->type == 3 ? 'selected' : '' }}>Advert</option>
+					<option value="4" {{ $audio->type == 4 ? 'selected' : '' }}>Prerec</option>
 				</select>
 			</div>
 			<div class="form-group">
