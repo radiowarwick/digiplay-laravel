@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio Searching
 	Route::get('/audio', 'AudioController@getIndex')->name('audio-index');
 	Route::get('/audio/search', 'AudioController@getSearch')->name('audio-search');
-	Route::get('/audio/{id}', 'AudioController@getView')->name('audio-view');
+	Route::get('/audio/{id}', 'AudioController@getView')->where('id', '[0-9]+')->name('audio-view');
 
 	// Audio upload
 	Route::get('/audio/upload', 'AudioUploadController@getUpload')->name('audio-upload');

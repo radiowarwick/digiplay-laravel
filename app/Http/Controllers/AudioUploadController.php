@@ -96,7 +96,7 @@ class AudioUploadController extends Controller
 		$artist = trim($request->get('artist'));
 		$album = trim($request->get('album'));
 		$type = $request->get('type');
-		$censor = $request->get('censored') ? 't' : 'f';
+		$censor = ($request->get('censored') == 'true') ? 't' : 'f';
 
 		$errors = [];
 
