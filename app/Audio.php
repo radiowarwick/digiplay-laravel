@@ -159,17 +159,10 @@ class Audio extends Model
 		$audio_artist->artistid = $artist->id;
 		$audio_artist->save();
 	}
-
-	public function getTypeString() {
-		$typeID = $this->type;
-		$types = array('Music', 'Jingle', 'Advert', 'Prerec');
-		return $types[$typeID-1];
-	}
 	  
 	public function getTypeString() {
-	  $typeID = $this->type;
-	  $types = array('Music', 'Jingle', 'Advert', 'Prerec');
-	  return $types[$typeID-1];
+		$types = ['Music', 'Jingle', 'Advert', 'Prerec'];
+		return $types[$this->type - 1];
 	}
 
 	public function getVocalIn() {
