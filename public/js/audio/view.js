@@ -54,6 +54,8 @@ $(document).ready(function(){
 	$("#btn-set-vocal-in").click(function(){
 		set_vocal($(this), "vocal-in");
 	});
+
+	$("#btn-update").click(save_data);
 });
 
 function set_vocal(btn, id) {
@@ -84,4 +86,26 @@ function set_vocal(btn, id) {
 		resize: false,
 		color: "rgba(255, 0, 0, 0.5)"
 	});
+}
+
+function save_data() {
+	data = {
+		"_token": $("[name=\"_token\"]").val(),
+		"title": $("#title").val().trim(),
+		"artist": $("#artist").val().trim(),
+		"album": $("#album").val().trim(),
+		"type": $("#type").val(),
+		"vocal_in": $("#btn-set-vocal-in").attr("data-seconds"),
+		"vocal_out": $("#btn-set-vocal-out").attr("data-seconds"),
+		"censored": $("#censor").is(":checked")
+	}
+
+	$.ajax({
+		url: window.location.href,
+		method: "POST",
+		data: data,
+		success: function(result) {
+			console.log(result);
+		}
+	})
 }

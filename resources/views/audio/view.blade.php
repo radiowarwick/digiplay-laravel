@@ -68,8 +68,9 @@
 			</div>
 			@if($canEdit)
 				<div class="form-group">
-					<button type="submit" class="btn btn-success">Update</button>
-					<button type="submit" class="btn btn-danger">Delete</button>
+					{{ csrf_field() }}
+					<button type="submit" id="btn-update" class="btn btn-success">Update</button>
+					<button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
 				</div>
 			@endif
 		</div>

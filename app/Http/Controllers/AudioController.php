@@ -101,6 +101,44 @@ class AudioController extends Controller
 		]);
 	}
 
+	public function postUpdateMetadata(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		if($request->get('title') === NULL or $request->get('artist') === NULL or empty($request->get('title')) or empty($request->get('artist'))) {
+			return response()->json([
+				'status' => 'error',
+				'errors' => [
+					'Audio must have a title and artist'
+				]
+			]);
+		}
+
+		$audio->title = trim($request->get('title'));
+		$audio->vocal_start = floor($request->get('vocal_in') * 44100);
+		$audio->vocal_end = floor($request->get('vocal_out') * 44100);
+		$audio->censor = ($request->get('censored') == 'true') ? 't' : 'f';
+		$audio->type = $request->get('type');
+		$audio->setArtist(trim($request->get('artist')));
+		$audio->setAlbum(trim($request->get('album')));
+
+		if($audio->save()) {
+			return response()->json([
+				'status' => 'ok'
+			]);
+		}
+
+		return response()->json([
+			'status' => 'error',
+			'errors' => [
+				'Could not save changes'
+			]
+		]);
+	}
+
 	private function secondsToString($seconds) {
 		$millisecondsString = ($seconds * 100) % 100;
 		if($millisecondsString == 0)

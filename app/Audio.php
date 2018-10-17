@@ -170,6 +170,6 @@ class Audio extends Model
 	}
 
 	public function getVocalOut() {
-		return ($this->vocal_out / 44100);
+		return ($this->vocal_end / 44100);
 	}
 }
