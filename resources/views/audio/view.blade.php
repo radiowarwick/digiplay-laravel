@@ -9,7 +9,7 @@
 @section('content')
 	<script src="/js/audio/view.js"></script>
 
-	<h1>Track Editing</h1>
+	<h1>Track View</h1>
 
 	<div class="row audio-player">
 		<div id="wavesurfer">
@@ -67,7 +67,7 @@
 			<div class="form-group">
 				<div class="form-check">
 					<input class="form-check-input" id="censor" type="checkbox" {{ $audio->censor == 't' ? 'checked' : '' }} {{ (!$canEdit) ? 'disabled' : '' }}>
-					<label for="censor" class="form-check-label">Censored</label>
+					<label for="censor" class="form-check-label">Explicit</label>
 				</div>
 			</div>
 			@if($canEdit)
@@ -77,27 +77,41 @@
 					<button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
 				</div>
 			@endif
+			<div class="form-group text-danger error">
+			</div>
+			<div class="form-group text-success success">
+			</div>
 		</div>
 		<div class="col-sm-4">
 			<div class="row">
-				<div class="col-sm">Origin</div>
-				<div class="col-sm">{{ $audio->origin }}</div>
+				<div class="col-sm-6">
+					<strong>Origin</strong>
+				</div>
+				<div class="col-sm-6">{{ $audio->origin }}</div>
 			</div>
 			<div class="row">
-				<div class="col-sm">Length</div>
-				<div class="col-sm">{{ $audio->lengthString() }}</div>
+				<div class="col-sm-6">
+					<strong>Length</strong>
+				</div>
+				<div class="col-sm-6">{{ $audio->lengthString() }}</div>
 			</div>
 			<div class="row">
-				<div class="col-sm">Upload</div>
-				<div class="col-sm">{{ date("d/m/Y H:i", $audio->import_date) }}</div>
+				<div class="col-sm-6">
+					<strong>Upload</strong>
+				</div>
+				<div class="col-sm-6">{{ date("d/m/Y H:i", $audio->import_date) }}</div>
 			</div>
 			<div class="row">
-				<div class="col-sm">Vocal In</div>
-				<div class="col-sm" id="vocal-in">{{ $vocalIn }}</div>
+				<div class="col-sm-6">
+					<strong>Vocal In</strong>
+				</div>
+				<div class="col-sm-6" id="vocal-in">{{ $vocalIn }}</div>
 			</div>
 			<div class="row">
-				<div class="col-sm">Vocal Out</div>
-				<div class="col-sm" id="vocal-out">{{ $vocalOut }}</div>
+				<div class="col-sm-6">
+					<strong>Vocal Out</strong>
+				</div>
+				<div class="col-sm-6" id="vocal-out">{{ $vocalOut }}</div>
 			</div>
 		</div>
 	</div>

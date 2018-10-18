@@ -38,7 +38,12 @@ $(document).ready(function(){
 	ws.on("ready", function(){
 		$("#wavesurfer").find(".progress").remove();
 		$("#wavesurfer-timeline").show();
-	})
+	});
+
+	ws.on("finish", function(){
+		ws.stop();
+		$("#btn-play-pause").html("<i class=\"fa fa-play\"></i>");
+	});
 
 	$("#btn-forward").click(function(){
 		ws.skipForward();
@@ -98,6 +103,11 @@ function set_vocal(btn, id) {
 }
 
 function save_data() {
+	$(this).attr("disabled", "disabled");
+	$(this).html("<i class=\"fa fa-spinner fa-pulse\"></i>");
+	$(".error").text("");
+	$(".success").text("");
+
 	data = {
 		"_token": $("[name=\"_token\"]").val(),
 		"title": $("#title").val().trim(),
@@ -114,7 +124,15 @@ function save_data() {
 		method: "POST",
 		data: data,
 		success: function(result) {
-			console.log(result);
+			$("#btn-update").removeAttr("disabled");
+			$("#btn-update").html("Update");
+
+			if(result.status == "ok") {
+				$(".success").text("Changes saved successfully");
+			}
+			else {
+				$(".error").html(result.errors.join("<br>"));
+			}
 		}
 	})
 }
