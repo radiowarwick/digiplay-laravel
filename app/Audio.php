@@ -24,6 +24,10 @@ class Audio extends Model
 		return $this->hasOne('App\Album', 'id', 'music_album');
 	}
 
+	public function audioDir() {
+		return $this->hasOne('App\AudioDir', 'audioid', 'id');
+	}
+
 	// annoying name to not share column name
 	public function theArchive() {
 		return $this->hasOne('App\Archive', 'id', 'archive');
@@ -108,6 +112,10 @@ class Audio extends Model
 			}
 		}
 
+		// must not be in the bin to be in results
+		$query->join('audiodir', 'audio.id', '=', 'audiodir.audioid');
+		$query->where('audiodir.dirid', 2);
+
 		// Apply filter if param is not set or (if set) value is not "false"
 		if(!(isset($params['censor']) and $params['censor'] == "false"))
 			$query->where('censor', 'f');
@@ -171,5 +179,17 @@ class Audio extends Model
 
 	public function getVocalOut() {
 		return ($this->vocal_end / 44100);
+	}
+
+	public function moveToBin() {
+		$audioDir = $this->audioDir;
+		$audioDir->dirid = 3;
+		$audioDir->save();
+	}
+
+	public function fetchFromBin() {
+		$audioDir = $this->audioDir;
+		$audioDir->dirid = 2;
+		$audioDir->save();
 	}
 }

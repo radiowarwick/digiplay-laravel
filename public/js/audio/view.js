@@ -70,6 +70,8 @@ $(document).ready(function(){
 	});
 
 	$("#btn-update").click(save_data);
+	$("#btn-delete").click(delete_audio);
+	$("#btn-restore").click(restore_audio);
 });
 
 function set_vocal(btn, id) {
@@ -135,4 +137,46 @@ function save_data() {
 			}
 		}
 	})
+}
+
+function delete_audio() {
+	$(this).attr("disabled", "disabled");
+	$(this).html("<i class=\"fa fa-spinner fa-pulse\"></i>");
+
+	$.ajax({
+		url: window.location.href + "/delete",
+		method: "POST",
+		data: {
+			_token: $("[name=\"_token\"]").val()
+		},
+		success: function(result) {
+			$("#btn-delete").removeAttr("disabled");
+			$("#btn-delete").html("Delete");
+			
+			$("#btn-delete").hide();
+			$("#btn-restore").show();
+			$(".restore").show();		
+		}
+	});
+}
+
+function restore_audio() {
+	$(this).attr("disabled", "disabled");
+	$(this).html("<i class=\"fa fa-spinner fa-pulse\"></i>");
+
+	$.ajax({
+		url: window.location.href + "/restore",
+		method: "POST",
+		data: {
+			_token: $("[name=\"_token\"]").val()
+		},
+		success: function(result) {
+			$("#btn-restore").removeAttr("disabled");
+			$("#btn-restore").html("Delete");
+			
+			$("#btn-restore").hide();
+			$(".restore").hide();		
+			$("#btn-delete").show();
+		}
+	});
 }

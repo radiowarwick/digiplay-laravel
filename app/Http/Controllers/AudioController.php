@@ -139,6 +139,34 @@ class AudioController extends Controller
 		]);
 	}
 
+	public function postDelete(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		$audio->moveToBin();
+
+		return response()->json([
+			'status' => 'ok'
+		]);
+	}
+
+	public function postRestore(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		$audio->fetchFromBin();
+
+		return response()->json([
+			'status' => 'ok'
+		]);		
+	}
+
 	private function secondsToString($seconds) {
 		$millisecondsString = ($seconds * 100) % 100;
 		if($millisecondsString == 0)

@@ -74,12 +74,16 @@
 				<div class="form-group">
 					{{ csrf_field() }}
 					<button type="submit" id="btn-update" class="btn btn-success">Update</button>
-					<button type="button" id="btn-delete" class="btn btn-danger">Delete</button>
+					<button type="button" id="btn-delete" class="btn btn-danger" {!! $audio->audioDir->dirid == 3 ? 'style="display:none;"' : '' !!}>Delete</button>
+					<button type="button" id="btn-restore" class="btn btn-danger" {!! $audio->audioDir->dirid == 2 ? 'style="display:none;"' : '' !!}>Restore</button>
 				</div>
 			@endif
 			<div class="form-group text-danger error">
 			</div>
 			<div class="form-group text-success success">
+			</div>
+			<div class="form-group text-warning restore" {!! $audio->audioDir->dirid == 2 ? 'style="display:none;"' : '' !!}>
+				This track is in the bin. Click restore to bring it back.
 			</div>
 		</div>
 		<div class="col-sm-4">
