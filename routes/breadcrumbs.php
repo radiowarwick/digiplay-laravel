@@ -96,3 +96,10 @@ Breadcrumbs::for('admin-studio-index', function($trail){
 	$trail->parent('admin-index');
 	$trail->push('Studio Logins');
 });
+
+// Admin Sustainer
+
+Breadcrumbs::for('admin-sustainer-index', function($trail){
+	$trail->parent('admin-index');
+	$trail->push('Sustainer');
+});

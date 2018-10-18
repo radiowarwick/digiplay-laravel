@@ -14,6 +14,10 @@ class Playlist extends Model
 		return $this->hasManyThrough('App\Audio', 'App\PlaylistAudio', 'playlistid', 'id', 'id', 'audioid');
 	}
 
+	public function colour() {
+		return $this->hasOne('App\PlaylistColour', 'playlistid', 'id');
+	}
+
 	public function scopeStudio($query) {
 		return $query->where('sustainer', 'f')->orderBy('sortorder');
 	}

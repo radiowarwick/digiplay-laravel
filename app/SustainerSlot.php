@@ -13,4 +13,8 @@ class SustainerSlot extends Model
 	public function audio() {
 		return $this->hasOne('App\Audio', 'id', 'audioid');
 	}
+
+	public function playlist() {
+		return $this->hasOne('App\Playlist', 'id', 'playlistid');
+	}
 }
