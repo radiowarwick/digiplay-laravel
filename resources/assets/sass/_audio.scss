@@ -19,7 +19,7 @@
 	.card-header {
 		user-select: none;
 		cursor: pointer;
-    }
+	}
 }
 
 #audio-search-options {
@@ -27,5 +27,25 @@
 
 	.col-sm-2 {
 		font-size: 1.2rem;
+	}
+}
+
+.audio-player {
+	padding: 5px;
+	border-radius: 4px;
+	background: lighten($gray-800, 5%);
+	border: solid 3px $yellow;
+
+	#wavesurfer, #wavesurfer-timeline, #wavesurfer-loading {
+		width: 100%;
+	}
+
+	#wavesurfer {
+		height: 128px;
+	}
+
+	.audio-progress {
+		position: relative;
+		top: 52px;
 	}
 }

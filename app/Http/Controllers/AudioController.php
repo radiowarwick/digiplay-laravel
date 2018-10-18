@@ -34,8 +34,10 @@ class AudioController extends Controller
 		$params = array(
 			'query' => $searchTerm,
 			'type' => $selectedTypes,
-			'filter' => $selectedOptions
+			'filter' => $selectedOptions,
+			'censor' => true,
 	  	);
+
 		$audioResults = Audio::search($params);
 		$total = $audioResults->count();
 		$paginateResults = $audioResults->paginate(25)->appends($_GET);
@@ -79,6 +81,107 @@ class AudioController extends Controller
 			'Content-length' => (int) ($multi * 1000 * $audio->length()),
 			'Accept-Ranges' => 'bytes'
 		]);
+	}
+
+	public function getView(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+
+		$canEdit = auth()->user()->hasPermission('Audio admin');
+
+		$vocalIn = $audio->vocal_start / 44100;
+		$vocalOut = $audio->vocal_end / 44100;
+
+		return view('audio.view', [
+			'audio' => $audio,
+			'canEdit' => $canEdit,
+			'vocalIn' => $this->secondsToString($vocalIn),
+			'vocalOut' => $this->secondsToString($vocalOut)
+		]);
+	}
+
+	public function postUpdateMetadata(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		if($request->get('title') === NULL or $request->get('artist') === NULL or empty($request->get('title')) or empty($request->get('artist'))) {
+			return response()->json([
+				'status' => 'error',
+				'errors' => [
+					'Audio must have a title and artist'
+				]
+			]);
+		}
+
+		$audio->title = trim($request->get('title'));
+		$audio->vocal_start = floor($request->get('vocal_in') * 44100);
+		$audio->vocal_end = floor($request->get('vocal_out') * 44100);
+		$audio->censor = ($request->get('censored') == 'true') ? 't' : 'f';
+		$audio->type = $request->get('type');
+		$audio->setArtist(trim($request->get('artist')));
+		$audio->setAlbum(trim($request->get('album')));
+
+		if($audio->save()) {
+			return response()->json([
+				'status' => 'ok'
+			]);
+		}
+
+		return response()->json([
+			'status' => 'error',
+			'errors' => [
+				'Could not save changes'
+			]
+		]);
+	}
+
+	public function postDelete(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		$audio->moveToBin();
+
+		return response()->json([
+			'status' => 'ok'
+		]);
+	}
+
+	public function postRestore(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		$audio->fetchFromBin();
+
+		return response()->json([
+			'status' => 'ok'
+		]);		
+	}
+
+	private function secondsToString($seconds) {
+		$millisecondsString = ($seconds * 100) % 100;
+		if($millisecondsString == 0)
+			$millisecondsString = '00';
+		else if($millisecondsString < 10)
+			$millisecondsString = $millisecondsString . '0';
+
+		$seconds = floor($seconds);
+		$secondsString = $seconds % 60;
+		if($secondsString < 10)
+			$secondsString = '0' . $secondsString;
+
+		$minutesString = floor($seconds / 60);
+
+		return $minutesString . ':' . $secondsString . '.' . $millisecondsString;
 	}
 }
 

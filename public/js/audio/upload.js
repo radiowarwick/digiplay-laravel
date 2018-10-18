@@ -93,10 +93,6 @@ function import_audio(event) {
 		"type": body.find("[name=\"type\"]").val()
 	};
 
-	body.find("input,select").each(function(){
-		data[$(this).attr("name")] = $(this).val().trim();
-	});
-
 	errors = new Array();
 	if(data["title"] == "")
 		errors.push("You must give the track a title.");
