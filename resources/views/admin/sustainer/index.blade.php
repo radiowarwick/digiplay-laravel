@@ -76,8 +76,16 @@
 							@endforeach
 						</select>
 					</div>
+					<div class="form-group">
+						<label class="form-control-label">
+							Prerecord
+						</label>
+						<select id="modal-prerec" class="form-control selectpicker">
+						</select>
+					</div>
 				</div>
 				<div class="modal-footer">
+					<button type="button" id="modal-clear" class="btn btn-warning">Clear Prerec</button>
 					<button type="button" id="modal-save" class="btn btn-success">Save</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 				</div>

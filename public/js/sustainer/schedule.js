@@ -2,6 +2,39 @@ $(document).ready(function(){
 	$(".slot").dblclick(edit_slot);
 
 	$("#modal-save").click(save_slot);
+	$("#modal-clear").click(clear_prerec);
+
+	$("#modal-prerec").selectpicker({
+		liveSearch: true
+	}).ajaxSelectPicker({
+		ajax: {
+			url: "/ajax/search",
+			method: "POST",
+			data: function() {
+				data = {
+					_token: $("[name=\"_token\"]").val(),
+					query: "{{{q}}}",
+					type: ["Prerec"],
+					filter: ["title", "artist", "album"],
+				}
+				return data;
+			}
+		},
+		locale: {
+			emptyTitle: "Search for prerecs"
+		},
+		preprocessData: function(data) {
+			tracks = [];
+			for(i = 0; i < data.length; i++) {
+				entry = {
+					value: data[i].id,
+					text: data[i].title + " by " + data[i].artist
+				}
+				tracks.push(entry);
+			}
+			return tracks;
+		}
+	});
 });
 
 var slot_id;
@@ -20,7 +53,8 @@ function save_slot() {
 	data = {
 		_token: $("[name=\"_token\"]").val(),
 		id: slot_id,
-		playlist: $("#modal-playlist").val()
+		playlist: $("#modal-playlist").val(),
+		audio: $("#modal-prerec").val()
 	}
 
 	$.ajax({
@@ -35,4 +69,8 @@ function save_slot() {
 			}
 		}
 	})
+}
+
+function clear_prerec() {
+	$("#modal-prerec").val("-1");
 }

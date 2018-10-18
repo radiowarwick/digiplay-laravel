@@ -8,6 +8,8 @@
 window.bootstrap = require('./bootstrap');
 window.particles = require('particles.js');
 window.moment = require('moment');
+window.selectpicker = require('bootstrap-select');
+window.ajaxSelectPicker = require('ajax-bootstrap-select');
 
 window.emojione = require('emojione');
 emojione.imageTitleTag = false;

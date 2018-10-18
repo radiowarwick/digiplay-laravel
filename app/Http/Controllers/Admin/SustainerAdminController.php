@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\SustainerSlot;
 use App\Playlist;
+use App\Audio;
 
 class SustainerAdminController extends Controller
 {
@@ -27,6 +28,12 @@ class SustainerAdminController extends Controller
 		$playlist = Playlist::where('id', $request->get('playlist'))->first();
 		if(!is_null($playlist))
 			$slot->playlistid = $playlist->id;
+
+		$audio = Audio::where('id', $request->get('audio'))->first();
+		if(!is_null($audio))
+			$slot->audioid = $audio->id;
+		else
+			$slot->audioid = null;
 
 		$slot->save();
 
