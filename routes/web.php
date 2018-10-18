@@ -110,4 +110,8 @@ Route::group(['middleware' => ['permission']], function(){
 		Route::get('/admin/studio/', 'Admin\StudioLoginController@getIndex')->name('admin-studio-index');
 		Route::post('/admin/studio/', 'Admin\StudioLoginController@postIndex')->name('admin-studio-index');
 	});
+
+	Route::group(['middleware' => ['permission:Sustainer admin']], function(){
+		Route::get('/admin/sustainer', 'Admin\SustainerAdminController@getIndex')->name('admin-sustainer-index');
+	});
 });
