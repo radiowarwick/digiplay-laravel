@@ -113,5 +113,6 @@ Route::group(['middleware' => ['permission']], function(){
 
 	Route::group(['middleware' => ['permission:Sustainer admin']], function(){
 		Route::get('/admin/sustainer', 'Admin\SustainerAdminController@getIndex')->name('admin-sustainer-index');
+		Route::post('/admin/sustainer', 'Admin\SustainerAdminController@postSaveSlot');
 	});
 });

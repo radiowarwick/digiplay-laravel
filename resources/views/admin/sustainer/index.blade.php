@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+	<script src="/js/sustainer/schedule.js"></script>
+	{{ csrf_field() }}
+
 	<h1>Sustainer</h1>
 
 	<div class="row">
@@ -38,7 +41,7 @@
 						<tr>
 							<td>{{ $hour < 10 ? '0' . $hour : $hour }}:00</td>
 							@for($day = 1; $day <= 7; $day++, $i++)
-								<td class="text-center" style="background:#{{ $slots[$i]->playlist->colour->colour }};">
+								<td class="text-center slot" style="background:#{{ $slots[$i]->playlist->colour->colour }};" data-slot-id="{{ $slots[$i]->id }}" data-prerec-id="{{ $slots[$i]->audioid }}" data-playlist-id="{{ $slots[$i]->playlist->id }}" data-day="{{ $day }}" data-hour="{{ $hour }}">
 									@if(!is_null($slots[$i]->audioid))
 										<i class="fa fa-clock-o"></i>
 									@endif
@@ -48,6 +51,37 @@
 					@endfor
 				</tbody>
 			</table>
+		</div>
+	</div>
+
+	<div class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content bg-dark">
+				<div class="modal-header">
+					<h5>Slot - Wednesday 19:00</h5>
+					<button type="button" class="close text-warning" data-dismiss="modal">
+						<i class="fa fa-times-circle"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-control-label">
+							Playlist
+						</label>
+						<select id="modal-playlist" class="form-control">
+							@foreach($playlists as $playlist)
+								 <option value="{{ $playlist->id }}">
+									{{ $playlist->name }}
+								</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="modal-save" class="btn btn-success">Save</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
 		</div>
 	</div>
 @endsection

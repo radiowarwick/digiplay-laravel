@@ -18,4 +18,21 @@ class SustainerAdminController extends Controller
 			'playlists' => Playlist::sustainer()->get()
 		]);
 	}
+
+	public function postSaveSlot(Request $request) {
+		$slot = SustainerSlot::where('id', $request->get('id'))->first();
+		if(is_null($slot))
+			abort(404, 'Page not found');
+
+		$playlist = Playlist::where('id', $request->get('playlist'))->first();
+		if(!is_null($playlist))
+			$slot->playlistid = $playlist->id;
+
+		$slot->save();
+
+		return response()->json([
+			'status' => 'ok',
+			'colour' => $slot->playlist->colour->colour
+		]);
+	}
 }
