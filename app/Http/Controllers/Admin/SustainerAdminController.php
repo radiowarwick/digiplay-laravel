@@ -39,7 +39,8 @@ class SustainerAdminController extends Controller
 
 		return response()->json([
 			'status' => 'ok',
-			'colour' => $slot->playlist->colour->colour
+			'colour' => $slot->playlist->colour->colour,
+			'audio' => $slot->audioid
 		]);
 	}
 }

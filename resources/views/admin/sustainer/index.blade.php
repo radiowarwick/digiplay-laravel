@@ -58,7 +58,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content bg-dark">
 				<div class="modal-header">
-					<h5>Slot - Wednesday 19:00</h5>
+					<h5>Slot - <span id="modal-time"></span></h5>
 					<button type="button" class="close text-warning" data-dismiss="modal">
 						<i class="fa fa-times-circle"></i>
 					</button>
@@ -82,6 +82,9 @@
 						</label>
 						<select id="modal-prerec" class="form-control selectpicker">
 						</select>
+					</div>
+					<div class="form-group">
+						Selected prerecord: <strong id="modal-prerec-name" data-id=""></strong>
 					</div>
 				</div>
 				<div class="modal-footer">

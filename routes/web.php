@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// API/AJAX call
 	Route::post('ajax/search', 'Api\SearchController@postSearch');
+	Route::post('ajax/detail', 'Api\SearchController@postDetail');
 });
 
 Route::group(['middleware' => ['permission']], function(){
