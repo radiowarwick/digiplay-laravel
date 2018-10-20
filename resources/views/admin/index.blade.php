@@ -32,4 +32,16 @@
 			</div>
 		</div>
 	@endif
+
+	@if(auth()->user()->hasPermission('Sustainer admin'))
+		<div class="card" style="width: 18rem; display: inline-table;">
+			<div class="card-body">
+				<h5 class="card-title">Sustainer Management</h5>
+				<p>
+					Manage the prerecorded shows and playlists for the sustainer service
+				</p>
+				<a href="{{ route('admin-sustainer-index') }}" class="btn btn-warning">View</a>
+			</div>
+		</div>
+	@endif
 @endsection
