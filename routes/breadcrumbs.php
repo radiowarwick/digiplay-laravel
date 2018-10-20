@@ -26,6 +26,13 @@ Breadcrumbs::for('audio-view', function($trail, $audio){
 	$trail->push($audio->title, route('audio-view', $audio->id));
 });
 
+// Playlist pages
+
+Breadcrumbs::for('playlist-index', function($trail){
+	$trail->parent('audio-index');
+	$trail->push('Playlists', route('playlist-index'));
+});
+
 // Audiowall pages
 
 Breadcrumbs::for('audiowall-index', function($trail){

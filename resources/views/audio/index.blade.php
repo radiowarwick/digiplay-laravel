@@ -31,6 +31,18 @@
 					</ul>
 				</p>
 			@endif
+
+			@if(auth()->user()->hasPermission('Playlist editor'))
+				<h3>Playlists</h3>
+
+				<p>
+					View, edit and create playlists for the sustainer and the studio.
+				</p>
+
+				<div class="list-group">
+					<a class="list-group-item" href="{{ route('playlist-index') }}">View/Create Playlists</a>
+				</div>
+			@endif
 		</div>
 		<div class='col-md-6'>
 			<h3>Latest Uploads</h3>

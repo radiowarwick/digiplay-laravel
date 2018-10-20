@@ -51,6 +51,9 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
 
+	// Playlists
+	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');
+
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
 	Route::get('/audiowall/{id}', 'AudiowallController@getView')->name('audiowall-view')->where('id', '[0-9]+');
