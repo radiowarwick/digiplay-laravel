@@ -47,23 +47,28 @@
 	<table class="table table-responsive">
 		<thead>
 			<tr>
-				<th></th>
+				<th class="icon"></th>
 				<th>Name</th>
 				<th>Tracks</th>
-				<th></th>
+				<th class="icon"></th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($sustainer as $playlist)
 				<tr>
-					<td>
+					<td class="icon">
 						<a href="#">
 							<i class="fa fa-info-circle"></i>
 						</a>
 					</td>
 					<td>{{ $playlist->name }}</td>
 					<td>{{ sizeof($playlist->audio) }}
-					<td></td>
+					<td class="icon">
+						<a href="{{ route('playlist-edit', $playlist->id) }}">
+							<i class="fa fa-pencil-square"></i>
+						</a>
+					</td>
+
 				</tr>
 			@endforeach
 		</tbody>
