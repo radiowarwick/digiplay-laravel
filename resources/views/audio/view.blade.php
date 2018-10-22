@@ -73,11 +73,13 @@
 
 			@if(auth()->user()->hasPermission('Playlist editor'))
 				<div class="form-group">
-					<button type="button" class="btn btn-primary btn-block">
+					<button type="button" data-audio-id="{{ $audio->id }}" class="btn btn-primary btn-block playlist-change">
 						<i class="fa fa-th-list"></i>
 						Playlists
 					</button>
 				</div>
+
+				@include('layouts.playlist')
 			@endif
 
 			@if($canEdit)

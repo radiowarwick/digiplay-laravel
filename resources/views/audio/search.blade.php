@@ -23,6 +23,9 @@
 					<th class="album">Album</th>
 					<th class="length">Length</th>
 					<th class="type">Type</th>
+					@if(auth()->user()->hasPermission('Playlist editor'))
+						<th class="icon"></th>
+					@endif
 				</tr>
 			</thead>
 			<tbody>
@@ -38,6 +41,11 @@
 						<td class="album">{{ $result->album->name }}</td>
 						<td class="length">{{ $result->lengthString() }}</td>
 						<td class="title">{{ $result->getTypeString() }}</td>
+						@if(auth()->user()->hasPermission('Playlist editor'))
+							<td class="icon">
+								<i class="fa fa-plus-circle playlist-change text-warning" data-audio-id="{{ $result->id }}"></i>
+							</td>
+						@endif
 					 </td>
 					</tr>
 				@endforeach
@@ -46,4 +54,10 @@
 	@endif
 
 	{{ $results->appends(['q' => $q])->links() }}
+
+	@if(auth()->user()->hasPermission('Playlist editor'))
+		{{ csrf_field() }}
+
+		@include('layouts.playlist')
+	@endif
 @endsection
