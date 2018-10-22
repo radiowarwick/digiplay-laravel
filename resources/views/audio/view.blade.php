@@ -31,14 +31,16 @@
 			</button>
 		</div>
 
-		<div class="btn-group">
-			<button type="button" id="btn-set-vocal-in" class="btn btn-sm btn-success" data-seconds="{{ $audio->getVocalIn() }}">
-				Set Vocal In
-			</button>
-			<button type="button" id="btn-set-vocal-out" class="btn btn-sm btn-danger" data-seconds="{{ $audio->getVocalOut() }}">
-				Set Vocal Out
-			</button>
-		</div>
+		@if($canEdit)
+			<div class="btn-group">
+				<button type="button" id="btn-set-vocal-in" class="btn btn-sm btn-success" data-seconds="{{ $audio->getVocalIn() }}">
+					Set Vocal In
+				</button>
+				<button type="button" id="btn-set-vocal-out" class="btn btn-sm btn-danger" data-seconds="{{ $audio->getVocalOut() }}">
+					Set Vocal Out
+				</button>
+			</div>
+		@endif
 	</div>
 
 	<div class="row">
