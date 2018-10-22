@@ -50,4 +50,25 @@ class PlaylistController extends Controller {
 			'status' => 'ok'
 		]);
 	}
+
+	public function postUpdate(Request $request) {
+		if($request->get('remove') == "true") {
+			$playlistAudio = PlaylistAudio::where('audioid', $request->get('audio_id'))->where('playlistid', $request->get('playlist_id'))->first();
+			$playlistAudio->delete();
+
+			return response()->json([
+				'removed' => 'true'
+			]);
+		}
+		else {
+			$playlistAudio = new PlaylistAudio;
+			$playlistAudio->playlistid = $request->get('playlist_id');
+			$playlistAudio->audioid = $request->get('audio_id');
+			$playlistAudio->save();
+
+			return response()->json([
+				'removed' => 'false'
+			]);
+		}
+	}
 }

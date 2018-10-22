@@ -14661,7 +14661,7 @@ body {
   cursor: pointer;
 }
 
-.list-group-item:hover {
+.list-group-item:not(.playlist-item):hover {
   background: #ead176;
   border-color: #ead176;
   color: #2b2b2b;
