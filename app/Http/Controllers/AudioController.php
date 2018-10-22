@@ -83,6 +83,18 @@ class AudioController extends Controller
 		]);
 	}
 
+	public function getDownload(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		return response()->download($audio->filePath(), $id . '.flac', [
+			'Content-Type: audio/flac'
+		]);		
+	}
+
 	public function getView(Request $request, $id) {
 		$audio = Audio::where('id', $id)->first();
 		if($audio === null)

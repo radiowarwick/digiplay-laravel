@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
+	Route::get('/audio/download/{id}.flac', 'AudioController@getDownload')->where('id', '[0-9]+')->name('audio-download');
 
 	// Playlists
 	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');
