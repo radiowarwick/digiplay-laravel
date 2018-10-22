@@ -14569,6 +14569,28 @@ div.studio-song-search-results {
   font-size: 1.2rem;
 }
 
+.audio-player {
+  padding: 5px;
+  border-radius: 4px;
+  background: #383838;
+  border: solid 3px #d8b222;
+}
+
+.audio-player #wavesurfer,
+.audio-player #wavesurfer-timeline,
+.audio-player #wavesurfer-loading {
+  width: 100%;
+}
+
+.audio-player #wavesurfer {
+  height: 128px;
+}
+
+.audio-player .audio-progress {
+  position: relative;
+  top: 52px;
+}
+
 .logo-lg {
   height: 200px;
   display: block;

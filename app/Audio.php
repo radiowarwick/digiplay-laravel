@@ -24,6 +24,10 @@ class Audio extends Model
 		return $this->hasOne('App\Album', 'id', 'music_album');
 	}
 
+	public function audioDir() {
+		return $this->hasOne('App\AudioDir', 'audioid', 'id');
+	}
+
 	// annoying name to not share column name
 	public function theArchive() {
 		return $this->hasOne('App\Archive', 'id', 'archive');
@@ -74,8 +78,13 @@ class Audio extends Model
 	*   "censor"    =>  (boolean) true to include censored tracks
 	*/
 	public function scopeSearch($query, $params) {
-		$allowed_types = [null, 'Music', 'Jingle', 'Advert', 'Prerec'];
+		$allowed_types = [null, 'Music', 'Jingle', 'Advert'];
 		$filtered_types = [];
+
+		// If the user has permissions, Prerec is an allowed type
+		if(auth()->user()->hasPermission('Sustainer admin')){
+		  array_push($allowed_types, 'Prerec');
+		}
 
 		// Fill filtered types with index of each allowed type
 		foreach($params['type'] as $type) {
@@ -103,6 +112,10 @@ class Audio extends Model
 			}
 		}
 
+		// must not be in the bin to be in results
+		$query->join('audiodir', 'audio.id', '=', 'audiodir.audioid');
+		$query->where('audiodir.dirid', 2);
+
 		// Apply filter if param is not set or (if set) value is not "false"
 		if(!(isset($params['censor']) and $params['censor'] == "false"))
 			$query->where('censor', 'f');
@@ -125,7 +138,7 @@ class Audio extends Model
 		return $query->orderBy('audio.id', 'DESC')->select('audio.*');
 	}
 
-	public function set_album($album_str) {
+	public function setAlbum($album_str) {
 		$album = Album::where('name', $album_str)->first();
 		if(!isset($album)) {
 			$album = new Album;
@@ -137,7 +150,7 @@ class Audio extends Model
 		$this->save();
 	}
 
-	public function set_artist($artist_str) {
+	public function setArtist($artist_str) {
 		$artist = Artist::where('name', $artist_str)->first();
 		if(!isset($artist)) {
 			$artist = new Artist;
@@ -154,10 +167,29 @@ class Audio extends Model
 		$audio_artist->artistid = $artist->id;
 		$audio_artist->save();
 	}
-
+	  
 	public function getTypeString() {
-		$typeID = $this->type;
-		$types = array('Music', 'Jingle', 'Advert', 'Prerec');
-		return $types[$typeID-1];
+		$types = ['Music', 'Jingle', 'Advert', 'Prerec'];
+		return $types[$this->type - 1];
+	}
+
+	public function getVocalIn() {
+		return ($this->vocal_start / 44100);
+	}
+
+	public function getVocalOut() {
+		return ($this->vocal_end / 44100);
+	}
+
+	public function moveToBin() {
+		$audioDir = $this->audioDir;
+		$audioDir->dirid = 3;
+		$audioDir->save();
+	}
+
+	public function fetchFromBin() {
+		$audioDir = $this->audioDir;
+		$audioDir->dirid = 2;
+		$audioDir->save();
 	}
 }

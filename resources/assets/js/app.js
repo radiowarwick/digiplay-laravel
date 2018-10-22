@@ -11,6 +11,10 @@ window.moment = require('moment');
 window.selectpicker = require('bootstrap-select');
 window.ajaxSelectPicker = require('ajax-bootstrap-select');
 
+window.WaveSurfer = require('wavesurfer.js');
+window.WaveSurferRegions = require('wavesurfer.js/dist/plugin/wavesurfer.regions.min.js');
+window.WaveSurferTimeline = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js');
+
 window.emojione = require('emojione');
 emojione.imageTitleTag = false;
 emojione.imagePathPNG = '/img/emoji/';

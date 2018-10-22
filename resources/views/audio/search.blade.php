@@ -16,20 +16,28 @@
 	@if($total > 0)
 		<table class="table table-striped table-responsive">
 			<thead>
-				<th class="title">Title</th>
-				<th class="artist">Artist</th>
-				<th class="album">Album</th>
-				<th class="length">Length</th>
-				<th class="type">Type</th>
+				<tr>
+					<th class="icon"></th>
+					<th class="title">Title</th>
+					<th class="artist">Artist</th>
+					<th class="album">Album</th>
+					<th class="length">Length</th>
+					<th class="type">Type</th>
+				</tr>
 			</thead>
 			<tbody>
 				@foreach($results as $result)
-					<tr>
-						<td class="title"> {{ $result->title }} </td>
-						<td class="artist"> {{ $result->artist->name }} </td>
-						<td class="album"> {{ $result->album->name }} </td>
-						<td class="length">  {{ $result->lengthString() }} </td>
-						<td class="title">  {{ $result->getTypeString() }}</td>
+					<tr {!! ($result->censor == 't') ? 'class="bg-danger"' : '' !!}>
+						<td class="icon">
+							<a href="{{ route('audio-view', $result->id) }}">
+								<i class="fa fa-info-circle"></i>
+							</a>
+						</td>
+						<td class="title">{{ $result->title }}</td>
+						<td class="artist">{{ $result->artist->name }}</td>
+						<td class="album">{{ $result->album->name }}</td>
+						<td class="length">{{ $result->lengthString() }}</td>
+						<td class="title">{{ $result->getTypeString() }}</td>
 					 </td>
 					</tr>
 				@endforeach

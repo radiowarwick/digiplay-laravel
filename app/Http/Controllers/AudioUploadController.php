@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Audio;
 use App\Archive;
+use App\AudioDir;
 
 class AudioUploadController extends Controller
 {
@@ -29,8 +30,6 @@ class AudioUploadController extends Controller
 		$metadatas = [];
 		foreach($files as $file) {
 			$path = storage_path('app/' . $file);
-
-			$mime = "";
 
 			$metadata = $this->audioFileMetadata($path);
 			$metadata['origin'] = auth()->user()->name;
@@ -96,7 +95,7 @@ class AudioUploadController extends Controller
 		$artist = trim($request->get('artist'));
 		$album = trim($request->get('album'));
 		$type = $request->get('type');
-		$censor = $request->get('censored') ? 't' : 'f';
+		$censor = ($request->get('censored') == 'true') ? 't' : 'f';
 
 		$errors = [];
 
@@ -159,8 +158,15 @@ class AudioUploadController extends Controller
 				$album = '(none)';
 			}
 
-			$audio->set_album($album);
-			$audio->set_artist($artist);
+			$audio->setAlbum($album);
+			$audio->setArtist($artist);
+
+			$audioDir = new AudioDir;
+			$audioDir->audioid = $audio->id;
+			$audioDir->dirid = 2;
+			$audioDir->linktype = 0;
+			$audioDir->inherit = 'f';
+			$audioDir->save();
 
 			rename($output, $archive->localpath . '/' . $md5_substring . '/' . $md5 . '.flac');
 			Storage::delete('uploads/' . $request->get('filename'));
