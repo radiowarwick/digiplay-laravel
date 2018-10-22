@@ -9,14 +9,14 @@
 @section('content')
 	<h1>Playlists</h1>
 
-	<button type="button" class="btn btn-warning">Create Playlist</button>
+	<a href="{{ route('playlist-create') }}" class="btn btn-warning">Create Playlist</a>
 
 	<h2>Studio Playlists</h2>
 
 	<table class="table table-responsive">
 		<thead>
 			<tr>
-				<th></th>
+				<th class="icon"></th>
 				<th>Name</th>
 				<th>Tracks</th>
 				<th></th>
@@ -25,14 +25,18 @@
 		<tbody>
 			@foreach($studio as $playlist)
 				<tr>
-					<td>
+					<td class="icon">
 						<a href="{{ route('playlist-view', $playlist->id) }}">
 							<i class="fa fa-info-circle"></i>
 						</a>
 					</td>
 					<td>{{ $playlist->name }}</td>
 					<td>{{ sizeof($playlist->audio) }}
-					<td></td>
+					<td class="icon">
+						<a href="{{ route('playlist-edit', $playlist->id) }}">
+							<i class="fa fa-pencil-square"></i>
+						</a>
+					</td>
 				</tr>
 			@endforeach
 		</tbody>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Playlist;
 use App\PlaylistAudio;
+use App\PlaylistColour;
 
 class PlaylistController extends Controller {
 	public function __construct() {
@@ -33,6 +34,20 @@ class PlaylistController extends Controller {
 		return view('playlist.view')->with([
 			'playlist' => $playlist,
 			'playlistAudio' => $playlistAudio
+		]);
+	}
+
+	public function getCreate(Request $request) {
+		return view('playlist.create');
+	}
+
+	public function getEdit(Request $request, $id) {
+		$playlist = Playlist::where('id', $id)->first();
+		if($playlist == null)
+			abort(404, 'Page not found');
+
+		return view('playlist.edit')->with([
+			'playlist' => $playlist
 		]);
 	}
 
@@ -70,5 +85,53 @@ class PlaylistController extends Controller {
 				'removed' => 'false'
 			]);
 		}
+	}
+
+	public function postCreate(Request $request) {
+		$request->validate([
+			'name' => 'required'
+		]);
+
+		$playlist = new Playlist;
+		$playlist->name = $request->get('name');
+		if($request->get('sustainer') == null)
+			$playlist->sustainer = 'f';
+		else
+			$playlist->sustainer = 't';
+		$playlist->save();
+
+		$colour = new PlaylistColour;
+		$colour->playlistid = $playlist->id;
+		$colour->colour = str_replace('#', '', $request->get('colour'));
+		$colour->save();
+
+		return redirect()->route('playlist-index');
+	}
+
+	public function postEdit(Request $request, $id) {
+		$request->validate([
+			'name' => 'required'
+		]);
+
+		$playlist = Playlist::where('id', $id)->first();
+		if($playlist == null)
+			abort(404, 'Page not found');
+
+		$playlist->name = $request->get('name');
+		if($request->get('sustainer') == null)
+			$playlist->sustainer = 'f';
+		else
+			$playlist->sustainer = 't';
+		$playlist->save();
+
+		$colour = PlaylistColour::where('playlistid', $id)->first();
+		if($colour == null) {
+			$colour = new PlaylistColour;
+			$colour->playlistid = $id;
+		}
+		$colour->colour = str_replace('#', '', $request->get('colour'));
+		$colour->save();
+
+		return redirect()->route('playlist-view', $playlist->id);
 	}
 }

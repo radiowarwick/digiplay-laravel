@@ -17,7 +17,6 @@
 			@if(auth()->user()->hasPermission('Can upload audio'))
 				<div class="list-group">
 					<a class="list-group-item" href="{{ route('audio-upload') }}">Upload Audio</a>
-					<a class="list-group-item" href="#">Censorship Tags</a>
 				</div>
 			@else
 				<p>

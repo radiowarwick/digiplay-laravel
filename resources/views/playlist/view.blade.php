@@ -11,7 +11,14 @@
 
 	{{ csrf_field() }}
 
-	<h1>{{ $playlist->name }}</h1>
+	<div class="row">
+		<div class="col-sm-8">
+			<h1>{{ $playlist->name }}</h1>
+		</div>
+		<div class="col-sm-4">
+			<a href="{{ route('playlist-edit', $playlist->id) }}" class="btn btn-warning">Edit</a>
+		</div>
+	</div>
 
 	<table class="table table-responsive">
 		<thead>
