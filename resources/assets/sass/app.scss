@@ -62,7 +62,7 @@ body {
     cursor: pointer;
 }
 
-.list-group-item:hover {
+.list-group-item:not(.playlist-item):hover {
 	background: lighten($yellow, 20%);
 	border-color: lighten($yellow, 20%);
 	color: $gray-800;

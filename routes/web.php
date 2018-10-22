@@ -51,6 +51,17 @@ Route::group(['middleware' => ['auth']], function(){
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
 
+	// Playlists
+	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');
+	Route::get('/audio/playlist/{id}', 'PlaylistController@getView')->where('id', '[0-9]+')->name('playlist-view');
+	Route::get('/audio/playlist/create', 'PlaylistController@getCreate')->name('playlist-create');
+	Route::get('/audio/playlist/{id}/edit', 'PlaylistController@getEdit')->name('playlist-edit');
+
+	Route::post('/audio/playlist/remove', 'PlaylistController@postRemove')->name('playlist-remove');
+	Route::post('/audio/playlist/update', 'PlaylistController@postUpdate')->name('playlist-update');
+	Route::post('/audio/playlist/create', 'PlaylistController@postCreate');
+	Route::post('/audio/playlist/{id}/edit', 'PlaylistController@postEdit');
+
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');
 	Route::get('/audiowall/{id}', 'AudiowallController@getView')->name('audiowall-view')->where('id', '[0-9]+');
@@ -94,8 +105,9 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/showplan/{id}/settings/add', 'ShowplanController@postSettingAdd')->name('showplan-setting-add');
 
 	// API/AJAX call
-	Route::post('ajax/search', 'Api\SearchController@postSearch');
-	Route::post('ajax/detail', 'Api\SearchController@postDetail');
+	Route::post('/ajax/search', 'Api\SearchController@postSearch');
+	Route::post('/ajax/detail', 'Api\SearchController@postDetail');
+	Route::post('/ajax/playlist', 'Api\SearchController@postPlaylist');
 });
 
 Route::group(['middleware' => ['permission']], function(){

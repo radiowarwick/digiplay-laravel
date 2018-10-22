@@ -26,6 +26,28 @@ Breadcrumbs::for('audio-view', function($trail, $audio){
 	$trail->push($audio->title, route('audio-view', $audio->id));
 });
 
+// Playlist pages
+
+Breadcrumbs::for('playlist-index', function($trail){
+	$trail->parent('audio-index');
+	$trail->push('Playlists', route('playlist-index'));
+});
+
+Breadcrumbs::for('playlist-view', function($trail, $playlist){
+	$trail->parent('playlist-index');
+	$trail->push($playlist->name, route('playlist-view', $playlist->id));
+});
+
+Breadcrumbs::for('playlist-create', function($trail){
+	$trail->parent('playlist-index');
+	$trail->push('Create', route('playlist-create'));
+});
+
+Breadcrumbs::for('playlist-edit', function($trail, $playlist){
+	$trail->parent('playlist-view', $playlist);
+	$trail->push($playlist->name, route('playlist-edit', $playlist->id));
+});
+
 // Audiowall pages
 
 Breadcrumbs::for('audiowall-index', function($trail){
