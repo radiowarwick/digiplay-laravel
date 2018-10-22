@@ -33,6 +33,11 @@ Breadcrumbs::for('playlist-index', function($trail){
 	$trail->push('Playlists', route('playlist-index'));
 });
 
+Breadcrumbs::for('playlist-view', function($trail, $playlist){
+	$trail->parent('playlist-index');
+	$trail->push($playlist->name, route('playlist-view', $playlist->id));
+});
+
 // Audiowall pages
 
 Breadcrumbs::for('audiowall-index', function($trail){

@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// Playlists
 	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');
+	Route::get('/audio/playlist/{id}', 'PlaylistController@getView')->name('playlist-view');
 
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');

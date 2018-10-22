@@ -24,7 +24,11 @@
 		<tbody>
 			@foreach($studio as $playlist)
 				<tr>
-					<td></td>
+					<td>
+						<a href="{{ route('playlist-view', $playlist->id) }}">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</td>
 					<td>{{ $playlist->name }}</td>
 					<td></td>
 				</tr>
@@ -45,7 +49,11 @@
 		<tbody>
 			@foreach($sustainer as $playlist)
 				<tr>
-					<td></td>
+					<td>
+						<a href="#">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</td>
 					<td>{{ $playlist->name }}</td>
 					<td></td>
 				</tr>
