@@ -18,6 +18,7 @@
 			<tr>
 				<th></th>
 				<th>Name</th>
+				<th>Tracks</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -30,6 +31,7 @@
 						</a>
 					</td>
 					<td>{{ $playlist->name }}</td>
+					<td>{{ sizeof($playlist->audio) }}
 					<td></td>
 				</tr>
 			@endforeach
@@ -43,6 +45,7 @@
 			<tr>
 				<th></th>
 				<th>Name</th>
+				<th>Tracks</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -55,6 +58,7 @@
 						</a>
 					</td>
 					<td>{{ $playlist->name }}</td>
+					<td>{{ sizeof($playlist->audio) }}
 					<td></td>
 				</tr>
 			@endforeach

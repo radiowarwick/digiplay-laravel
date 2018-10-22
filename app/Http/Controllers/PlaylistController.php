@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Playlist;
+use App\PlaylistAudio;
 
 class PlaylistController extends Controller {
 	public function getIndex(Request $request) {
@@ -23,8 +24,26 @@ class PlaylistController extends Controller {
 			abort(404, 'Page not found');
 		}
 
+		$playlistAudio = $playlist->playlistAudio()->paginate(25)->appends($_GET);
+
 		return view('playlist.view')->with([
-			'playlist' => $playlist
+			'playlist' => $playlist,
+			'playlistAudio' => $playlistAudio
+		]);
+	}
+
+	public function postRemove(Request $request) {
+		$playlistAudio = PlaylistAudio::where('id', $request->get('id'));
+		if($playlistAudio == null) {
+			return response()->json([
+				"status" => "error"
+			]);
+		}
+
+		$playlistAudio->delete();
+
+		return response()->json([
+			"status" => "ok"
 		]);
 	}
 }

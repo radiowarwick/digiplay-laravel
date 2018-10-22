@@ -53,7 +53,9 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// Playlists
 	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');
-	Route::get('/audio/playlist/{id}', 'PlaylistController@getView')->name('playlist-view');
+	Route::get('/audio/playlist/{id}', 'PlaylistController@getView')->where('id', '[0-9]+')->name('playlist-view');
+
+	Route::post('/audio/playlist/remove', 'PlaylistController@postRemove')->name('playlist-remove');
 
 	// Audiowalls
 	Route::get('/audiowall', 'AudiowallController@getIndex')->name('audiowall-index');

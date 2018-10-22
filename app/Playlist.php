@@ -18,6 +18,10 @@ class Playlist extends Model
 		return $this->hasOne('App\PlaylistColour', 'playlistid', 'id');
 	}
 
+	public function playlistAudio() {
+		return $this->hasMany('App\PlaylistAudio', 'playlistid', 'id');
+	}
+
 	public function scopeStudio($query) {
 		return $query->where('sustainer', 'f')->orderBy('sortorder');
 	}
