@@ -70,6 +70,16 @@
 					<label for="censor" class="form-check-label">Explicit</label>
 				</div>
 			</div>
+
+			@if(auth()->user()->hasPermission('Playlist editor'))
+				<div class="form-group">
+					<button type="button" class="btn btn-primary btn-block">
+						<i class="fa fa-th-list"></i>
+						Playlists
+					</button>
+				</div>
+			@endif
+
 			@if($canEdit)
 				<div class="form-group">
 					{{ csrf_field() }}

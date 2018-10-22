@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Audio;
+use App\PlaylistAudio;
 
 class SearchController extends Controller
 {
@@ -62,5 +63,19 @@ class SearchController extends Controller
 
 
 		return response()->json($entry);
+	}
+
+	public function postPlaylist(Request $request) {
+		$this->validate($request, [
+			'id' => 'required'
+		]);
+
+		$playlists = PlaylistAudio::where('audioid', $request->get('id'))->get();
+		$response = [];
+		foreach($playlists as $playlist) {
+			$response[] = $playlist->playlistid;
+		}
+
+		return response()->json($response);
 	}
 }

@@ -8,6 +8,10 @@ use App\Playlist;
 use App\PlaylistAudio;
 
 class PlaylistController extends Controller {
+	public function __construct() {
+		$this->middleware('permission:Playlist editor');
+	}
+
 	public function getIndex(Request $request) {
 		$studioPlaylists = Playlist::studio()->get();
 		$sustainerPlaylists = Playlist::sustainer()->get();
@@ -36,14 +40,14 @@ class PlaylistController extends Controller {
 		$playlistAudio = PlaylistAudio::where('id', $request->get('id'));
 		if($playlistAudio == null) {
 			return response()->json([
-				"status" => "error"
+				'status' => 'error'
 			]);
 		}
 
 		$playlistAudio->delete();
 
 		return response()->json([
-			"status" => "ok"
+			'status' => 'ok'
 		]);
 	}
 }

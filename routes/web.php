@@ -100,8 +100,9 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/showplan/{id}/settings/add', 'ShowplanController@postSettingAdd')->name('showplan-setting-add');
 
 	// API/AJAX call
-	Route::post('ajax/search', 'Api\SearchController@postSearch');
-	Route::post('ajax/detail', 'Api\SearchController@postDetail');
+	Route::post('/ajax/search', 'Api\SearchController@postSearch');
+	Route::post('/ajax/detail', 'Api\SearchController@postDetail');
+	Route::post('/ajax/playlist', 'Api\SearchController@postPlaylist');
 });
 
 Route::group(['middleware' => ['permission']], function(){
