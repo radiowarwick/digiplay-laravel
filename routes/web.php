@@ -11,6 +11,9 @@
 |
 */
 
+if(env('APP_ENV') == 'production')
+	URL::forceScheme('https');
+
 if(!is_null(env('BASE_URL', null)))
 	URL::forceRootUrl(env('BASE_URL'));
 
