@@ -2,7 +2,7 @@
 
 @section('title', 'Login')
 
-@section('header', 'Members\' Area')
+@section('header', 'Digiplay')
 
 @section('content')
 	@if(Session::has('status'))
@@ -39,5 +39,11 @@
 			<p class="text-danger">{{ $error }}</p>
 		@endforeach
 	@endif
-	<p>Forgotten your password? <a href="#" class="text-warning">Click here!</a>
+	<p>
+		If you do not have a RAW account, get membership <a href="https://www.warwicksu.com/societies/raw/" target="_blank">get it here</a>.
+	</p>
+
+	<p>
+		Forgotten your password? <a href="https://space.radio.warwick.ac.uk/space/passreset/" target="_blank">Click here!
+	</a>
 @endsection

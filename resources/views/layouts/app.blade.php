@@ -5,8 +5,10 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
 		<meta charset="utf-8">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
+		<link rel="shortcut icon" href="/img/favicon.ico">
 		
 		<script src="/js/app.js"></script>
 	</head>
@@ -39,13 +41,18 @@
 					@endif
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<form action="{{ route('audio-search') }}" class="form-inline mr-sm-2">
+				    	<input class="form-control mr-sm-2" name="q" type="text" placeholder="Search audio">
+				    	<button class="btn btn-warning" type="submit">Search</button>
+				    </form>
+
 					<li class="nav-item dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							{{ Auth::user()->name }}
 							<b class="caret"></b>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right nav-user-dropdown">
-							<a class="dropdown-item" href="/profile/{{ Auth::user()->username }}"><i class="fa fa-fw fa-user"></i> Profile</a>
+							{{-- <a class="dropdown-item" href="/profile/{{ Auth::user()->username }}"><i class="fa fa-fw fa-user"></i> Profile</a> --}}
 							<a class="dropdown-item" href="/logout"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
 						</div>
 					</li>

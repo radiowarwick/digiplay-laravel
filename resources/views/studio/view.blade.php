@@ -5,6 +5,7 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
 		<meta charset="utf-8">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 		
@@ -21,8 +22,10 @@
 
 		<div class="container-fluid studio-now-next border-bottom border-warning border-3">
 			<div class="row">
-{{-- 				<div class="col-sm-6">On now: RAW Jukebox</div>
-				<div class="col-sm-6">On next: RAW Jukebox</div> --}}
+				{{--
+				<div class="col-sm-6">On now: RAW Jukebox</div>
+				<div class="col-sm-6">On next: RAW Jukebox</div>
+				--}}
 			</div>
 		</div>
 
@@ -86,8 +89,16 @@
 							</div>
 							<div class="studio-song-search-results">
 								<div class="studio-song-search-welcome">
-									<h1>Welcome to Digiplay, {{ auth()->user()->name }}!</h1>
-									<h2>Search for a song or load songs from playlists</h2>
+									<h1>Hello {{ auth()->user()->name }}, welcome to Digiplay!</h1>
+									<h2>To begin start loading songs from playlists, search or your showplan.</h2>
+									<p>
+										If you're not a specialist music show you must play the following:
+										<ul>
+											<li>One A list song</li>
+											<li>One B list song</li>
+											<li>One A, B or C list song</li>
+										</ul>
+									</p>
 								</div>
 								<div class="studio-song-search-none" style="display:none;">
 									<h2>No results found, please refine your search.</h2>
@@ -231,7 +242,7 @@
 				</div>
 				<div class="col-sm-5 studio-col-right">
 					<div class="studio-showplan-header">
-						<form class="form-inline" method="POST" action="{{ route('studio-load-plan', $key) }}">
+						<form class="form-inline col-sm-10" method="POST" action="{{ route('studio-load-plan', $key) }}">
 							<h2 class="mb-2 mr-sm-2">Plan</h2>
 							@if(count($showplans) > 0)
 								<select class="form-control mb-2 mr-sm-2" name="showplan">
@@ -246,10 +257,15 @@
 											@endif
 										@endforeach
 								</select>
-								<button class="btn btn-warning mb-2" type="submit">Load</button>
+								<button class="btn btn-warning mb-2 mr-sm-2" type="submit">Load</button>
 							@else
-								<h5 class="mb-2">No showplans to load</h5>
+								<h5 class="mb-2 mr-sm-2">No showplans to load</h5>
 							@endif
+							<div class="mb-2">
+								<button type="button" class="btn btn-danger studio-clear-showplan" data-state="ready" data-placement="bottom" data-content="Are you sure you wish to clear plan? Click again to confirm">
+									<i class="fa fa-trash fa-lg"></i>
+								</button>
+							</div>
 						</form>
 					</div>
 					<div class="studio-showplan">
