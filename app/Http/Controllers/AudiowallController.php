@@ -22,7 +22,7 @@ class AudiowallController extends Controller
 		$owned = AudiowallSetPermission::where('level', 4)->where('username', auth()->user()->username)->count();
 
 		$can_create = false;
-		if($owned < 2 or auth()->user()->hasPermission('Audiowall Admin'))
+		if($owned <= 2 or auth()->user()->hasPermission('Audiowall Admin'))
 			$can_create = true;
 
 		return view('audiowall.index')->with('sets', $sets)->with('current_audiowall_id', $current_audiowall_id)->with('can_create', $can_create);

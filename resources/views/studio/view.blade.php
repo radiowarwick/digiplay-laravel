@@ -277,7 +277,7 @@
 									@else
 										<i class="fa fa-music"></i>
 									@endif
-									{{ $item->audio->title }} - {{ $item->audio->artist->name }}
+									{{ $item->audio->artist->name }} - {{ $item->audio->title }}
 									<div class="pull-right">
 										{{ $item->audio->lengthString() }}
 										<span class="studio-card-remove">
