@@ -100,7 +100,7 @@ function load_song(event) {
 				icon = "<i class=\"fa fa-music\"></i>";
 
 			card_body = card.find(".card-body");
-			card_body.text(" " + data.title + " - " + data.artist);
+			card_body.text(" " + data.artist + " - " + data.title);
 			card_body.html(icon + card_body.html());
 			card_body.append(right);
 
