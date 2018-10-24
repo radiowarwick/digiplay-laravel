@@ -173,7 +173,10 @@ class StudioController extends Controller
 		$item->delete();
 		$parent->reposition();
 
-		return response()->json(['message' => 'success']);
+		return response()->json([
+			'message' => 'success',
+			'id' => $id
+		]);
 	}
 
 	public function getSelectShowplanItem(Request $request, $key, $id) {

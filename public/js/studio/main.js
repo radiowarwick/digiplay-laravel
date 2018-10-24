@@ -115,9 +115,13 @@ function remove_song(event) {
 	event.stopPropagation();
 
 	item = $(this).closest(".studio-card");
-	$.get(loc + "removeplan/" + item.attr("data-item-id"), function(data){
-		if(data.message == "success") {
-			item.remove();
+	$.ajax({
+		url: loc + "removeplan/" + item.attr("data-item-id"),
+		type: "GET",
+		success: function(data){
+			if(data.message == "success") {
+				$(".studio-card[data-item-id=\"" + data.id + "\"]").remove();
+			}
 		}
 	});
 }
@@ -194,6 +198,25 @@ function message_stop_flash() {
 	$("[href='#messages']").removeClass("studio-tab-flash");
 }
 
+function clear_showplan_click() {
+	state = $(this).attr("data-state");
+
+	if(state == "ready") {
+		$(this).popover("show");
+		$(this).attr("data-state", "primed");
+	}
+	else if(state == "primed") {
+		$(this).popover("hide");
+		$(this).attr("data-state", "ready");
+		$(".studio-card-remove").trigger("click");
+	}
+}
+
+function clear_showplan_out() {
+	$(this).attr("data-state", "ready");
+	$(this).popover("hide");
+}
+
 function reset_message_binds() {
 	$("[data-message-id]").unbind("click");
 	$("[data-message-id]").click(view_message);
@@ -239,6 +262,10 @@ $(document).ready(function(){
 		$('.studio-time h2').html(moment().format('hh:mm:ss A'));
 		$('.studio-time h5').html(moment().format('dddd Do MMMM YYYY'));
 	}, 1000);
+
+	$(".studio-clear-showplan").click(clear_showplan_click);
+	$(".studio-clear-showplan").mouseout(clear_showplan_out);
+	$(".studio-clear-showplan").popover();
 
 	ws = new WebSocket(WEBSOCKET);
 	ws.onmessage = websocket_message;

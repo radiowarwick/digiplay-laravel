@@ -25,7 +25,12 @@ class AudioController extends Controller
 		$selectedOptions = $request->input('options');
 		$selectedTypes = $request->input('types');
 
-		if(is_null($searchTerm) or empty($selectedOptions) or empty($selectedTypes)) {
+		if(is_null($selectedOptions))
+			$selectedOptions = ['title', 'artist', 'album'];
+		if(is_null($selectedTypes))
+			$selectedTypes = ['Music'];
+
+		if(is_null($searchTerm)) {
 			if(is_null($searchTerm))
 				$searchTerm = '';
 			return view('audio.invalid-search', ['q' => $searchTerm]);
@@ -81,6 +86,18 @@ class AudioController extends Controller
 			'Content-length' => (int) ($multi * 1000 * $audio->length()),
 			'Accept-Ranges' => 'bytes'
 		]);
+	}
+
+	public function getDownload(Request $request, $id) {
+		$audio = Audio::where('id', $id)->first();
+		if($audio === null)
+			abort(404, 'Page not found');
+		if(!auth()->user()->hasPermission('Audio admin'))
+			abort(403, 'Not authorised');
+
+		return response()->download($audio->filePath(), $id . '.flac', [
+			'Content-Type: audio/flac'
+		]);		
 	}
 
 	public function getView(Request $request, $id) {

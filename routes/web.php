@@ -11,6 +11,9 @@
 |
 */
 
+if(env('APP_ENV') == 'production')
+	URL::forceScheme('https');
+
 if(!is_null(env('BASE_URL', null)))
 	URL::forceRootUrl(env('BASE_URL'));
 
@@ -50,6 +53,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 	// Audio Preview
 	Route::get('/audio/preview/{id}.mp3', 'AudioController@getPreview')->where('id', '[0-9]+')->name('audio-preview');
+	Route::get('/audio/download/{id}.flac', 'AudioController@getDownload')->where('id', '[0-9]+')->name('audio-download');
 
 	// Playlists
 	Route::get('/audio/playlist', 'PlaylistController@getIndex')->name('playlist-index');

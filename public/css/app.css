@@ -14425,6 +14425,7 @@ div.studio-song-search-results {
 
 #playlists .card-header {
   background: #5e5e5e !important;
+  cursor: pointer;
 }
 
 .studio-card {

@@ -11,8 +11,8 @@
 
 	@include('forms.audio-search')
 
-	<div class='row'>
-		<div class='col-md-6'>
+	<div class="row">
+		<div class="col-md-4">
 			<h3>Upload Audio</h3>
 			@if(auth()->user()->hasPermission('Can upload audio'))
 				<div class="list-group">
@@ -20,7 +20,7 @@
 				</div>
 			@else
 				<p>
-					Have some music that you want added to Digiplay? Send an email to <a href='mailto:music@radio.warwick.ac.uk'>music@radio.warwick.ac.uk</a> with your music attached at least 48 hours before your show. Make sure the music is high quality! Be sure to include the following in the email:
+					Have some music that you want added to Digiplay? Send an email to <a href="mailto:music@radio.warwick.ac.uk">music@radio.warwick.ac.uk</a> with your music attached at least 48 hours before your show. Make sure the music is high quality! Be sure to include the following in the email:
 
 					<ul>
 						<li>Track Name</li>
@@ -43,22 +43,30 @@
 				</div>
 			@endif
 		</div>
-		<div class='col-md-6'>
+		<div class="col-md-8">
 			<h3>Latest Uploads</h3>
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
+						<th class="icon"></th>
 						<th>Title</th>
 						<th>Artist</th>
 						<th>Origin</th>
+						<th>Upload</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach($latest as $l)
 						<tr>
+							<td class="icon">
+								<a href="{{ route('audio-view', $l->id) }}">
+									<i class="fa fa-info-circle"></i>
+								</a>
+							</td>
 							<td>{{ $l->title }}</td>
 							<td>{{ $l->artist->name }}</td>
 							<td>{{ $l->origin }}</td>
+							<td>{{ date("d/m/Y H:i", $l->import_date) }}</td>
 						</tr>
 					@endforeach
 				</tbody>

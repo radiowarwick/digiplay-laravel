@@ -31,14 +31,16 @@
 			</button>
 		</div>
 
-		<div class="btn-group">
-			<button type="button" id="btn-set-vocal-in" class="btn btn-sm btn-success" data-seconds="{{ $audio->getVocalIn() }}">
-				Set Vocal In
-			</button>
-			<button type="button" id="btn-set-vocal-out" class="btn btn-sm btn-danger" data-seconds="{{ $audio->getVocalOut() }}">
-				Set Vocal Out
-			</button>
-		</div>
+		@if($canEdit)
+			<div class="btn-group">
+				<button type="button" id="btn-set-vocal-in" class="btn btn-sm btn-success" data-seconds="{{ $audio->getVocalIn() }}">
+					Set Vocal In
+				</button>
+				<button type="button" id="btn-set-vocal-out" class="btn btn-sm btn-danger" data-seconds="{{ $audio->getVocalOut() }}">
+					Set Vocal Out
+				</button>
+			</div>
+		@endif
 	</div>
 
 	<div class="row">
@@ -71,17 +73,6 @@
 				</div>
 			</div>
 
-			@if(auth()->user()->hasPermission('Playlist editor'))
-				<div class="form-group">
-					<button type="button" data-audio-id="{{ $audio->id }}" class="btn btn-primary btn-block playlist-change">
-						<i class="fa fa-th-list"></i>
-						Playlists
-					</button>
-				</div>
-
-				@include('layouts.playlist')
-			@endif
-
 			@if($canEdit)
 				<div class="form-group">
 					{{ csrf_field() }}
@@ -90,6 +81,7 @@
 					<button type="button" id="btn-restore" class="btn btn-danger" {!! $audio->audioDir->dirid == 2 ? 'style="display:none;"' : '' !!}>Restore</button>
 				</div>
 			@endif
+
 			<div class="form-group text-danger error">
 			</div>
 			<div class="form-group text-success success">
@@ -129,6 +121,24 @@
 				</div>
 				<div class="col-sm-6" id="vocal-out">{{ $vocalOut }}</div>
 			</div>
+			@if($canEdit)
+				<div class="row mb-sm-3">
+					<a href="{{ route('audio-download', $audio->id) }}" class="btn btn-warning btn-block">
+						<i class="fa fa-download"></i>
+						Download Flac
+					</a>
+				</div>
+			@endif
+			@if(auth()->user()->hasPermission('Playlist editor'))
+				<div class="row">
+					<button type="button" data-audio-id="{{ $audio->id }}" class="btn btn-primary btn-block playlist-change">
+						<i class="fa fa-th-list"></i>
+						Playlists
+					</button>
+				</div>
+
+				@include('layouts.playlist')
+			@endif
 		</div>
 	</div>
 @endsection
