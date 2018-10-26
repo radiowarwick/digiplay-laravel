@@ -242,7 +242,7 @@
 				</div>
 				<div class="col-sm-5 studio-col-right">
 					<div class="studio-showplan-header">
-						<form class="form-inline col-sm-10" method="POST" action="{{ route('studio-load-plan', $key) }}">
+						<form class="form-inline col-sm-12" method="POST" action="{{ route('studio-load-plan', $key) }}">
 							<h2 class="mb-2 mr-sm-2">Plan</h2>
 							@if(count($showplans) > 0)
 								<select class="form-control mb-2 mr-sm-2" name="showplan">
