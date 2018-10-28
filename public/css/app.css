@@ -14513,6 +14513,10 @@ div.studio-song-search-results {
   margin: 0;
 }
 
+a.studio-reset {
+  cursor: pointer;
+}
+
 .showplan-search-results {
   table-layout: fixed;
 }

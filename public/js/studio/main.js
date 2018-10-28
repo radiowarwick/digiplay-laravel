@@ -217,6 +217,30 @@ function clear_showplan_out() {
 	$(this).popover("hide");
 }
 
+function studio_reset_click() {
+	state = $(this).attr("data-state");
+
+	if(state == "ready") {
+		$(this).popover("show");
+		$(this).attr("data-state", "primed");
+	}
+	else if(state == "primed") {
+		$(this).popover("hide");
+		$(this).attr("data-state", "ready");
+
+		$.get(loc + "reset", function(data){
+			if(data.status == "ok") {
+				location.reload();
+			}
+		});
+	}
+}
+
+function studio_reset_out() {
+	$(this).attr("data-state", "ready");
+	$(this).popover("hide");
+}
+
 function reset_message_binds() {
 	$("[data-message-id]").unbind("click");
 	$("[data-message-id]").click(view_message);
@@ -266,6 +290,10 @@ $(document).ready(function(){
 	$(".studio-clear-showplan").click(clear_showplan_click);
 	$(".studio-clear-showplan").mouseout(clear_showplan_out);
 	$(".studio-clear-showplan").popover();
+
+	$(".studio-reset").click(studio_reset_click);
+	$(".studio-reset").mouseout(studio_reset_out);
+	$(".studio-reset").popover();
 
 	ws = new WebSocket(WEBSOCKET);
 	ws.onmessage = websocket_message;

@@ -235,4 +235,14 @@ class StudioController extends Controller
 
 		return redirect()->route('studio-view', $key);
 	}
+
+	public function getReset(Request $request, $key) {
+		$location = $request->get('location');
+
+		shell_exec('/usr/scripts/restart_po' . $location . '_php');
+
+		return response()->json([
+			'status' => 'ok'
+		]);
+	}
 }
