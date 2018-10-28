@@ -50,7 +50,7 @@ function search(event) {
 			"type": ["Music"],
 			"filter": filter,
 			"censor": is_censor_period(),
-			"limit": 50
+			"limit": 100
 		};
 		$.post("/ajax/search", data, function(data){
 			$(".btn-search").removeAttr("disabled");
