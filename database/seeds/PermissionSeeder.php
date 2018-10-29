@@ -29,12 +29,19 @@ class PermissionSeeder extends Seeder
 		]);
 
 		DB::table('permissions')->insert([
+			'name' => 'Can view admin page'
+		]);
+
+		DB::table('permissions')->insert([
 			'name' => 'Sustainer admin',
 		]);
 
-		DB::table('group_permissions')->insert([
-			'group_id' => 1,
-			'permission_id' => 1,
+		DB::table('permissions')->insert([
+			'name' => 'Can upload audio'
+		]);
+
+		DB::table('permissions')->insert([
+			'name' => 'Playlist editor'
 		]);
 	}
 }
