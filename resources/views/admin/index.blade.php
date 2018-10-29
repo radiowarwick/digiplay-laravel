@@ -68,7 +68,9 @@
 								<td>{{ $config->location }}</td>
 								<td>{{ $config->val }}</td>
 								<td>
-									<a target="_blank" href="{{ route('studio-view', $config->val) }}" class="btn btn-warning btn-sm">View</a>
+									<a target="_blank" href="{{ route('studio-view', $config->val) }}" class="btn btn-warning btn-sm">
+										View
+									</a>
 								</td>
 							</tr>
 						@endforeach
