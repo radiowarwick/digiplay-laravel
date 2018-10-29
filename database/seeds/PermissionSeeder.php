@@ -43,5 +43,9 @@ class PermissionSeeder extends Seeder
 		DB::table('permissions')->insert([
 			'name' => 'Playlist editor'
 		]);
+
+		DB::table('permissions')->insert([
+			'name' => 'Can view studio keys'
+		]);
 	}
 }
