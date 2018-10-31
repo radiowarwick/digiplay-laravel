@@ -35,7 +35,7 @@
 					<li class="nav-item {{ Request::segment(1) == 'showplan' ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('showplan-index') }}">Showplans</a>
 					</li>
-					@if(auth()->user()->hasPermission('Can edit groups'))
+					@if(auth()->user()->hasPermission('Can view admin page'))
 						<li class="nav-item {{ Request::segment(1) == 'admin' ? 'active' : '' }}">
 							<a class="nav-link" href="{{ route('admin-index') }}">Admin</a>
 						</li>

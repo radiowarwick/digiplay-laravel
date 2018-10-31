@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/studio/{key}/addplan/{id}', 'StudioController@getAddShowplan')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/removeplan/{id}', 'StudioController@getRemoveShowplan')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/selectitem/{id}', 'StudioController@getSelectShowplanItem')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/reset', 'StudioController@getReset');
 
 	Route::post('/studio/{key}/log', 'StudioController@postLog');
 	Route::post('/studio/{key}/loadplan', 'StudioController@postLoadShowplan')->name('studio-load-plan');

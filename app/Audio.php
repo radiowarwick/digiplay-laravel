@@ -97,18 +97,21 @@ class Audio extends Model
 				$query->orWhere('type', $type);
 			}
 		});
-
-		$strip_query = '%' . trim($params['query']) . '%';
-		$filters = $params['filter'];
-
+		
 		// setup filter joins
-		foreach($filters as $filter) {
+		$filter_columns = [];
+		foreach($params['filter'] as $filter) {
 			if($filter == 'artist') {
 				$query->join('audioartists', 'audio.id', '=', 'audioartists.audioid')
 					->join('artists', 'audioartists.artistid', '=', 'artists.id');
+				$filter_columns[] = '"artists"."name"';
 			}
 			else if($filter == 'album') {
 				$query->join('albums', 'audio.music_album', '=', 'albums.id');
+				$filter_columns[] = '"albums"."name"';
+			}
+			else if($filter == 'title') {
+				$filter_columns[] = '"title"';
 			}
 		}
 
@@ -116,24 +119,16 @@ class Audio extends Model
 		$query->join('audiodir', 'audio.id', '=', 'audiodir.audioid');
 		$query->where('audiodir.dirid', 2);
 
+		// search filter
+		$ts_vector = implode(' || \' \' || ', $filter_columns);
+		$search_term = pg_escape_string($params['query']);
+
+		// good searching of all columns to get best matches
+		$query->whereRaw('to_tsvector(' . $ts_vector . ')::tsvector @@ plainto_tsquery(\'' . $search_term . '\')::tsquery');
+
 		// Apply filter if param is not set or (if set) value is not "false"
 		if(!(isset($params['censor']) and $params['censor'] == "false"))
 			$query->where('censor', 'f');
-
-		// do filter wheres
-		$query->where(function($query) use (&$filters, &$strip_query){
-			foreach($filters as $filter) {
-				if($filter == 'title') {
-					$query->orWhere('title', 'ILIKE', $strip_query);
-				}
-				else if($filter == 'artist') {
-					$query->orWhere('artists.name', 'ILIKE', $strip_query);
-				}
-				else if($filter == 'album') {
-					$query->orWhere('albums.name', 'ILIKE', $strip_query);
-				}
-			}
-		});
 
 		return $query->orderBy('audio.id', 'DESC')->select('audio.*');
 	}

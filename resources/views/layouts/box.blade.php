@@ -13,7 +13,13 @@
 
 		<script src="/js/app.js"></script>
 		<script type="text/javascript">
-			window.particlesJS.load('particles-js', '/js/particles.json', function() {
+			@if((date('d') >= 15 and date('m') == 11) or date('m') == 12)
+				json = '/js/particles-snow.json';
+			@else
+				json = '/js/particles.json';
+			@endif
+
+			window.particlesJS.load('particles-js', json, function() {
   				console.log('particles.js loaded - callback');
 			});
 		</script>

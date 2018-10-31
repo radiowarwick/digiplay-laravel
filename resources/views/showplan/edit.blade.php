@@ -16,6 +16,10 @@
 		</div>
 	</div>
 
+	<p>
+		Your plan will save automatically as you make changes to it. 
+	</p>
+
 	<div class="input-group">
 		<input class="form-control" type="text" name="query" placeholder="Search...">
 		<span class="input-group-btn">

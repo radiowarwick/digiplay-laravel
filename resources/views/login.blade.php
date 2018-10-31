@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button class="btn btn-warning text-white" type="submit">Login</button>
+			<button class="btn btn-block btn-warning text-white" type="submit">Login</button>
 		</div>
 	</form>
 	@if($errors->any())
@@ -40,7 +40,7 @@
 		@endforeach
 	@endif
 	<p>
-		If you do not have a RAW account, get membership <a href="https://www.warwicksu.com/societies/raw/" target="_blank">get it here</a>.
+		If you do not have a RAW account, <a href="https://www.warwicksu.com/societies/raw/" target="_blank">get membership here</a>.
 	</p>
 
 	<p>

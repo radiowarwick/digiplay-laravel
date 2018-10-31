@@ -58,7 +58,8 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link studio-tab bg-danger studio-reset">
+							<a class="nav-link studio-tab bg-danger studio-reset" data-state="ready" data-placement="bottom" data-content="This action will restart the touchscreen and stop anything that it is playing! Click again if you want to do this.">
+								<i class="fa fa-exclamation-triangle"></i>
 								Reset
 							</a>
 						</li>
@@ -92,7 +93,7 @@
 									<h1>Hello {{ auth()->user()->name }}, welcome to Digiplay!</h1>
 									<h2>To begin start loading songs from playlists, search or your showplan.</h2>
 									<p>
-										If you're not a specialist music show you must play the following:
+										Remember to play all yellow adverts each hour! If you're not a specialist music show you must also play the following:
 										<ul>
 											<li>One A list song</li>
 											<li>One B list song</li>
@@ -242,7 +243,7 @@
 				</div>
 				<div class="col-sm-5 studio-col-right">
 					<div class="studio-showplan-header">
-						<form class="form-inline col-sm-10" method="POST" action="{{ route('studio-load-plan', $key) }}">
+						<form class="form-inline col-sm-12" method="POST" action="{{ route('studio-load-plan', $key) }}">
 							<h2 class="mb-2 mr-sm-2">Plan</h2>
 							@if(count($showplans) > 0)
 								<select class="form-control mb-2 mr-sm-2" name="showplan">
@@ -277,7 +278,7 @@
 									@else
 										<i class="fa fa-music"></i>
 									@endif
-									{{ $item->audio->title }} - {{ $item->audio->artist->name }}
+									{{ $item->audio->artist->name }} - {{ $item->audio->title }}
 									<div class="pull-right">
 										{{ $item->audio->lengthString() }}
 										<span class="studio-card-remove">

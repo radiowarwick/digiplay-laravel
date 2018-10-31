@@ -44,7 +44,7 @@
 			@endif
 		</div>
 		<div class="col-md-8">
-			<h3>Latest Uploads</h3>
+			<h3>Newest Tracks</h3>
 			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
