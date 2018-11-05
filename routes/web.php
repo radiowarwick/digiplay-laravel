@@ -114,7 +114,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/ajax/playlist', 'Api\SearchController@postPlaylist');
 });
 
-Route::group(['middleware' => ['permission']], function(){
+Route::group(['middleware' => ['permission:Can view admin page']], function(){
 	Route::get('/admin', 'Admin\AdminController@getIndex')->name('admin-index');
 
 	Route::group(['middleware' => ['permission:Can edit groups']], function(){
