@@ -1,4 +1,4 @@
-@extends('layouts.box')
+@extends($location == 2 ? 'layouts.studio-two' : 'layouts.box')
 
 @section('title', 'Login')
 
