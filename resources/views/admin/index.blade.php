@@ -21,7 +21,7 @@
 		</div>
 	@endif
 
-	@if(auth()->user()->hasPermission('Can search studio logins'))
+	@if(auth()->user()->hasPermission('Can view studio logins'))
 		<div class="card" style="width: 18rem; display: inline-table;">
 			<div class="card-body">
 				<h5 class="card-title">Studio Logins</h5>
