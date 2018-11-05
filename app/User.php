@@ -36,11 +36,11 @@ class User extends Authenticatable
             return $current_audiowall->val;
     }
 
-    public function showplans() {
+    public function showplans($studio = false) {
         $showplans = Showplan::all();
         $editable = [];
         foreach($showplans as $showplan) {
-            if($showplan->canEdit($this))
+            if($showplan->canEdit($this, $studio))
                 $editable[] = $showplan; 
         }
         return collect($editable);

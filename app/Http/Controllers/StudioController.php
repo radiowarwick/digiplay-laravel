@@ -92,7 +92,7 @@ class StudioController extends Controller
 		$showplan = Showplan::find($showplan_id);
 		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
 		$playlists = Playlist::studio()->get();
-		$showplans = auth()->user()->showplans();
+		$showplans = auth()->user()->showplans(true);
 
 		return view('studio.view')->with([
 			'key' => $key,

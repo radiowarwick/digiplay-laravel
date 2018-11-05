@@ -46,6 +46,18 @@
 								<a class="btn btn-danger" href="{{ route('showplan-setting-remove', ['id' => $showplan->id, 'username' => $permission->user->username]) }}">Remove</a>
 							</td>
 						</tr>
+					@else
+						<tr>
+							<td>
+								{{ $permission->user->username }}
+							</td>
+							<td>
+								{{ $permission->user->name }}
+							</td>
+							<td>
+								Owner
+							</td>
+						</tr>
 					@endif
 				@endforeach
 			</tbody>
