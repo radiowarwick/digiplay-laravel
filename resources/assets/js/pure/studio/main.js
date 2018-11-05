@@ -1,4 +1,4 @@
-var loc;
+var loc, ws;
 
 function is_censor_period() {
 	hour = new Date().getHours();
@@ -170,6 +170,9 @@ function websocket_message(event) {
 	}
 	else if(data.channel == "t_messages") {
 		update_messages();
+	}
+	else if(data.channel == "ping") {
+		ws.send("pong");
 	}
 }
 
