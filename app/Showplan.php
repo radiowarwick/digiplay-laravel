@@ -25,8 +25,8 @@ class Showplan extends Model
 		return $this->hasMany('App\ShowplanPermission', 'showplan_id', 'id');
 	}
 
-	public function canEdit($user) {
-		if($user->hasPermission('Showplan admin'))
+	public function canEdit($user, $studio) {
+		if($user->hasPermission('Showplan admin') and $studio == false)
 			return true;
 
 		foreach($this->permissions as $permission) {
