@@ -17,6 +17,7 @@
 		<meta charset="utf-8">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="theme-color" content="#2b2b2b">
+		<meta name="description" content="RAW Digiplay - Audio management system for the members of Radio Warwick at the University of Warwick.">
 
 		<link rel="stylesheet" type="text/css" href="/css/app.css">
 		<link rel="shortcut icon" href="/img/favicon.ico">
