@@ -57,12 +57,14 @@
 								Log
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link studio-tab bg-danger studio-reset" data-state="ready" data-placement="bottom" data-content="This action will restart the touchscreen and stop anything that it is playing! Click again if you want to do this.">
-								<i class="fa fa-exclamation-triangle"></i>
-								Reset
-							</a>
-						</li>
+						@if($location <= 2)
+							<li class="nav-item">
+								<a class="nav-link studio-tab bg-danger studio-reset" data-state="ready" data-placement="bottom" data-content="This action will restart the touchscreen and stop anything that it is playing! Click again if you want to do this.">
+									<i class="fa fa-exclamation-triangle"></i>
+									Reset
+								</a>
+							</li>
+						@endif
 					</ul>
 					<div class="tab-content studio-tab-content">
 						<div class="tab-pane show active" id="music" role="tabpanel">
