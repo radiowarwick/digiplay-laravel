@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4483020-7"></script>
+		<script>
+		 	window.dataLayer = window.dataLayer || [];
+		 	function gtag(){dataLayer.push(arguments);}
+		 	gtag('js', new Date());
+
+		 	gtag('config', 'UA-4483020-7');
+		</script>
+		
 		<title>RAW Digiplay - @yield('title')</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
