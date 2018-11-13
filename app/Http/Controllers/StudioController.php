@@ -207,9 +207,9 @@ class StudioController extends Controller
 		return response()->json(['message' => 'success']);
 	}
 
-	public function postLoadShowplan(Request $request, $key) {
+	public function getLoadShowplan(Request $request, $key, $id) {
 		$location = $request->get('location');
-		$showplan = Showplan::find($request->get('showplan'));
+		$showplan = Showplan::find($id);
 
 		if(!is_null($showplan) and $showplan->canEdit(auth()->user())) {
 			$studio_showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;

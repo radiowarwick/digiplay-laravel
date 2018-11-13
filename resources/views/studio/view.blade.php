@@ -57,12 +57,14 @@
 								Log
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link studio-tab bg-danger studio-reset" data-state="ready" data-placement="bottom" data-content="This action will restart the touchscreen and stop anything that it is playing! Click again if you want to do this.">
-								<i class="fa fa-exclamation-triangle"></i>
-								Reset
-							</a>
-						</li>
+						@if($location <= 2)
+							<li class="nav-item">
+								<a class="nav-link studio-tab bg-danger studio-reset" data-state="ready" data-placement="bottom" data-content="This action will restart the touchscreen and stop anything that it is playing! Click again if you want to do this.">
+									<i class="fa fa-exclamation-triangle"></i>
+									Reset
+								</a>
+							</li>
+						@endif
 					</ul>
 					<div class="tab-content studio-tab-content">
 						<div class="tab-pane show active" id="music" role="tabpanel">
@@ -243,22 +245,12 @@
 				</div>
 				<div class="col-sm-5 studio-col-right">
 					<div class="studio-showplan-header">
-						<form class="form-inline col-sm-12" method="POST" action="{{ route('studio-load-plan', $key) }}">
+						<form class="col-sm-12 form-inline">
 							<h2 class="mb-2 mr-sm-2">Plan</h2>
 							@if(count($showplans) > 0)
-								<select class="form-control mb-2 mr-sm-2" name="showplan">
-									<option value="0">
-										Select plan to load
-									</option>
-										@foreach($showplans as $showplan_iteration)
-											@if($showplan_iteration->id > 4)
-												<option value="{{ $showplan_iteration->id }}">
-													{{ $showplan_iteration->name }}
-												</option>
-											@endif
-										@endforeach
-								</select>
-								<button class="btn btn-warning mb-2 mr-sm-2" type="submit">Load</button>
+								<div class="mb-2 mr-2">
+									<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#showplan-modal">Select plan to load</button>
+								</div>
 							@else
 								<h5 class="mb-2 mr-sm-2">No showplans to load</h5>
 							@endif
@@ -309,5 +301,32 @@
 				</div>
 			</div>
 		</footer>
+
+		<div class="modal fade" id="showplan-modal">
+			<div class="modal-dialog">
+				<div class="modal-content bg-dark text-white">
+					<div class="modal-header">
+						<h5>Showplans</h5>
+						<button type="button" class="close text-warning" data-dismiss="modal">
+							<i class="fa fa-times-circle"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>
+							Click one of your showplans to load it
+						</p>
+						<div class="list-group">
+							@foreach($showplans as $showplan_iteration)
+								@if($showplan_iteration->id > 4)
+									<a class="list-group-item" href="{{ route('studio-load-plan', [$key, $showplan_iteration->id]) }}">
+										{{ $showplan_iteration->name }}
+									</a>
+								@endif
+							@endforeach
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

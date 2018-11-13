@@ -151,6 +151,7 @@ class AudioUploadController extends Controller
 			$audio->archive = $archive->id;
 			$audio->origin = auth()->user()->name;
 			$audio->creator = 1;
+			$audio->filetype = 'flac';
 
 			$audio->save();
 

@@ -90,9 +90,9 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/studio/{key}/removeplan/{id}', 'StudioController@getRemoveShowplan')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/selectitem/{id}', 'StudioController@getSelectShowplanItem')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/reset', 'StudioController@getReset');
+	Route::get('/studio/{key}/loadplan/{id}', 'StudioController@getLoadShowplan')->where('id', '[0-9]+')->name('studio-load-plan');
 
 	Route::post('/studio/{key}/log', 'StudioController@postLog');
-	Route::post('/studio/{key}/loadplan', 'StudioController@postLoadShowplan')->name('studio-load-plan');
 
 	// Showplans
 	Route::get('/showplan', 'ShowplanController@getIndex')->name('showplan-index');
