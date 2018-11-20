@@ -67,8 +67,11 @@ class StudioController extends Controller
 		$location = $request->get('location');
 		
 		$studio_login = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
-		$studio_login->logout_at = now();
-		$studio_login->save();
+
+		if(!is_null($studio_login)) {
+			$studio_login->logout_at = now();
+			$studio_login->save();
+		}
 		
 		Config::updateLocationValue($location, 'userid', 0);
 		Config::updateLocationValue($location, 'user_aw_set', 0);
@@ -77,7 +80,7 @@ class StudioController extends Controller
 		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
 		$showplan = Showplan::find($showplan_id);
 		$showplan->items()->delete();
-
+	
 		auth()->logout();
 		return redirect()->route('studio-login', $key);
 	}
