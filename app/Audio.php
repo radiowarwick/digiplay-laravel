@@ -11,7 +11,7 @@ class Audio extends Model
 	protected $table = 'audio';
 	protected $primaryKey = 'id';
 	public $timestamps = false;
-	
+
 	public function audioArtist() {
 		return $this->hasOne('App\AudioArtist', 'audioid', 'id');
 	}
@@ -124,7 +124,7 @@ class Audio extends Model
 		$search_term = pg_escape_string($params['query']);
 
 		// good searching of all columns to get best matches
-		$query->whereRaw('to_tsvector(' . $ts_vector . ')::tsvector @@ plainto_tsquery(\'' . $search_term . '\')::tsquery');
+		$query->whereRaw('to_tsvector(' . $ts_vector . ')::tsvector @@ plainto_tsquery(\'english\', \'' . $search_term . '\')::tsquery');
 
 		// Apply filter if param is not set or (if set) value is not "false"
 		if(!(isset($params['censor']) and $params['censor'] == "false"))
