@@ -169,7 +169,11 @@ class AudioUploadController extends Controller
 			$audioDir->inherit = 'f';
 			$audioDir->save();
 
-			rename($output, $archive->localpath . '/' . $md5_substring . '/' . $md5 . '.flac');
+			try {
+				@rename($output, $archive->localpath . '/' . $md5_substring . '/' . $md5 . '.flac');
+			}
+			catch (ErrorException $e) {
+			}
 			Storage::delete('uploads/' . $request->get('filename'));
 
 			return response()->json([
