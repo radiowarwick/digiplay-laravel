@@ -138,4 +138,9 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 		Route::get('/admin/sustainer', 'Admin\SustainerAdminController@getIndex')->name('admin-sustainer-index');
 		Route::post('/admin/sustainer', 'Admin\SustainerAdminController@postSaveSlot');
 	});
+
+	Route::group(['middleware' => ['permission:Can edit user LDAP']], function(){
+		Route::get('/admin/ldap/', 'Admin\UserController@getUser')->name('admin-ldap-view');
+		Route::post('/admin/ldap/', 'Admin\UserController@postUpdate')->name('admin-ldap-update');
+	});
 });
