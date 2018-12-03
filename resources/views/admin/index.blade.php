@@ -79,4 +79,21 @@
 			</div>
 		</div>
 	@endif
+
+	@if(auth()->user()->hasPermission('Can edit user LDAP'))
+		<div class="card" style="width: 18rem; display: inline-table;">
+			<div class="card-body">
+				<h5 class="card-title">User view/edit</h5>
+
+				<p>
+					Use the search box below to find users and to view/edit their metadata
+				</p>
+
+				<form action="{{ route('admin-ldap-view') }}">
+					<input type="text" name="username" class="form-control mb-sm-2" placeholder="Username">
+					<button type="submit" class="btn btn-warning">Search</button>
+				</form>
+			</div>
+		</div>
+	@endif
 @endsection
