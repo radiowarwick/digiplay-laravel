@@ -130,3 +130,10 @@ Breadcrumbs::for('admin-sustainer-index', function($trail){
 	$trail->parent('admin-index');
 	$trail->push('Sustainer');
 });
+
+// Admin LDAP
+
+Breadcrumbs::for('admin-ldap', function($trail){
+	$trail->parent('admin-index');
+	$trail->push('User Search');
+});
