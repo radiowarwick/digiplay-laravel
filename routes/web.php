@@ -109,6 +109,11 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/showplan/{id}/settings/name', 'ShowplanController@postSettingName')->name('showplan-setting-name');
 	Route::post('/showplan/{id}/settings/add', 'ShowplanController@postSettingAdd')->name('showplan-setting-add');
 
+	// User File Storage
+	Route::get('/files', 'FileController@getFolder')->name('file-folder');
+	Route::get('/files/{path}', 'FileController@getFolder')->name('file-folder')->where('path', '.*');
+	Route::get('/file-download/{path}', 'FileController@getDownload')->name('file-download')->where('path', '.*');
+
 	// API/AJAX call
 	Route::post('/ajax/search', 'Api\SearchController@postSearch');
 	Route::post('/ajax/detail', 'Api\SearchController@postDetail');
