@@ -24,14 +24,35 @@ class FileController extends Controller
 		if(!Storage::exists($user_base . '/' . $path))
 			abort(404, 'Page not found!');
 
-		$directories = self::removeDirectories(Storage::directories($user_base . '/' . $path));
-		$files = self::removeDirectories(Storage::files($user_base . '/' . $path));
+		$used = self::directorySize($user_base);
+
+		$directories = [];
+		foreach(Storage::directories($user_base . '/' . $path) as $directory) {
+			$entry = [];
+			$entry['name'] = self::removeDirectory($directory);
+			$entry['path'] = $path . $entry['name'];
+			$entry['size'] = self::bytesToHumanReadable(self::directorySize($directory));
+			$entry['icon'] = 'fa-folder-o';
+			$directories[] = $entry;	
+		}
+
+		$files = [];
+		foreach(Storage::files($user_base . '/' . $path) as $file) {
+			$entry = [];
+			$entry['name'] = self::removeDirectory($file);
+			$entry['path'] = $path . $entry['name'];
+			$entry['size'] = self::bytesToHumanReadable(Storage::size($file));
+			$entry['upload'] = Storage::lastModified($file);
+			$entry['icon'] = self::fileIcon($entry['name']);
+			$files[] = $entry;
+		}
 
 		return view('files.view')->with([
 			'files' => $files,
 			'directories' => $directories,
 			'path' => $path,
-			'parent' => (strlen($path) != 0)
+			'parent' => (strlen($path) != 0),
+			'used' => self::bytesToHumanReadable($used)
 		]);
 	}
 
@@ -44,14 +65,52 @@ class FileController extends Controller
 		return Storage::download($user_base . $path);
 	}
 
-	// Takes an array of strings and returns only last part of URI
+	// Takes a string and only returns last part of URI
 	// e.g. "/a/b/c/hello.txt" becomes "hello.txt"
-	private function removeDirectories($array) {
-		$modified = array();
-		foreach($array as $a) {
-			$split = explode("/", $a);
-			$modified[] = end($split);
+	private function removeDirectory($string) {
+		$split = explode('/', $string);
+		return end($split);
+	}
+
+	private function bytesToHumanReadable($bytes) {
+		$suffixes = ['B', 'kB', 'MB', 'GB', 'TB'];
+		$index = 0;
+		while($bytes > 1000) {
+			$bytes /= 1000;
+			$index += 1;
 		}
-		return $modified;
+		return round($bytes, 2) . ' ' . $suffixes[$index];
+	}
+
+	private function fileIcon($file) {
+		$split = explode('.', $file);
+		$extension = end($split);
+		if(in_array($extension, ['txt', 'rtf']))
+			return 'fa-file-text-o';
+		if(in_array($extension, ['zip', 'tar', 'gz', '7z', 'rar']))
+			return 'fa-file-archive-o';
+		if(in_array($extension, ['doc', 'docx', 'odf']))
+			return 'fa-file-word-o';
+		if(in_array($extension, ['xls', 'xlsx', 'ods']))
+			return 'fa-file-excel-o';
+		if(in_array($extension, ['ppt', 'pptx', 'odp']))
+			return 'fa-file-powerpoint-o';
+		if(in_array($extension, ['pdf']))
+			return 'fa-file-pdf-o';
+		if(in_array($extension, ['wav', 'mp3', 'flac', 'aac', 'ogg']))
+			return 'fa-file-audio-o';
+		if(in_array($extension, ['mp4', 'avi', 'wmv', 'mov', 'flv']))
+			return 'fa-file-video-o';
+		if(in_array($extension, ['jpg', 'gif', 'png', 'bmp', 'svg']))
+			return 'fa-file-image-o';
+		return 'fa-file-o';
+	}
+
+	private function directorySize($directory) {
+		$bytes = 0;
+		foreach(Storage::allFiles($directory) as $file) {
+			$bytes += Storage::size($file);
+		}
+		return $bytes;
 	}
 }
