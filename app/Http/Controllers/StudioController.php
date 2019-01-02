@@ -2,250 +2,271 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Config;
-use App\StudioLogin;
-use App\Email;
-use App\Showplan;
-use App\ShowplanItem;
 use App\Log;
+use App\Email;
+use App\Config;
 use App\Playlist;
+use App\Showplan;
+use App\StudioLogin;
+use App\ShowplanItem;
+use Illuminate\Http\Request;
 
 class StudioController extends Controller
 {
-	function __construct() {
-		$this->middleware(function($request, $next){
-			$key = $request->route('key');
-			if(is_null($key))
-				return $next($request);
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $key = $request->route('key');
+            if (is_null($key)) {
+                return $next($request);
+            }
 
-			$location = Config::getLocationByKey($key);
-			if(is_null($location))
-				abort(404, 'Page not found');
+            $location = Config::getLocationByKey($key);
+            if (is_null($location)) {
+                abort(404, 'Page not found');
+            }
 
-			$request->attributes->add(['location' => $location]);
-			return $next($request);
-		});
-	}
+            $request->attributes->add(['location' => $location]);
 
-	function getLogin(Request $request, $key) {
-		$location = $request->get('location');
+            return $next($request);
+        });
+    }
 
-		return view('studio.login')->with('location', $location)->with('key', $key);
-	}
+    public function getLogin(Request $request, $key)
+    {
+        $location = $request->get('location');
 
-	function postLogin(Request $request, $key) {
-		$this->validate($request, [
-			'username' => 'required',
-			'password' => 'required',
-		]);
+        return view('studio.login')->with('location', $location)->with('key', $key);
+    }
 
-		if (auth()->attempt($request->only(['username', 'password']), true)) {
-			$location = $request->get('location');
+    public function postLogin(Request $request, $key)
+    {
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
 
-			Config::updateLocationValue($location, 'userid', auth()->user()->id);
-			Config::updateLocationValue($location, 'user_aw_set', auth()->user()->audiowall());
+        if (auth()->attempt($request->only(['username', 'password']), true)) {
+            $location = $request->get('location');
 
-			$can_update = 'false';
-			if(auth()->user()->hasPermission('Music Admin'))
-				$can_update = 'true';
-			Config::updateLocationValue($location, 'can_update', $can_update);
+            Config::updateLocationValue($location, 'userid', auth()->user()->id);
+            Config::updateLocationValue($location, 'user_aw_set', auth()->user()->audiowall());
 
-			$studio_login = new StudioLogin;
-			$studio_login->username = auth()->user()->username;
-			$studio_login->location = $location;
-			$studio_login->save();
+            $can_update = 'false';
+            if (auth()->user()->hasPermission('Music Admin')) {
+                $can_update = 'true';
+            }
+            Config::updateLocationValue($location, 'can_update', $can_update);
 
-			return redirect()->route('studio-view', $key);
-		}
+            $studio_login = new StudioLogin;
+            $studio_login->username = auth()->user()->username;
+            $studio_login->location = $location;
+            $studio_login->save();
 
-		return redirect()->back()->withErrors('Username and/or Password is wrong!');
-	}
+            return redirect()->route('studio-view', $key);
+        }
 
-	public function getLogout(Request $request, $key) {
-		$location = $request->get('location');
-		
-		$studio_login = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
+        return redirect()->back()->withErrors('Username and/or Password is wrong!');
+    }
 
-		if(!is_null($studio_login)) {
-			$studio_login->logout_at = now();
-			$studio_login->save();
-		}
-		
-		Config::updateLocationValue($location, 'userid', 0);
-		Config::updateLocationValue($location, 'user_aw_set', 0);
-		Config::updateLocationValue($location, 'can_update', 'false');
+    public function getLogout(Request $request, $key)
+    {
+        $location = $request->get('location');
 
-		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
-		$showplan = Showplan::find($showplan_id);
-		$showplan->items()->delete();
-	
-		auth()->logout();
-		return redirect()->route('studio-login', $key);
-	}
+        $studio_login = StudioLogin::where('logout_at', null)->where('username', auth()->user()->username)->where('location', $location)->first();
 
-	public function getView(Request $request, $key) {
-		$location = $request->get('location');
+        if (! is_null($studio_login)) {
+            $studio_login->logout_at = now();
+            $studio_login->save();
+        }
 
-		$emails = Email::latest()->get();
-		$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
-		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
-		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
-		$showplan = Showplan::find($showplan_id);
-		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
-		$playlists = Playlist::studio()->get();
-		$showplans = auth()->user()->showplans(true);
+        Config::updateLocationValue($location, 'userid', 0);
+        Config::updateLocationValue($location, 'user_aw_set', 0);
+        Config::updateLocationValue($location, 'can_update', 'false');
 
-		return view('studio.view')->with([
-			'key' => $key,
-			'location' => $location,
-			'emails' => $emails,
-			'censor_start' => $censor_start,
-			'censor_end' => $censor_end,
-			'showplan' => $showplan,
-			'log' => $log,
-			'playlists' => $playlists,
-			'showplans' => $showplans
-		]);
-	}
+        $showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+        $showplan = Showplan::find($showplan_id);
+        $showplan->items()->delete();
 
-	public function getMessage(Request $request, $key, $id) {
-		$email = Email::find($id);
-		if(is_null($email))
-			abort(404, 'Page not found');
+        auth()->logout();
 
-		if($email->new_flag == 't') {
-			$email->new_flag = 'f';
-			$email->save();
-		}
+        return redirect()->route('studio-login', $key);
+    }
 
-		return response()->json([
-			'id' => $email->id,
-			'subject' => strip_tags($email->subject),
-			'body' => strip_tags($email->body)
-		]);
-	}
+    public function getView(Request $request, $key)
+    {
+        $location = $request->get('location');
 
-	public function getLatestMessages(Request $request, $key, $id) {
-		$emails = Email::where('id', '>', $id)->get();
-		$json = [];
+        $emails = Email::latest()->get();
+        $censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
+        $censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
+        $showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+        $showplan = Showplan::find($showplan_id);
+        $log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
+        $playlists = Playlist::studio()->get();
+        $showplans = auth()->user()->showplans(true);
 
-		foreach ($emails as $email) {
-			$json[] = [
-				'id' => $email->id,
-				'subject' => strip_tags($email->subject),
-				'sender' => strip_tags($email->sender),
-				'date' => date('d/m/y H:i', $email->datetime)
-			];
-		}
+        return view('studio.view')->with([
+            'key' => $key,
+            'location' => $location,
+            'emails' => $emails,
+            'censor_start' => $censor_start,
+            'censor_end' => $censor_end,
+            'showplan' => $showplan,
+            'log' => $log,
+            'playlists' => $playlists,
+            'showplans' => $showplans,
+        ]);
+    }
 
-		return response()->json($json);
-	}
+    public function getMessage(Request $request, $key, $id)
+    {
+        $email = Email::find($id);
+        if (is_null($email)) {
+            abort(404, 'Page not found');
+        }
 
-	public function getAddShowplan(Request $request, $key, $id) {
-		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $request->get('location'))->first()->val;
-		$showplan = Showplan::find($showplan_id);
-		if(is_null($showplan))
-			abort(404, 'Page not found');
+        if ($email->new_flag == 't') {
+            $email->new_flag = 'f';
+            $email->save();
+        }
 
-		$position = count($showplan->items) + 1;
+        return response()->json([
+            'id' => $email->id,
+            'subject' => strip_tags($email->subject),
+            'body' => strip_tags($email->body),
+        ]);
+    }
 
-		$item = new ShowplanItem;
-		$item->audio_id = $id;
-		$item->showplan_id = $showplan_id;
-		$item->position = $position;
-		$item->save();
+    public function getLatestMessages(Request $request, $key, $id)
+    {
+        $emails = Email::where('id', '>', $id)->get();
+        $json = [];
 
-		return response()->json([
-			'message' => 'success',
-			'id' => $item->id,
-			'title' => $item->audio->title,
-			'artist' => $item->audio->artist->name,
-			'length_string' => $item->audio->lengthString(),
-			'censor' => $item->audio->censor
-		]);
-	}
+        foreach ($emails as $email) {
+            $json[] = [
+                'id' => $email->id,
+                'subject' => strip_tags($email->subject),
+                'sender' => strip_tags($email->sender),
+                'date' => date('d/m/y H:i', $email->datetime),
+            ];
+        }
 
-	public function getRemoveShowplan(Request $request, $key, $id) {
-		$item = ShowplanItem::find($id);
-		if(is_null($item))
-			abort(404, 'Page not found');
-		$parent = $item->showplan;
-		
-		$item->delete();
-		$parent->reposition();
+        return response()->json($json);
+    }
 
-		return response()->json([
-			'message' => 'success',
-			'id' => $id
-		]);
-	}
+    public function getAddShowplan(Request $request, $key, $id)
+    {
+        $showplan_id = Config::where('parameter', 'default_showplan')->where('location', $request->get('location'))->first()->val;
+        $showplan = Showplan::find($showplan_id);
+        if (is_null($showplan)) {
+            abort(404, 'Page not found');
+        }
 
-	public function getSelectShowplanItem(Request $request, $key, $id) {
-		$item = ShowplanItem::find($id);
-		if(is_null($item))
-			abort(404, 'Page not found');
+        $position = count($showplan->items) + 1;
 
-		$md5 = $item->audio->md5;
-		Config::updateLocationValue($request->get('location'), 'next_on_showplan', $md5);
+        $item = new ShowplanItem;
+        $item->audio_id = $id;
+        $item->showplan_id = $showplan_id;
+        $item->position = $position;
+        $item->save();
 
-		return response()->json(['message' => 'success']);
-	}
+        return response()->json([
+            'message' => 'success',
+            'id' => $item->id,
+            'title' => $item->audio->title,
+            'artist' => $item->audio->artist->name,
+            'length_string' => $item->audio->lengthString(),
+            'censor' => $item->audio->censor,
+        ]);
+    }
 
-	public function postLog(Request $request, $key) {
-		$location = $request->get('location');
-		$artist = $request->get('artist');
-		$title = $request->get('title');
+    public function getRemoveShowplan(Request $request, $key, $id)
+    {
+        $item = ShowplanItem::find($id);
+        if (is_null($item)) {
+            abort(404, 'Page not found');
+        }
+        $parent = $item->showplan;
 
-		$log = new Log;
-		$log->audioid = null;
-		$log->location = $location;
-		$log->userid = auth()->user()->id;
-		$log->track_title = $title;
-		$log->track_artist = $artist;
-		$log->datetime = time();
-		$log->save();
+        $item->delete();
+        $parent->reposition();
 
-		return response()->json(['message' => 'success']);
-	}
+        return response()->json([
+            'message' => 'success',
+            'id' => $id,
+        ]);
+    }
 
-	public function getLoadShowplan(Request $request, $key, $id) {
-		$location = $request->get('location');
-		$showplan = Showplan::find($id);
+    public function getSelectShowplanItem(Request $request, $key, $id)
+    {
+        $item = ShowplanItem::find($id);
+        if (is_null($item)) {
+            abort(404, 'Page not found');
+        }
 
-		if(!is_null($showplan) and $showplan->canEdit(auth()->user())) {
-			$studio_showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
-			$studio_showplan = Showplan::find($studio_showplan_id);
-			$studio_showplan->items()->delete();
+        $md5 = $item->audio->md5;
+        Config::updateLocationValue($request->get('location'), 'next_on_showplan', $md5);
 
-			$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
-			$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
-			$hour = (int) date('H');
-			$censor_period = ($hour >= $censor_start && $hour < $censor_end);
+        return response()->json(['message' => 'success']);
+    }
 
-			$i = 1;
-			foreach($showplan->items as $item) {
-				if(!$censor_period or $item->audio->censor == 'f') {
-					$new_item = new ShowplanItem;
-					$new_item->showplan_id = $studio_showplan_id;
-					$new_item->audio_id = $item->audio_id;
-					$new_item->position = $i++;
-					$new_item->save();
-				}
-			}
-		}
+    public function postLog(Request $request, $key)
+    {
+        $location = $request->get('location');
+        $artist = $request->get('artist');
+        $title = $request->get('title');
 
-		return redirect()->route('studio-view', $key);
-	}
+        $log = new Log;
+        $log->audioid = null;
+        $log->location = $location;
+        $log->userid = auth()->user()->id;
+        $log->track_title = $title;
+        $log->track_artist = $artist;
+        $log->datetime = time();
+        $log->save();
 
-	public function getReset(Request $request, $key) {
-		$location = $request->get('location');
+        return response()->json(['message' => 'success']);
+    }
 
-		shell_exec('/usr/scripts/restart_po' . $location . '_php');
+    public function getLoadShowplan(Request $request, $key, $id)
+    {
+        $location = $request->get('location');
+        $showplan = Showplan::find($id);
 
-		return response()->json([
-			'status' => 'ok'
-		]);
-	}
+        if (! is_null($showplan) and $showplan->canEdit(auth()->user())) {
+            $studio_showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
+            $studio_showplan = Showplan::find($studio_showplan_id);
+            $studio_showplan->items()->delete();
+
+            $censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
+            $censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
+            $hour = (int) date('H');
+            $censor_period = ($hour >= $censor_start && $hour < $censor_end);
+
+            $i = 1;
+            foreach ($showplan->items as $item) {
+                if (! $censor_period or $item->audio->censor == 'f') {
+                    $new_item = new ShowplanItem;
+                    $new_item->showplan_id = $studio_showplan_id;
+                    $new_item->audio_id = $item->audio_id;
+                    $new_item->position = $i++;
+                    $new_item->save();
+                }
+            }
+        }
+
+        return redirect()->route('studio-view', $key);
+    }
+
+    public function getReset(Request $request, $key)
+    {
+        $location = $request->get('location');
+
+        shell_exec('/usr/scripts/restart_po'.$location.'_php');
+
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
 }

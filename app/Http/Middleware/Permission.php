@@ -14,29 +14,35 @@ class Permission
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $permission_string = '') {
-        if($this->hasPermission($permission_string))
+    public function handle($request, Closure $next, $permission_string = '')
+    {
+        if ($this->hasPermission($permission_string)) {
             return $next($request);
-        else
+        } else {
             abort(403, 'Permission Denied');
+        }
     }
 
-    public static function hasPermission($permission_string = '') {
-        if(Auth::check()) {
+    public static function hasPermission($permission_string = '')
+    {
+        if (Auth::check()) {
             $groups = Auth::user()->groups;
-            foreach($groups as $group) {
+            foreach ($groups as $group) {
                 // Always allow if the user is an admin
-                if($group->name === 'Admin')
+                if ($group->name === 'Admin') {
                     return true;
+                }
                 // Otherwise check each of the user's groups for the correct permission
                 else {
-                    foreach($group->permissions as $permission) {
-                        if($permission->name === $permission_string)
+                    foreach ($group->permissions as $permission) {
+                        if ($permission->name === $permission_string) {
                             return true;
+                        }
                     }
                 }
             }
         }
+
         return false;
     }
 }

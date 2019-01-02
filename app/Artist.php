@@ -10,11 +10,13 @@ class Artist extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function audioArtists() {
-    	return $this->belongsTo('AudioArtist', 'artistid');
+    public function audioArtists()
+    {
+        return $this->belongsTo('AudioArtist', 'artistid');
     }
 
-    public function audio() {
-    	return $this->audioArtists->audio();
+    public function audio()
+    {
+        return $this->audioArtists->audio();
     }
 }

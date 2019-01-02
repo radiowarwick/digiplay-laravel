@@ -10,7 +10,8 @@ class ViewAudio extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function audio() {
-    	return $this->hasOne('App\Audio', 'id', 'id');
+    public function audio()
+    {
+        return $this->hasOne('App\Audio', 'id', 'id');
     }
 }

@@ -13,27 +13,27 @@ class CreateGroupPermissionTables extends Migration
      */
     public function up()
     {
-        Schema::create('new_groups', function(Blueprint $table){
+        Schema::create('new_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
-        Schema::create('group_users', function(Blueprint $table){
+        Schema::create('group_users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id');
             $table->text('username');
             $table->timestamps();
         });
 
-        Schema::create('group_permissions', function(Blueprint $table){
+        Schema::create('group_permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id');
             $table->integer('permission_id');
             $table->timestamps();
         });
 
-        Schema::create('permissions', function(Blueprint $table){
+        Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();

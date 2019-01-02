@@ -4,187 +4,204 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Album;
-
 class Audio extends Model
 {
-	protected $table = 'audio';
-	protected $primaryKey = 'id';
-	public $timestamps = false;
+    protected $table = 'audio';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 
-	public function audioArtist() {
-		return $this->hasOne('App\AudioArtist', 'audioid', 'id');
-	}
+    public function audioArtist()
+    {
+        return $this->hasOne('App\AudioArtist', 'audioid', 'id');
+    }
 
-	public function artist() {
-		return $this->audioArtist->artist();
-	}
+    public function artist()
+    {
+        return $this->audioArtist->artist();
+    }
 
-	public function album() {
-		return $this->hasOne('App\Album', 'id', 'music_album');
-	}
+    public function album()
+    {
+        return $this->hasOne('App\Album', 'id', 'music_album');
+    }
 
-	public function audioDir() {
-		return $this->hasOne('App\AudioDir', 'audioid', 'id');
-	}
+    public function audioDir()
+    {
+        return $this->hasOne('App\AudioDir', 'audioid', 'id');
+    }
 
-	// annoying name to not share column name
-	public function theArchive() {
-		return $this->hasOne('App\Archive', 'id', 'archive');
-	}
+    // annoying name to not share column name
+    public function theArchive()
+    {
+        return $this->hasOne('App\Archive', 'id', 'archive');
+    }
 
-	public function filePath() {
-		if($this->archive !== 0) {
-			$folder = substr($this->md5, 0, 1);
-			return $this->theArchive->localpath . '/' . $folder . '/' . $this->md5 . '.flac';
-		}
-		return null;
-	}
+    public function filePath()
+    {
+        if ($this->archive !== 0) {
+            $folder = substr($this->md5, 0, 1);
 
-	public function scopeTracks($query) {
-		return $query->where('type', 1);
-	}
+            return $this->theArchive->localpath.'/'.$folder.'/'.$this->md5.'.flac';
+        }
+    }
 
-	public function length() {
-		return ($this->end_smpl - $this->start_smpl) / 44100;
-	}
+    public function scopeTracks($query)
+    {
+        return $query->where('type', 1);
+    }
 
-	public function lengthString() {
-		$length = $this->length();
-		$string = '';
+    public function length()
+    {
+        return ($this->end_smpl - $this->start_smpl) / 44100;
+    }
 
-		$seconds = $length % 60;
-		$length = floor($length / 60);
-		$string = sprintf('%02d', $seconds) . 's';
+    public function lengthString()
+    {
+        $length = $this->length();
+        $string = '';
 
-		// length bigger than 0 so has minutes
-		if($length > 0) {
-			$minutes = $length % 60;
-			$length = floor($length / 60);
-			$string = $minutes . 'm ' . $string;
-		}
-		// length bigger than 0 so has hours
-		if($length > 0)
-			$string = sprintf('%02d', $length) . 'h ' . $string;
+        $seconds = $length % 60;
+        $length = floor($length / 60);
+        $string = sprintf('%02d', $seconds).'s';
 
-		return $string;
-	}
+        // length bigger than 0 so has minutes
+        if ($length > 0) {
+            $minutes = $length % 60;
+            $length = floor($length / 60);
+            $string = $minutes.'m '.$string;
+        }
+        // length bigger than 0 so has hours
+        if ($length > 0) {
+            $string = sprintf('%02d', $length).'h '.$string;
+        }
 
-	/*
-	*   Params is an associative array. Indexes are:
-	*   "query"     =>  (string) name to search
-	*   "type"      =>  (array) types to search, as string, Song, Prerec, Jingle, Advert
-	*   "filter"    =>  (array) types of filter, as string, title, artist, album
-	*   "censor"    =>  (boolean) true to include censored tracks
-	*/
-	public function scopeSearch($query, $params) {
-		$allowed_types = [null, 'Music', 'Jingle', 'Advert'];
-		$filtered_types = [];
+        return $string;
+    }
 
-		// If the user has permissions, Prerec is an allowed type
-		if(auth()->user()->hasPermission('Sustainer admin')){
-		  array_push($allowed_types, 'Prerec');
-		}
+    /*
+    *   Params is an associative array. Indexes are:
+    *   "query"     =>  (string) name to search
+    *   "type"      =>  (array) types to search, as string, Song, Prerec, Jingle, Advert
+    *   "filter"    =>  (array) types of filter, as string, title, artist, album
+    *   "censor"    =>  (boolean) true to include censored tracks
+    */
+    public function scopeSearch($query, $params)
+    {
+        $allowed_types = [null, 'Music', 'Jingle', 'Advert'];
+        $filtered_types = [];
 
-		// Fill filtered types with index of each allowed type
-		foreach($params['type'] as $type) {
-			if(in_array($type, $allowed_types))
-				$filtered_types[] = array_search($type, $allowed_types);
-		}
+        // If the user has permissions, Prerec is an allowed type
+        if (auth()->user()->hasPermission('Sustainer admin')) {
+            array_push($allowed_types, 'Prerec');
+        }
 
-		$query->where(function($query) use (&$filtered_types){
-			foreach($filtered_types as $type) {
-				$query->orWhere('type', $type);
-			}
-		});
-		
-		// setup filter joins
-		$filter_columns = [];
-		foreach($params['filter'] as $filter) {
-			if($filter == 'artist') {
-				$query->join('audioartists', 'audio.id', '=', 'audioartists.audioid')
-					->join('artists', 'audioartists.artistid', '=', 'artists.id');
-				$filter_columns[] = '"artists"."name"';
-			}
-			else if($filter == 'album') {
-				$query->join('albums', 'audio.music_album', '=', 'albums.id');
-				$filter_columns[] = '"albums"."name"';
-			}
-			else if($filter == 'title') {
-				$filter_columns[] = '"title"';
-			}
-		}
+        // Fill filtered types with index of each allowed type
+        foreach ($params['type'] as $type) {
+            if (in_array($type, $allowed_types)) {
+                $filtered_types[] = array_search($type, $allowed_types);
+            }
+        }
 
-		// must not be in the bin to be in results
-		$query->join('audiodir', 'audio.id', '=', 'audiodir.audioid');
-		$query->where('audiodir.dirid', 2);
+        $query->where(function ($query) use (&$filtered_types) {
+            foreach ($filtered_types as $type) {
+                $query->orWhere('type', $type);
+            }
+        });
 
-		// search filter
-		$ts_vector = implode(' || \' \' || ', $filter_columns);
-		$search_term = pg_escape_string($params['query']);
+        // setup filter joins
+        $filter_columns = [];
+        foreach ($params['filter'] as $filter) {
+            if ($filter == 'artist') {
+                $query->join('audioartists', 'audio.id', '=', 'audioartists.audioid')
+                    ->join('artists', 'audioartists.artistid', '=', 'artists.id');
+                $filter_columns[] = '"artists"."name"';
+            } elseif ($filter == 'album') {
+                $query->join('albums', 'audio.music_album', '=', 'albums.id');
+                $filter_columns[] = '"albums"."name"';
+            } elseif ($filter == 'title') {
+                $filter_columns[] = '"title"';
+            }
+        }
 
-		// good searching of all columns to get best matches
-		$query->whereRaw('to_tsvector(' . $ts_vector . ')::tsvector @@ plainto_tsquery(\'english\', \'' . $search_term . '\')::tsquery');
+        // must not be in the bin to be in results
+        $query->join('audiodir', 'audio.id', '=', 'audiodir.audioid');
+        $query->where('audiodir.dirid', 2);
 
-		// Apply filter if param is not set or (if set) value is not "false"
-		if(!(isset($params['censor']) and $params['censor'] == "false"))
-			$query->where('censor', 'f');
+        // search filter
+        $ts_vector = implode(' || \' \' || ', $filter_columns);
+        $search_term = pg_escape_string($params['query']);
 
-		return $query->orderBy('audio.id', 'DESC')->select('audio.*');
-	}
+        // good searching of all columns to get best matches
+        $query->whereRaw('to_tsvector('.$ts_vector.')::tsvector @@ plainto_tsquery(\'english\', \''.$search_term.'\')::tsquery');
 
-	public function setAlbum($album_str) {
-		$album = Album::where('name', $album_str)->first();
-		if(!isset($album)) {
-			$album = new Album;
-			$album->name = $album_str;
-			$album->save();
-		}
+        // Apply filter if param is not set or (if set) value is not "false"
+        if (! (isset($params['censor']) and $params['censor'] == 'false')) {
+            $query->where('censor', 'f');
+        }
 
-		$this->music_album = $album->id;
-		$this->save();
-	}
+        return $query->orderBy('audio.id', 'DESC')->select('audio.*');
+    }
 
-	public function setArtist($artist_str) {
-		$artist = Artist::where('name', $artist_str)->first();
-		if(!isset($artist)) {
-			$artist = new Artist;
-			$artist->name = $artist_str;
-			$artist->save();
-		}
+    public function setAlbum($album_str)
+    {
+        $album = Album::where('name', $album_str)->first();
+        if (! isset($album)) {
+            $album = new Album;
+            $album->name = $album_str;
+            $album->save();
+        }
 
-		$audio_artist = AudioArtist::where('audioid', $this->id)->first();
-		if(!isset($audio_artist)) {
-			$audio_artist = new AudioArtist;
-			$audio_artist->audioid = $this->id;
-		}
+        $this->music_album = $album->id;
+        $this->save();
+    }
 
-		$audio_artist->artistid = $artist->id;
-		$audio_artist->save();
-	}
-	  
-	public function getTypeString() {
-		$types = ['Music', 'Jingle', 'Advert', 'Prerec'];
-		return $types[$this->type - 1];
-	}
+    public function setArtist($artist_str)
+    {
+        $artist = Artist::where('name', $artist_str)->first();
+        if (! isset($artist)) {
+            $artist = new Artist;
+            $artist->name = $artist_str;
+            $artist->save();
+        }
 
-	public function getVocalIn() {
-		return ($this->vocal_start / 44100);
-	}
+        $audio_artist = AudioArtist::where('audioid', $this->id)->first();
+        if (! isset($audio_artist)) {
+            $audio_artist = new AudioArtist;
+            $audio_artist->audioid = $this->id;
+        }
 
-	public function getVocalOut() {
-		return ($this->vocal_end / 44100);
-	}
+        $audio_artist->artistid = $artist->id;
+        $audio_artist->save();
+    }
 
-	public function moveToBin() {
-		$audioDir = $this->audioDir;
-		$audioDir->dirid = 3;
-		$audioDir->save();
-	}
+    public function getTypeString()
+    {
+        $types = ['Music', 'Jingle', 'Advert', 'Prerec'];
 
-	public function fetchFromBin() {
-		$audioDir = $this->audioDir;
-		$audioDir->dirid = 2;
-		$audioDir->save();
-	}
+        return $types[$this->type - 1];
+    }
+
+    public function getVocalIn()
+    {
+        return $this->vocal_start / 44100;
+    }
+
+    public function getVocalOut()
+    {
+        return $this->vocal_end / 44100;
+    }
+
+    public function moveToBin()
+    {
+        $audioDir = $this->audioDir;
+        $audioDir->dirid = 3;
+        $audioDir->save();
+    }
+
+    public function fetchFromBin()
+    {
+        $audioDir = $this->audioDir;
+        $audioDir->dirid = 2;
+        $audioDir->save();
+    }
 }

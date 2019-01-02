@@ -10,7 +10,8 @@ class AudiowallWall extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function items() {
-    	return $this->hasMany('App\AudiowallItem', 'wall_id')->orderby('item', 'ASC');
+    public function items()
+    {
+        return $this->hasMany('App\AudiowallItem', 'wall_id')->orderby('item', 'ASC');
     }
 }

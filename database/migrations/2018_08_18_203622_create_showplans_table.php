@@ -13,13 +13,13 @@ class CreateShowplansTable extends Migration
      */
     public function up()
     {
-        Schema::create('new_showplans', function(Blueprint $table){
+        Schema::create('new_showplans', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
             $table->timestamps();
         });
 
-        Schema::create('new_showplan_items', function(Blueprint $table){
+        Schema::create('new_showplan_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('audio_id');
             $table->integer('showplan_id');

@@ -2,203 +2,226 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-
 use App\Audio;
 use App\Artist;
-use App\ViewAudio;
+use Illuminate\Http\Request;
 
 class AudioController extends Controller
 {
-	public function getIndex(Request $request) {
-		$latestTracks = Audio::tracks()
-			->orderby('creation_date', 'DESC')
-			->limit(10)
-			->get();
+    public function getIndex(Request $request)
+    {
+        $latestTracks = Audio::tracks()
+            ->orderby('creation_date', 'DESC')
+            ->limit(10)
+            ->get();
 
-		return view('audio.index', ['latest' => $latestTracks]);
-	}
+        return view('audio.index', ['latest' => $latestTracks]);
+    }
 
-	public function getSearch(Request $request) {
-		$searchTerm = $request->input('q');
-		$selectedOptions = $request->input('options');
-		$selectedTypes = $request->input('types');
+    public function getSearch(Request $request)
+    {
+        $searchTerm = $request->input('q');
+        $selectedOptions = $request->input('options');
+        $selectedTypes = $request->input('types');
 
-		if(is_null($selectedOptions))
-			$selectedOptions = ['title', 'artist', 'album'];
-		if(is_null($selectedTypes))
-			$selectedTypes = ['Music'];
+        if (is_null($selectedOptions)) {
+            $selectedOptions = ['title', 'artist', 'album'];
+        }
+        if (is_null($selectedTypes)) {
+            $selectedTypes = ['Music'];
+        }
 
-		if(is_null($searchTerm)) {
-			if(is_null($searchTerm))
-				$searchTerm = '';
-			return view('audio.invalid-search', ['q' => $searchTerm]);
-		}
-	
-		$params = array(
-			'query' => $searchTerm,
-			'type' => $selectedTypes,
-			'filter' => $selectedOptions,
-			'censor' => true,
-	  	);
+        if (is_null($searchTerm)) {
+            if (is_null($searchTerm)) {
+                $searchTerm = '';
+            }
 
-		$audioResults = Audio::search($params);
-		$total = $audioResults->count();
-		$paginateResults = $audioResults->paginate(25)->appends($_GET);
+            return view('audio.invalid-search', ['q' => $searchTerm]);
+        }
 
-		$showOptions = ($selectedOptions != ['title', 'artist', 'album'] or $selectedTypes != ['Music']);
+        $params = [
+            'query' => $searchTerm,
+            'type' => $selectedTypes,
+            'filter' => $selectedOptions,
+            'censor' => true,
+        ];
 
-		return view('audio.search', [
-			'results' => $paginateResults,
-			'total' => $total,
-			'q' => $searchTerm,
-			'options' => $selectedOptions,
-			'types' => $selectedTypes,
-			'showOptions' => $showOptions
-		]);
-	}
+        $audioResults = Audio::search($params);
+        $total = $audioResults->count();
+        $paginateResults = $audioResults->paginate(25)->appends($_GET);
 
-	public function getPreview(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
+        $showOptions = ($selectedOptions != ['title', 'artist', 'album'] or $selectedTypes != ['Music']);
 
-		$file = $audio->filePath();
-		$start = $audio->start_smpl / 44100;
-		$end = $audio->end_smpl / 44100;
+        return view('audio.search', [
+            'results' => $paginateResults,
+            'total' => $total,
+            'q' => $searchTerm,
+            'options' => $selectedOptions,
+            'types' => $selectedTypes,
+            'showOptions' => $showOptions,
+        ]);
+    }
 
-		$multi = 6;
-		$bitrate = '48';
-		if(auth()->user()->hasPermission('High quality audio')) {
-			$multi = 24;
-			$bitrate = '192';
-		}
+    public function getPreview(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
 
-		$command = 'sox ' . $file . ' -t mp3 -C ' . $bitrate . '.5 - trim ' . $start . ' ' . $end;
-		return response()->stream(function() use ($command){
-			$pfile = popen($command, 'r');
-			fpassthru($pfile);
-			if(is_resource($pfile))
-				pclose($pfile);
-		}, 200, [
-			'Content-type' => 'audio/mpeg',
-			'Content-length' => (int) ($multi * 1000 * $audio->length()),
-			'Accept-Ranges' => 'bytes'
-		]);
-	}
+        $file = $audio->filePath();
+        $start = $audio->start_smpl / 44100;
+        $end = $audio->end_smpl / 44100;
 
-	public function getDownload(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
-		if(!auth()->user()->hasPermission('Audio admin'))
-			abort(403, 'Not authorised');
+        $multi = 6;
+        $bitrate = '48';
+        if (auth()->user()->hasPermission('High quality audio')) {
+            $multi = 24;
+            $bitrate = '192';
+        }
 
-		return response()->download($audio->filePath(), $id . '.flac', [
-			'Content-Type: audio/flac'
-		]);		
-	}
+        $command = 'sox '.$file.' -t mp3 -C '.$bitrate.'.5 - trim '.$start.' '.$end;
 
-	public function getView(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
+        return response()->stream(function () use ($command) {
+            $pfile = popen($command, 'r');
+            fpassthru($pfile);
+            if (is_resource($pfile)) {
+                pclose($pfile);
+            }
+        }, 200, [
+            'Content-type' => 'audio/mpeg',
+            'Content-length' => (int) ($multi * 1000 * $audio->length()),
+            'Accept-Ranges' => 'bytes',
+        ]);
+    }
 
-		$canEdit = auth()->user()->hasPermission('Audio admin');
+    public function getDownload(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
+        if (! auth()->user()->hasPermission('Audio admin')) {
+            abort(403, 'Not authorised');
+        }
 
-		$vocalIn = $audio->vocal_start / 44100;
-		$vocalOut = $audio->vocal_end / 44100;
+        return response()->download($audio->filePath(), $id.'.flac', [
+            'Content-Type: audio/flac',
+        ]);
+    }
 
-		return view('audio.view', [
-			'audio' => $audio,
-			'canEdit' => $canEdit,
-			'vocalIn' => $this->secondsToString($vocalIn),
-			'vocalOut' => $this->secondsToString($vocalOut)
-		]);
-	}
+    public function getView(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
 
-	public function postUpdateMetadata(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
-		if(!auth()->user()->hasPermission('Audio admin'))
-			abort(403, 'Not authorised');
+        $canEdit = auth()->user()->hasPermission('Audio admin');
 
-		if($request->get('title') === NULL or $request->get('artist') === NULL or empty($request->get('title')) or empty($request->get('artist'))) {
-			return response()->json([
-				'status' => 'error',
-				'errors' => [
-					'Audio must have a title and artist'
-				]
-			]);
-		}
+        $vocalIn = $audio->vocal_start / 44100;
+        $vocalOut = $audio->vocal_end / 44100;
 
-		$audio->title = trim($request->get('title'));
-		$audio->vocal_start = floor($request->get('vocal_in') * 44100);
-		$audio->vocal_end = floor($request->get('vocal_out') * 44100);
-		$audio->censor = ($request->get('censored') == 'true') ? 't' : 'f';
-		$audio->type = $request->get('type');
-		$audio->setArtist(trim($request->get('artist')));
-		$audio->setAlbum(trim($request->get('album')));
+        return view('audio.view', [
+            'audio' => $audio,
+            'canEdit' => $canEdit,
+            'vocalIn' => $this->secondsToString($vocalIn),
+            'vocalOut' => $this->secondsToString($vocalOut),
+        ]);
+    }
 
-		if($audio->save()) {
-			return response()->json([
-				'status' => 'ok'
-			]);
-		}
+    public function postUpdateMetadata(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
+        if (! auth()->user()->hasPermission('Audio admin')) {
+            abort(403, 'Not authorised');
+        }
 
-		return response()->json([
-			'status' => 'error',
-			'errors' => [
-				'Could not save changes'
-			]
-		]);
-	}
+        if ($request->get('title') === null or $request->get('artist') === null or empty($request->get('title')) or empty($request->get('artist'))) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'Audio must have a title and artist',
+                ],
+            ]);
+        }
 
-	public function postDelete(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
-		if(!auth()->user()->hasPermission('Audio admin'))
-			abort(403, 'Not authorised');
+        $audio->title = trim($request->get('title'));
+        $audio->vocal_start = floor($request->get('vocal_in') * 44100);
+        $audio->vocal_end = floor($request->get('vocal_out') * 44100);
+        $audio->censor = ($request->get('censored') == 'true') ? 't' : 'f';
+        $audio->type = $request->get('type');
+        $audio->setArtist(trim($request->get('artist')));
+        $audio->setAlbum(trim($request->get('album')));
 
-		$audio->moveToBin();
+        if ($audio->save()) {
+            return response()->json([
+                'status' => 'ok',
+            ]);
+        }
 
-		return response()->json([
-			'status' => 'ok'
-		]);
-	}
+        return response()->json([
+            'status' => 'error',
+            'errors' => [
+                'Could not save changes',
+            ],
+        ]);
+    }
 
-	public function postRestore(Request $request, $id) {
-		$audio = Audio::where('id', $id)->first();
-		if($audio === null)
-			abort(404, 'Page not found');
-		if(!auth()->user()->hasPermission('Audio admin'))
-			abort(403, 'Not authorised');
+    public function postDelete(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
+        if (! auth()->user()->hasPermission('Audio admin')) {
+            abort(403, 'Not authorised');
+        }
 
-		$audio->fetchFromBin();
+        $audio->moveToBin();
 
-		return response()->json([
-			'status' => 'ok'
-		]);		
-	}
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
 
-	private function secondsToString($seconds) {
-		$millisecondsString = ($seconds * 100) % 100;
-		if($millisecondsString == 0)
-			$millisecondsString = '00';
-		else if($millisecondsString < 10)
-			$millisecondsString = $millisecondsString . '0';
+    public function postRestore(Request $request, $id)
+    {
+        $audio = Audio::where('id', $id)->first();
+        if ($audio === null) {
+            abort(404, 'Page not found');
+        }
+        if (! auth()->user()->hasPermission('Audio admin')) {
+            abort(403, 'Not authorised');
+        }
 
-		$seconds = floor($seconds);
-		$secondsString = $seconds % 60;
-		if($secondsString < 10)
-			$secondsString = '0' . $secondsString;
+        $audio->fetchFromBin();
 
-		$minutesString = floor($seconds / 60);
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
 
-		return $minutesString . ':' . $secondsString . '.' . $millisecondsString;
-	}
+    private function secondsToString($seconds)
+    {
+        $millisecondsString = ($seconds * 100) % 100;
+        if ($millisecondsString == 0) {
+            $millisecondsString = '00';
+        } elseif ($millisecondsString < 10) {
+            $millisecondsString = $millisecondsString.'0';
+        }
+
+        $seconds = floor($seconds);
+        $secondsString = $seconds % 60;
+        if ($secondsString < 10) {
+            $secondsString = '0'.$secondsString;
+        }
+
+        $minutesString = floor($seconds / 60);
+
+        return $minutesString.':'.$secondsString.'.'.$millisecondsString;
+    }
 }
-

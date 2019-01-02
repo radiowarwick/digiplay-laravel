@@ -1,13 +1,12 @@
 <?php
 
+use App\User;
+use App\AudiowallItemColour;
+use App\AudiowallSetPermission;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-use App\User;
-use App\AudiowallSetPermission;
-use App\AudiowallItemColour;
-use Illuminate\Support\Facades\DB;
 
 class CreateAudiowallPermissionTable extends Migration
 {
@@ -20,20 +19,19 @@ class CreateAudiowallPermissionTable extends Migration
     {
         Schema::dropIfExists('aw_sets_permissions');
 
-        if(Schema::hasTable('v_audiowalls'))
+        if (Schema::hasTable('v_audiowalls')) {
             DB::statement('DROP VIEW v_audiowalls');
+        }
 
         Schema::dropIfExists('aw_styles_props');
-        Schema::table('aw_items', function (Blueprint $table){
+        Schema::table('aw_items', function (Blueprint $table) {
             $table->dropColumn('style_id');
         });
         Schema::dropIfExists('aw_props');
         Schema::dropIfExists('aw_styles');
-        
 
-
-        if(!Schema::hasTable('aw_set_permissions')) {
-            Schema::create('aw_set_permissions', function(Blueprint $table){
+        if (! Schema::hasTable('aw_set_permissions')) {
+            Schema::create('aw_set_permissions', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('set_id');
                 $table->text('username');
@@ -42,7 +40,7 @@ class CreateAudiowallPermissionTable extends Migration
             });
         }
 
-        Schema::create('aw_colours', function(Blueprint $table){
+        Schema::create('aw_colours', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('item_id');
             $table->text('name');
@@ -51,7 +49,7 @@ class CreateAudiowallPermissionTable extends Migration
         });
 
         $items = DB::select('SELECT * FROM aw_items');
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $colour = new AudiowallItemColour;
             $colour->item_id = $item->id;
             $colour->value = 16777215;  // #FFFFFF
@@ -66,9 +64,9 @@ class CreateAudiowallPermissionTable extends Migration
         }
 
         // if old table exists translate old data then destroy
-        if(Schema::hasTable('aw_sets_owner')) {
+        if (Schema::hasTable('aw_sets_owner')) {
             $owners = DB::select('SELECT * FROM aw_sets_owner');
-            foreach($owners as $owner) {
+            foreach ($owners as $owner) {
                 $user = User::where('id', $owner->user_id)->first();
 
                 $new_permission = new AudiowallSetPermission;

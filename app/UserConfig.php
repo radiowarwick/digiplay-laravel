@@ -10,7 +10,8 @@ class UserConfig extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function scopeAudiowall($query) {
-    	return $query->where('configid', 1);
+    public function scopeAudiowall($query)
+    {
+        return $query->where('configid', 1);
     }
 }

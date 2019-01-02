@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AudioDir extends Model
 {
-	protected $table = 'audiodir';
-	protected $primaryKey = 'id';
-	public $timestamps = false;
+    protected $table = 'audiodir';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 }

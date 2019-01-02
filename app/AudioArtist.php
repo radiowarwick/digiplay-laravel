@@ -10,11 +10,13 @@ class AudioArtist extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function artist() {
-    	return $this->hasOne('App\Artist', 'id', 'artistid');
+    public function artist()
+    {
+        return $this->hasOne('App\Artist', 'id', 'artistid');
     }
 
-    public function audio() {
-    	return $this->hasOne('App\Audio', 'id', 'audioid');
+    public function audio()
+    {
+        return $this->hasOne('App\Audio', 'id', 'audioid');
     }
 }
