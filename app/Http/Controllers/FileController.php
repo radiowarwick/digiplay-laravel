@@ -58,11 +58,41 @@ class FileController extends Controller
 
 	public function getDownload(Request $request, $path='') {
 		$user_base = self::BASE_DIRECTORY . '/' . Auth::user()->username;
-
 		if(substr($path, 0, 1) !== '/')
 			$user_base .= '/';
 
 		return Storage::download($user_base . $path);
+	}
+
+	public function postCreateDirectory(Request $request, $path='') {
+		$request->validate([
+			'directory' => 'required'
+		]);
+
+		$user_base = self::BASE_DIRECTORY . '/' . Auth::user()->username . '/';
+		if(substr($path, 0, 1) !== '/')
+			$path .= '/';
+
+		$directory = $request->get('directory');
+		// Replace any non-alphanumeric characters with an underscore, sanatize input
+		$directory = preg_replace('/[^a-zA-Z0-9]+/', '_', strtolower($directory));
+
+		$result = Storage::makeDirectory($user_base . $path . $directory);
+		if($result !== true)
+			return back()->withErrors(['An error ocurred when trying to make the directory']);
+		else
+			return back()->withErrors(['Directory created']);
+	}
+
+	public function postUpload(Request $request, $path='') {
+		$user_base = self::BASE_DIRECTORY . '/' . Auth::user()->username . '/';
+		if(substr($path, 0, 1) !== '/')
+			$path .= '/';
+
+		$original_filename = $request->file('file')->getClientOriginalName();
+		$original_filename = self::normalizeString($original_filename);
+		$result = $request->file('file')->storeAs($user_base . $path, $original_filename);
+		dd($result);
 	}
 
 	// Takes a string and only returns last part of URI
@@ -112,5 +142,10 @@ class FileController extends Controller
 			$bytes += Storage::size($file);
 		}
 		return $bytes;
+	}
+	
+	private function normalizeString($string) {
+		$string = str_replace(['\\', '?', '!', ':', '"', '\'', '*', '[', ']', '/', ':', ';', ','], '', $string);
+		return $string;
 	}
 }

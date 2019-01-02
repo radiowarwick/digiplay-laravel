@@ -114,6 +114,11 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/files/{path}', 'FileController@getFolder')->name('file-folder')->where('path', '.*');
 	Route::get('/file-download/{path}', 'FileController@getDownload')->name('file-download')->where('path', '.*');
 
+	Route::post('/files-create', 'FileController@postCreateDirectory');
+	Route::post('/files-create/{path}', 'FileController@postCreateDirectory')->name('file-create-directory')->where('path', '.*');
+	Route::post('/files', 'FileController@postUpload');
+	Route::post('/files/{path}', 'FileController@postUpload')->where('path', '.*');
+
 	// API/AJAX call
 	Route::post('/ajax/search', 'Api\SearchController@postSearch');
 	Route::post('/ajax/detail', 'Api\SearchController@postDetail');
