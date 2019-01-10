@@ -21,7 +21,7 @@ Route::get('/', function(){
 	return view('index');
 })->middleware('auth')->name('index');
 
-Route::get('/studio/{key}/login', 'StudioController@getLogin')->name('studio-login');
+Route::get('/studio/{key}', 'StudioController@getIndex')->name('studio-view');
 Route::post('/studio/{key}/login', 'StudioController@postLogin')->name('studio-login-post');
 
 Route::group(['middleware' => ['web']], function(){ 
@@ -82,7 +82,6 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/audiowall/create', 'AudiowallController@postCreateAudiowall')->name('audiowall-create');
 
 	// Studio Interface
-	Route::get('/studio/{key}', 'StudioController@getView')->name('studio-view');
 	Route::get('/studio/{key}/logout', 'StudioController@getLogout')->name('studio-logout');
 	Route::get('/studio/{key}/message/{id}', 'StudioController@getMessage')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/messages/{id}', 'StudioController@getLatestMessages')->where('id', '[0-9]+');

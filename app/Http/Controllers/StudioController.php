@@ -29,6 +29,15 @@ class StudioController extends Controller
 		});
 	}
 
+	function getIndex(Request $request, $key) {
+		$location = $request->get('location');
+
+		if(auth()->check())
+			return $this->getView($request, $key);
+		else
+			return $this->getLogin($request, $key);
+	}
+
 	function getLogin(Request $request, $key) {
 		$location = $request->get('location');
 
@@ -82,7 +91,7 @@ class StudioController extends Controller
 		$showplan->items()->delete();
 	
 		auth()->logout();
-		return redirect()->route('studio-login', $key);
+		return redirect()->route('studio-view', $key);
 	}
 
 	public function getView(Request $request, $key) {
