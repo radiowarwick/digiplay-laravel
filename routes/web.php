@@ -22,10 +22,10 @@ Route::get('/', function(){
 })->middleware('auth')->name('index');
 
 Route::get('/studio/{key}', 'StudioController@getIndex')->name('studio-view');
-Route::post('/studio/{key}/login', 'StudioController@postLogin')->name('studio-login-post');
+Route::get('/studio/{key}/login', 'StudioController@getLoginRedirect')->name('studio-login');
 
-Route::get('/oauth', 'AuthController@getOAuth');
-Route::get('/callback', 'AuthController@getCallback');
+Route::get('/oauth', 'AuthController@getOAuth')->name('login-oauth');
+Route::get('/callback', 'AuthController@getCallback')->name('login-callback');
 
 Route::group(['middleware' => ['web']], function(){
 	Route::get('/login', 'AuthController@getLogin')->name('login');

@@ -19,7 +19,7 @@ class AuthController extends Controller
 	}
 
 	public function getOAuth(Request $request) {
-		$request->session()->flush();
+		$request->session()->forget('oauth_token_secret');
 
 		$url = 'https://websignon.warwick.ac.uk/oauth/requestToken';
 		$time = time();
@@ -98,7 +98,10 @@ class AuthController extends Controller
 			}
 
 			if(auth()->loginUsingId($target->id, true)) {
-				return redirect()->route('index');
+				if($request->session()->has('login-redirect'))
+					return redirect($request->session()->pull('login-redirect'));
+				else
+					return redirect()->route('index');
 			}
 			else {
 				abort(500, 'Can\'t login user');

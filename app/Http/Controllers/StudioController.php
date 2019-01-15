@@ -44,6 +44,12 @@ class StudioController extends Controller
 		return view('studio.login')->with('location', $location)->with('key', $key);
 	}
 
+	function getLoginRedirect(Request $request, $key) {
+		$request->session()->put('login-redirect', '/studio/' . $key);
+
+		return redirect()->route('login-oauth');
+	}
+
 	function postLogin(Request $request, $key) {
 		$this->validate($request, [
 			'username' => 'required',
@@ -74,14 +80,14 @@ class StudioController extends Controller
 
 	public function getLogout(Request $request, $key) {
 		$location = $request->get('location');
-		
+
 		$studio_login = StudioLogin::where('logout_at', NULL)->where('username', auth()->user()->username)->where('location', $location)->first();
 
 		if(!is_null($studio_login)) {
 			$studio_login->logout_at = now();
 			$studio_login->save();
 		}
-		
+
 		Config::updateLocationValue($location, 'userid', 0);
 		Config::updateLocationValue($location, 'user_aw_set', 0);
 		Config::updateLocationValue($location, 'can_update', 'false');
@@ -89,9 +95,9 @@ class StudioController extends Controller
 		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
 		$showplan = Showplan::find($showplan_id);
 		$showplan->items()->delete();
-	
+
 		auth()->logout();
-		return redirect()->route('studio-view', $key);
+		return redirect('https://websignon.warwick.ac.uk/origin/logout?target=' . rawurlencode(route('studio-view', $key)));
 	}
 
 	public function getView(Request $request, $key) {
