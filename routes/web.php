@@ -24,7 +24,10 @@ Route::get('/', function(){
 Route::get('/studio/{key}/login', 'StudioController@getLogin')->name('studio-login');
 Route::post('/studio/{key}/login', 'StudioController@postLogin')->name('studio-login-post');
 
-Route::group(['middleware' => ['web']], function(){ 
+Route::get('/oauth', 'AuthController@getOAuth');
+Route::get('/callback', 'AuthController@getCallback');
+
+Route::group(['middleware' => ['web']], function(){
 	Route::get('/login', 'AuthController@getLogin')->name('login');
 	Route::post('/login', 'AuthController@postLogin')->name('login-post');
 	Route::get('/logout', 'AuthController@getLogout')->name('logout');
