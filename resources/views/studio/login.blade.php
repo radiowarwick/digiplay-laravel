@@ -9,7 +9,7 @@
 		<h4 class="text-warning text-center">{{ Session::get('status') }}</h4>
 	@endif
 
-	<a href='{{ route('studio-login', $key) }}'>Login with Warwick ITS account</a>
+	<a href="{{ route('studio-login', $key) }}" class="btn btn-block text-white bg-warwick">Login with Warwick ITS account</a>
 
 	@if($errors->any())
 		@foreach ($errors->all() as $error)

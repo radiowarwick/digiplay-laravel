@@ -45,7 +45,7 @@ class StudioController extends Controller
 	}
 
 	function getLoginRedirect(Request $request, $key) {
-		$request->session()->put('login-redirect', '/studio/' . $key);
+		$request->session()->put('login_redirect', '/studio/' . $key);
 
 		return redirect()->route('login-oauth');
 	}
@@ -97,7 +97,7 @@ class StudioController extends Controller
 		$showplan->items()->delete();
 
 		auth()->logout();
-		return redirect('https://websignon.warwick.ac.uk/origin/logout?target=' . rawurlencode(route('studio-view', $key)));
+		return redirect(env('WARWICK_ITS_LOGOUT_BASE') . rawurlencode(route('studio-view', $key)));
 	}
 
 	public function getView(Request $request, $key) {

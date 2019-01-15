@@ -9,7 +9,7 @@
 		<h4 class="text-warning text-center">{{ Session::get('status') }}</h4>
 	@endif
 
-	<a href='/oauth' class='btn btn-block text-white' style='background:#5b3069;'>Login with Warwick ITS account</a>
+	<a href="/oauth" class="btn btn-block text-white bg-warwick">Login with Warwick ITS account</a>
 
 	@if($errors->any())
 		@foreach ($errors->all() as $error)
