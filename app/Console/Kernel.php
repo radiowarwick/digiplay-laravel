@@ -24,17 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function(){
-            $url = 'https://www.warwicksu.com/membershipapi/listmembers/' . env('WARWICK_SU_API');
-            try {
-                $client = new \GuzzleHttp\Client();
-                $result = $client->request('GET', $url);
-                dd($result->getBody());
-            }
-            catch(\Exception $e) {
-                dd('');
-            }
-        })->hourly();
+        $schedule->command('user:update')->everyThirtyMinutes();
     }
 
     /**
