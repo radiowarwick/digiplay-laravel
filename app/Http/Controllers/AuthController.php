@@ -133,6 +133,9 @@ class AuthController extends Controller
 		}
 	}
 
+	/*
+	* Fetch User Attributes given token and secret, returns an associative array
+	*/
 	private function getUserAttributes($access_token, $access_secret) {
 		$url = 'https://websignon.warwick.ac.uk/oauth/authenticate/attributes';
 		$time = time();
@@ -170,6 +173,9 @@ class AuthController extends Controller
 		return $attributes;
 	}
 
+	/*
+	* Generates the "Authorise" header for OAuth requests, following the OAuth 1 standard
+	*/
 	private function auth_header($parameters) {
 		$header = 'OAuth ';
 		$parts = [];
@@ -180,6 +186,10 @@ class AuthController extends Controller
 		return $header;
 	}
 
+	/*
+	* Returns the HMAC, SHA1, signature for the base_string, following OAuth 1 standard
+	* Environment variable is the applications signing key
+	*/
 	private function signature($secret_key, $method, $url, $parameters) {
 		$secret_key = env('WARWICK_SSO_CONSUMER_SECRET') . '&' . $secret_key;
 
@@ -202,6 +212,9 @@ class AuthController extends Controller
 		return rawurlencode(base64_encode(hash_hmac('sha1', $base_string, $secret_key, true)));
 	}
 
+	/*
+	* Generates an alternate redirect, for use in the studios, if session has the "login_redirect" attribute
+	*/
 	private function login_redirect(Request $request) {
 		if($request->session()->has('login_redirect'))
 			return redirect($request->session()->get('login_redirect'));
