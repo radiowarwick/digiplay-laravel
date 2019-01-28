@@ -109,8 +109,10 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::post('/showplan/{id}/settings/add', 'ShowplanController@postSettingAdd')->name('showplan-setting-add');
 
 	// Equipment bookings
-	Route::get('/equipment', 'EquipmentBookingController@getIndex');
+	Route::get('/equipment', 'EquipmentBookingController@getIndex')->name('equipment-index');
 	Route::get('/equipment/{date}', 'EquipmentBookingController@getIndex')->name('equipment-date');
+
+	Route::post('/equipment/{date}', 'EquipmentBookingController@postBook')->name('equipment-book');
 
 	// API/AJAX call
 	Route::post('/ajax/search', 'Api\SearchController@postSearch');

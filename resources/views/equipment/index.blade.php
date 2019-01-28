@@ -27,22 +27,31 @@
 		@endfor
 	</div>
 
-	<table class="table table-responsive">
-		<thead>
-			<tr>
-				<th>Time</th>
-				@foreach($ITEMS as $item)
-					<th>{{ $item }}</th>
-				@endforeach
-			</tr>
-		</thead>
-		@for($i = $BOOKINGS_START; $i <= $BOOKINGS_END; $i++)
-			<tbody>
+	<form method="POST" action="{{ route('equipment-book', $date->format('Y-m-d')) }}">
+		{{ csrf_field() }}
+		<table class="table table-responsive">
+			<thead>
 				<tr>
-					<td>{{ ($i <= 12) ? $i : ($i - 12) }}:00 {{ ($i <= 12) ? 'am' : 'pm' }}</td>
-					<td></td>
+					<th>Time</th>
+					@foreach($ITEMS as $item)
+						<th>{{ $item }}</th>
+					@endforeach
 				</tr>
-			</tbody>
-		@endfor
-	</table>
+			</thead>
+			@for($i = $BOOKINGS_START; $i <= $BOOKINGS_END; $i++)
+				<tbody>
+					<tr>
+						<td>{{ ($i <= 12) ? $i : ($i - 12) }}:00 {{ ($i <= 12) ? 'am' : 'pm' }}</td>
+						@for($j = 0; $j < sizeof($ITEMS); $j++)
+							<td>
+								<input type="checkbox" name="book{{ $j }}[]" value="{{ $today->copy()->addHours($i)->timestamp }}">
+							</td>
+						@endfor
+					</tr>
+				</tbody>
+			@endfor
+		</table>
+
+		<button type="submit" class="btn btn-warning">Submit Bookings</button>
+	</form>
 @endsection
