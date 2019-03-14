@@ -193,6 +193,7 @@ $(document).ready(function(){
 
 		$(".progress-bar").css("width", "auto");
 		$(".progress-bar").text("0% - " + filename);
+		$("#btn-upload").removeAttr("disabled");
 	});
 
 	card_template = $(".audio-upload-card-template").clone();

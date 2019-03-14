@@ -153,6 +153,7 @@ function move(event) {
 		new_element.css("color", "#" + adding_element.attr("data-fg"));
 		new_element.find(".audiowall-item-title-text").text(adding_element.find(".audiowall-item-title-text").text());
 		new_element.find(".audiowall-time-text").text(adding_element.attr("data-item-length-string"));
+		new_element.find("audio").remove();
 
 		item.replaceWith(new_element);
 
