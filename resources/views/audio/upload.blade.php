@@ -18,7 +18,7 @@
 					File
 					<input type="file" name="file" hidden>
 				</label>
-				<button type="button" id="btn-upload" class="btn btn-warning md-2">Upload</button>
+				<button type="button" id="btn-upload" class="btn btn-warning md-2" disabled>Upload</button>
 			</form>
 		</div>
 		<div class="col-sm-10">

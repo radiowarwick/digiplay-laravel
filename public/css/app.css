@@ -3062,14 +3062,25 @@ select.selectpicker {
 .bootstrap-select {
   width: 220px \0;
   /*IE9 and below*/
+  vertical-align: middle;
 }
 
 .bootstrap-select > .dropdown-toggle {
   position: relative;
   width: 100%;
-  z-index: 1;
   text-align: right;
   white-space: nowrap;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.bootstrap-select > .dropdown-toggle:after {
+  margin-top: -1px;
+  margin-left: auto;
 }
 
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
@@ -3116,6 +3127,7 @@ select.selectpicker {
   padding: 0 !important;
   opacity: 0 !important;
   border: none;
+  z-index: 0 !important;
 }
 
 .bootstrap-select > select.mobile-device {
@@ -3163,12 +3175,10 @@ select.selectpicker {
   width: 100%;
 }
 
+.input-group .bootstrap-select.form-control,
 .bootstrap-select.form-control.input-group-btn {
+  display: table-cell;
   z-index: auto;
-}
-
-.bootstrap-select.form-control.input-group-btn:not(:first-child):not(:last-child) > .btn {
-  border-radius: 0;
 }
 
 .bootstrap-select:not(.input-group-btn),
@@ -3250,23 +3260,37 @@ select.selectpicker {
 }
 
 .bootstrap-select .dropdown-toggle .filter-option {
-  position: absolute;
+  position: static;
   top: 0;
   left: 0;
-  padding-top: inherit;
+  float: left;
   padding-right: inherit;
-  padding-bottom: inherit;
-  padding-left: inherit;
   height: 100%;
   width: 100%;
   text-align: left;
+  margin-right: -100%;
 }
 
-.bootstrap-select .dropdown-toggle .filter-option-inner {
+.input-group .bs3.bootstrap-select .dropdown-toggle .filter-option {
+  position: absolute;
+  padding-top: inherit;
+  padding-bottom: inherit;
+  padding-left: inherit;
+  float: none;
+}
+
+.input-group .bs3.bootstrap-select .dropdown-toggle .filter-option .filter-option-inner {
   padding-right: inherit;
 }
 
 .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+  overflow: hidden;
+}
+
+.bootstrap-select .dropdown-toggle .filter-expand {
+  width: 0.5px !important;
+  float: left;
+  opacity: 0 !important;
   overflow: hidden;
 }
 
