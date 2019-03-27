@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\Controller;
 use App\Log;
 
-class ApiController extends Controller
+class LogController extends Controller
 {
     CONST LOCATIONS = [
         'SUE',
@@ -31,7 +31,7 @@ class ApiController extends Controller
         foreach($query->get() as $l) {
             $array[] = [
                 'location' => $l->location,
-                'location_verbose' => ApiController::LOCATIONS[$l->location],
+                'location_verbose' => LogController::LOCATIONS[$l->location],
                 'title' => $l->track_title,
                 'artist' => $l->track_artist,
                 'datetime' => $l->datetime,
