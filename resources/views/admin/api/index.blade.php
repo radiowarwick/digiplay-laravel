@@ -3,7 +3,7 @@
 @section('title', 'Admin')
 
 @section('breadcrumbs')
-	{{ Breadcrumbs::render('admin-group-index') }}
+	{{ Breadcrumbs::render('admin-api-index') }}
 @endsection
 
 @section('content')
