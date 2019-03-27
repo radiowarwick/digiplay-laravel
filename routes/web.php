@@ -149,3 +149,8 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 		Route::post('/admin/api/', 'Admin\ApiController@postCreate')->name('admin-api-create');
 	});
 });
+
+// Apply the API middleware
+Route::group(['middleware' => ['application_api']], function(){
+	Route::get('/api/log', 'ApiController@getLog');
+});
