@@ -153,6 +153,12 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 // Apply the API middleware
 Route::group(['middleware' => ['application_api']], function(){
 	Route::get('/api/log', 'Api\LogController@getLog');
+	Route::post('/api/log', 'Api\LogController@postLog');
+
 	Route::get('/api/message', 'Api\MessageController@getMessage');
 	Route::post('/api/message', 'Api\MessageController@postMessage');
+
+	Route::get('/api/playlist', 'Api\PlaylistController@getPlaylist');
+	Route::get('/api/playlist/jingles', 'Api\PlaylistController@getJingles');
+	Route::get('/api/playlist/sustainer', 'Api\PlaylistController@getSustainer');
 });

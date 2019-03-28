@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Log;
+use Validator;
 
 class LogController extends Controller
 {
@@ -31,5 +32,38 @@ class LogController extends Controller
         }
 
         return response()->json($array);
+    }
+
+    public function postLog(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'artist' => 'required',
+            'location' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'There was missing data, expecting to see "title", "artist" and "location".',
+            ]);
+        }
+
+        $new_log = new Log();
+        $new_log->userid = 1;
+        $new_log->location = $request->input('location');
+        $new_log->track_title = $request->input('title');
+        $new_log->track_artist = $request->input('artist');
+
+        if($new_log->save()) {
+            return response()->json([
+                'status' => 'ok',
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Could not save the log correctly.',
+            ]);
+        }
     }
 }
