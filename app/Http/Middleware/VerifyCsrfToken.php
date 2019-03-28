@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
     	'studio/*',
-    	'ajax/search',
+        'ajax/search',
+        'api/*',
     ];
 }
