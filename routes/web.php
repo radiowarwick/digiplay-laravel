@@ -153,4 +153,5 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 // Apply the API middleware
 Route::group(['middleware' => ['application_api']], function(){
 	Route::get('/api/log', 'Api\LogController@getLog');
+	Route::get('/api/message', 'Api\MessageController@getMessage');
 });

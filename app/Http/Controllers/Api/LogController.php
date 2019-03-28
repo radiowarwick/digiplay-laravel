@@ -8,14 +8,6 @@ use App\Log;
 
 class LogController extends Controller
 {
-    CONST LOCATIONS = [
-        'SUE',
-        'Studio 1',
-        'Studio 2',
-        'OB',
-        'Testing'
-    ];
-
     public function getLog(Request $request) {
         $limit = (!$request->get('limit')) ? 100 : $request->get('limit');
         $query = Log::orderby('datetime', 'DESC')->limit($limit);
@@ -31,7 +23,7 @@ class LogController extends Controller
         foreach($query->get() as $l) {
             $array[] = [
                 'location' => $l->location,
-                'location_verbose' => LogController::LOCATIONS[$l->location],
+                'location_verbose' => $l->location_verbose(),
                 'title' => $l->track_title,
                 'artist' => $l->track_artist,
                 'datetime' => $l->datetime,
