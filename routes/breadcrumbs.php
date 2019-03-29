@@ -137,3 +137,10 @@ Breadcrumbs::for('admin-ldap', function($trail){
 	$trail->parent('admin-index');
 	$trail->push('User Search');
 });
+
+// Admin API
+
+Breadcrumbs::for('admin-api-index', function($trail){
+	$trail->parent('admin-index');
+	$trail->push('API Application');
+});

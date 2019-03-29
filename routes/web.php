@@ -142,4 +142,23 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 		Route::get('/admin/ldap/', 'Admin\UserController@getUser')->name('admin-ldap-view');
 		Route::post('/admin/ldap/', 'Admin\UserController@postUpdate')->name('admin-ldap-update');
 	});
+
+	Route::group(['middleware' => ['permission:Can edit api applications']], function(){
+		Route::get('/admin/api/', 'Admin\ApiController@getIndex')->name('admin-api-index');
+		Route::get('/admin/api/delete/{id}', 'Admin\ApiController@getDelete')->name('admin-api-delete')->where('id', '[0-9]+');
+		Route::post('/admin/api/', 'Admin\ApiController@postCreate')->name('admin-api-create');
+	});
+});
+
+// Apply the API middleware
+Route::group(['middleware' => ['application_api']], function(){
+	Route::get('/api/log', 'Api\LogController@getLog');
+	Route::post('/api/log', 'Api\LogController@postLog');
+
+	Route::get('/api/message', 'Api\MessageController@getMessage');
+	Route::post('/api/message', 'Api\MessageController@postMessage');
+
+	Route::get('/api/playlist', 'Api\PlaylistController@getPlaylist');
+	Route::get('/api/playlist/jingles', 'Api\PlaylistController@getJingles');
+	Route::get('/api/playlist/sustainer', 'Api\PlaylistController@getSustainer');
 });

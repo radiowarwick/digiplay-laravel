@@ -96,4 +96,18 @@
 			</div>
 		</div>
 	@endif
+
+	@if(auth()->user()->hasPermission('Can edit api applications'))
+		<div class="card" style="width: 18rem; display: inline-table;">
+			<div class="card-body">
+				<h5 class="card-title">API Applications</h5>
+
+				<p>
+					View, delete and create API Applications that can use the API.
+				</p>
+
+				<a href="{{ route('admin-api-index') }}" class="btn btn-warning">Manage</a>
+			</div>
+		</div>
+	@endif
 @endsection
