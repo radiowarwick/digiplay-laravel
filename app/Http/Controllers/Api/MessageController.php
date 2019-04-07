@@ -16,6 +16,7 @@ class MessageController extends Controller
         $array = [];
         foreach($query->get() as $m) {
             $array[] = [
+                'id' => $m->id,
                 'sender' => $m->sender,
                 'subject' => $m->subject,
                 'body' => $m->body,
