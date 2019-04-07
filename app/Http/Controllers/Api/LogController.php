@@ -23,6 +23,7 @@ class LogController extends Controller
         $array = [];
         foreach($query->get() as $l) {
             $array[] = [
+                'id' => $l->id,
                 'location' => $l->location,
                 'location_verbose' => $l->location_verbose(),
                 'title' => $l->track_title,
