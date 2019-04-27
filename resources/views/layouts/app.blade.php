@@ -93,7 +93,7 @@
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-sm-6 align-self-center">
-						<h3 class="text-center">&copy; 2018 Radio Warwick</h3>
+						<h3 class="text-center">&copy; {{ date('Y') }} Radio Warwick</h3>
 					</div>
 					<div class="col-sm-4 align-self-center">
 						<div class="logo-sm mx-auto">

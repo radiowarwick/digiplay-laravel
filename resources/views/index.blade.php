@@ -20,7 +20,7 @@
 			<p>
 				<strong>Playlisted Tracks</strong> - {{ number_format(\App\PlaylistAudio::distinct('audioid')->count('audioid')) }}
 			</p>
-			@if(auth()->user()->hasPermission('Can upload audio'))
+			@if(auth()->user()->hasPermission('Audio admin'))
 				<p>
 					<a href="{{ route('audio-upload') }}" class="btn btn-warning btn-block">Upload Audio</a>
 				</p>

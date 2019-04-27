@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<h3>Upload Audio</h3>
-			@if(auth()->user()->hasPermission('Can upload audio'))
+			@if(auth()->user()->hasPermission('Audio admin'))
 				<div class="list-group">
 					<a class="list-group-item" href="{{ route('audio-upload') }}">Upload Audio</a>
 				</div>
