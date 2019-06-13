@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Playlist;
-use App\SustainerSlot;
+use App\Prerecord;
 use App\Audio;
 
 class PlaylistController extends Controller
@@ -90,32 +90,14 @@ class PlaylistController extends Controller
     }
 
     public function getSustainer(Request $request) {
-        $day = date("N");
-        $hour = date("G");
-
         $offset = (!$request->get('offset')) ? 0 : $request->get('offset');
-    
-        while($offset > 0) {
-            $hour += 1;
-            
-            if(($hour % 24) == 0) {
-                $hour = 0;
-                $day += 1;
-            }
-            if($day == 8) {
-                $day = 1;
-            }
+        $now = \Carbon\Carbon::now()->startOfHour();
+        $now->addHours($offset);
 
-            $offset -= 1;
-        }
+        $prerecord = Prerecord::where('scheduled_time', $now->timestamp)->first();
 
-        $slot = SustainerSlot::where('day', $day)->where('time', $hour)->first();
-
-        if($slot) {
-            $audio = Audio::where('id', $slot->audioid)->first();
-            if($audio) {
-                return response($audio->filePath());
-            }
+        if($prerecord) {
+            return response($prerecord->audio->filePath());
         }
 
         return '';
