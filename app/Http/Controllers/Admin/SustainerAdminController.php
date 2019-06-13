@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,27 +21,43 @@ class SustainerAdminController extends Controller
 		]);
 	}
 
-	public function postSaveSlot(Request $request) {
-		$slot = SustainerSlot::where('id', $request->get('id'))->first();
-		if(is_null($slot))
-			abort(404, 'Page not found');
-
-		$playlist = Playlist::where('id', $request->get('playlist'))->first();
-		if(!is_null($playlist))
-			$slot->playlistid = $playlist->id;
-
-		$audio = Audio::where('id', $request->get('audio'))->first();
-		if(!is_null($audio))
-			$slot->audioid = $audio->id;
-		else
-			$slot->audioid = null;
-
-		$slot->save();
-
-		return response()->json([
-			'status' => 'ok',
-			'colour' => $slot->playlist->colour->colour,
-			'audio' => $slot->audioid
+	public function postAddSlot(Request $request) {
+		// Needed to override the error messages
+		$this->validate($request, [
+			'prerecord-id' => 'required|exists:audio,id',
+			'date' => 'required',
+			'time' => 'required',
+		], [
+			'prerecord-id.required' => 'No prerecord selected.',
+			'prerecord-id.exists' => 'Precord is invalid.'
 		]);
+
+		// Attempt to convert the data
+		try {
+			$timestamp = Carbon::createFromFormat('Y-m-d', $request->input('date'))->startOfDay();
+		}
+		catch (\Exception $e) {
+			return redirect()->back()->withErrors([
+				'Invalid date given.'
+			]);
+		}
+
+		// Add the hour chosen to the date
+		try {
+			$hour = (int) $request->input('time');
+			$timestamp->addHours($hour);
+		}
+		catch(\Exception $e) {
+			return redirect()->back()->withErrors([
+				'Invalid time given'
+			]);
+		}
+
+		// Return an error if the time is in the past
+		if($timestamp->lt(Carbon::now())) {
+			return redirect()->back()->withErrors([
+				'The date you gave was in the past! Please make sure that it is in the future.'
+			]);
+		}
 	}
 }

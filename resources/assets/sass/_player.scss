@@ -1,0 +1,41 @@
+body.studio-player {
+	height: 100%;
+	width: 100%;
+    user-select: none;
+    padding: 0;
+}
+
+.studio-player-row {
+    height: 33%;
+    padding: 1em;
+}
+
+input.studio-player[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 0;
+    height: 60px;
+}
+
+input.studio-player[type=range]:focus {
+    outline-style: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+input.studio-player[type=range]::-moz-range-track {
+    height: 60px;
+    cursor: pointer;
+    background: darken($gray-800, 10%);
+    border-radius: 2px;
+    border: 3px solid $yellow;
+}
+
+input.studio-player[type=range]::-moz-range-thumb {
+    border: 3px solid $yellow;
+    height: 60px;
+    width: 30px;
+    border-radius: 0px;
+    background: white;
+    cursor: pointer;
+}
