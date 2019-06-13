@@ -23,9 +23,6 @@ class AudioUploadController extends Controller
 	}
 
 	public function getUpload(Request $request) {
-		if(!auth()->user()->hasPermission('Audio upload'))
-			abort(403, 'Not authorised');
-
 		$files = Storage::allFiles('uploads');
 		$metadatas = [];
 		foreach($files as $file) {

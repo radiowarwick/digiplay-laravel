@@ -70,7 +70,7 @@ class AudioController extends Controller
 
 		$multi = 6;
 		$bitrate = '48';
-		if(auth()->user()->hasPermission('High quality audio')) {
+		if(auth()->user()->hasPermission('Audio admin')) {
 			$multi = 24;
 			$bitrate = '192';
 		}

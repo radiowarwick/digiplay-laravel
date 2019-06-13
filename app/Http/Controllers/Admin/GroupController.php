@@ -74,7 +74,7 @@ class GroupController extends Controller
 		$group = Group::where('id', $group_id)->first();
 		if(is_null($group))
 			abort(404);
-		$members = $group->users;
+		$members = $group->users->unique('username');
 		
 		return view('admin.group.members', ['group' => $group, 'members' => $members]);
 	}

@@ -6,7 +6,10 @@
 
 @section('content')
 	<p>
-		The page you was looking for was not found!
+		The page you was looking for was not found! Perhaps it got lost somewhere...
+	</p>
+	<p>
+		<a href="/" class="btn btn-warning btn-block">Take Me Home</a>
 	</p>
 	<p>
 		<a href="https://www.youtube.com/watch?v=BwyaqDVzPxM" target="_blank">
