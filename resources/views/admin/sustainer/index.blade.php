@@ -76,13 +76,22 @@
 	<table class="table table-responsive">
 		<thead>
 			<tr>
-				<th>Date</th>
-				<th>Time</th>
+				<th>Playout Time</th>
 				<th>Name</th>
 				<th>Un-schedule</th>
 			</tr>
 		</thead>
 		<tbody>
+			@foreach($prerecords as $prerecord)
+				<tr>
+					<td>
+						{{ \Carbon\Carbon::createFromTimestamp($prerecord->scheduled_time)->format('d-m-Y H:i') }}
+					</td>
+					<td>
+						{{ $prerecord->audio->title }}
+					</td>
+				</tr>
+			@endforeach
 		</tbody>
 	</table>
 

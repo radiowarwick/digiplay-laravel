@@ -6,18 +6,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\SustainerSlot;
-use App\Playlist;
-use App\Audio;
+use App\Prerecord;
 
 class SustainerAdminController extends Controller
 {
 	public function getIndex(Request $request) {
-		$slots = SustainerSlot::orderBy('time')->orderBy('day')->get();
+		$prerecords = Prerecord::where('scheduled_time', '>', time())->orderBy('scheduled_time')->get();
 
 		return view('admin.sustainer.index')->with([
-			'slots' => $slots,
-			'playlists' => Playlist::sustainer()->get()
+			'prerecords' => $prerecords,
 		]);
 	}
 
@@ -59,5 +56,18 @@ class SustainerAdminController extends Controller
 				'The date you gave was in the past! Please make sure that it is in the future.'
 			]);
 		}
+
+		$check = Prerecord::where('scheduled_time', $timestamp->timestamp)->first();
+		if($check !== NULL) {
+			return redirect()->back()->withErrors([
+				'The date and time you gave already has a prerecord scheduled.'
+			]);
+		}
+
+		$new_prerecord = new Prerecord;
+		$new_prerecord->scheduled_time = $timestamp->timestamp;
+		$new_prerecord->audio_id = $request->input('prerecord-id');
+		$new_prerecord->scheduler = auth()->user()->username;
+		$new_prerecord->save();
 	}
 }
