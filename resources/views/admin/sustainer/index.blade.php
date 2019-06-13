@@ -78,7 +78,7 @@
 			<tr>
 				<th>Playout Time</th>
 				<th>Name</th>
-				<th>Un-schedule</th>
+				<th>Unschedule</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -89,6 +89,15 @@
 					</td>
 					<td>
 						{{ $prerecord->audio->title }}
+					</td>
+					<td>
+						<form method="POST" action="{{ route('admin-sustainer-remove') }}">
+							{{ csrf_field() }}
+
+							<input type="hidden" name="prerecord-id" value="{{ $prerecord->id }}">
+
+							<button type="submit" class="btn btn-warning">Unschedule</button>
+						</form>
 					</td>
 				</tr>
 			@endforeach

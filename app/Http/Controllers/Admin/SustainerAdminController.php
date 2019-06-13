@@ -18,7 +18,7 @@ class SustainerAdminController extends Controller
 		]);
 	}
 
-	public function postAddSlot(Request $request) {
+	public function postSchedule(Request $request) {
 		// Needed to override the error messages
 		$this->validate($request, [
 			'prerecord-id' => 'required|exists:audio,id',
@@ -69,5 +69,21 @@ class SustainerAdminController extends Controller
 		$new_prerecord->audio_id = $request->input('prerecord-id');
 		$new_prerecord->scheduler = auth()->user()->username;
 		$new_prerecord->save();
+
+		return redirect()->back();
+	}
+
+	public function postUnschedule(Request $request) {
+		$this->validate($request, [
+			'prerecord-id' => 'required|exists:prerecords,id'
+		], [
+			'prerecord-id.required' => 'Something went wrong when unscheduling the prerecord.',
+			'prerecord-id.exists' => 'You tried to unschedule a prerecord which does not exist.'
+		]);
+
+		$prerecord = Prerecord::where('id', $request->input('prerecord-id'))->first();
+		$prerecord->delete();
+
+		return redirect()->back();
 	}
 }
