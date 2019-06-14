@@ -143,6 +143,7 @@ class AudioController extends Controller
 		$audio->setAlbum(trim($request->get('album')));
 
 		if($audio->save()) {
+			$audio->updateFileMetadata();
 			return response()->json([
 				'status' => 'ok'
 			]);

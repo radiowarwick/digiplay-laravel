@@ -187,4 +187,13 @@ class Audio extends Model
 		$audioDir->dirid = 2;
 		$audioDir->save();
 	}
+
+	public function updateFileMetadata() {
+		$file = escapeshellarg($this->filePath());
+		$title = escapeshellarg('TITLE=' . $this->title);
+		$artist = escapeshellarg('ARTIST=' . $this->artist->name);
+		$album = escapeshellarg('ALBUM=' . $this->album->name);
+
+		shell_exec('metaflac --remove-all-tags ' . $file . ' --set-tag=' . $title . ' --set-tag=' . $artist . ' --set-tag=' . $album . ' --set-tag="ENCODED-BY=Digiplay"');
+	}
 }

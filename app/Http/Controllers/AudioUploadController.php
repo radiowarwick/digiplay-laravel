@@ -176,6 +176,8 @@ class AudioUploadController extends Controller
 			}
 			Storage::delete('uploads/' . $request->get('filename'));
 
+			$audio->updateFileMetadata();
+
 			return response()->json([
 				'status' => 'ok'
 			]);
