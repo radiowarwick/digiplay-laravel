@@ -12,14 +12,14 @@ class UpdateFileMetadata extends Command
      *
      * @var string
      */
-    protected $signature = 'audio:updatefile {date}';
+    protected $signature = 'audio:updatefile';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update file metadata from a date (given as YYYY-MM-DD)';
+    protected $description = 'Update file metadata from a date';
 
     /**
      * Create a new command instance.
@@ -38,11 +38,11 @@ class UpdateFileMetadata extends Command
      */
     public function handle()
     {
-        $date = $this->argument('date');
+        $date = $this->ask('Give a date to update files from. In the format YYYY-MM-DD.');
         $timestamp = \Carbon\Carbon::createFromFormat('Y-m-d', $date)->startOfDay()->timestamp;
         $audios = Audio::where('import_date', '>=', $timestamp)->get();
         foreach($audios as $audio) {
-
+            $this->info('Updating the track: ' . $audio->title . ' by ' . $audio->artist->name);
             $audio->updateFileMetadata();
         }
     }
