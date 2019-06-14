@@ -1,126 +1,61 @@
-$(document).ready(function(){
-	$(".slot").dblclick(edit_slot);
+var is_searching = false;
 
-	$("#modal-save").click(save_slot);
-	$("#modal-clear").click(clear_prerec);
+function search(event) {
+	if(!is_searching) {
+		is_searching = true;
+		query = $("[name='query']").val();
 
-	$("#modal-prerec").selectpicker({
-		liveSearch: true
-	}).ajaxSelectPicker({
-		ajax: {
-			url: "/ajax/search",
-			method: "POST",
-			data: function() {
-				data = {
-					_token: $("[name=\"_token\"]").val(),
-					query: "{{{q}}}",
-					type: ["Prerec"],
-					filter: ["title", "artist", "album"],
-				}
-				return data;
-			}
-		},
-		locale: {
-			emptyTitle: "Search for prerecs"
-		},
-		preprocessData: function(data) {
-			tracks = [];
+		$(".btn-search").attr("disabled", "disabled");
+
+		data = {
+			"query": query,
+			"type": ["Prerec"],
+			"filter": ["title", "artist", "album"],
+			"censor": false,
+			"limit": 50
+		};
+		$.post("/ajax/search", data, function(data){
+			is_searching = false;
+			$(".btn-search").removeAttr("disabled");
+
+			table = $(".showplan-search-results").find("tbody");
+			table.empty();
+
 			for(i = 0; i < data.length; i++) {
-				entry = {
-					value: data[i].id,
-					text: data[i].title + " by " + data[i].artist
-				}
-				tracks.push(entry);
+				row = $("<tr data-audio-id=\"" + data[i].id + "\"></tr>");
+				if(data[i].censor == "f")
+					row.append("<td class=\"icon\"><i class=\"fa fa-music\"></i></td>");
+				else
+					row.append("<td class=\"text-danger icon\"><i class=\"fa fa-exclamation-circle\"></i></td>");
+				row.append("<td class=\"artist text-truncate\">" + data[i].artist + "</td>");
+				row.append("<td class=\"title text-truncate\">" + data[i].title + "</td>");
+				row.append("<td class=\"album text-truncate\">" + data[i].album + "</td>");
+				row.append("<td class=\"length text-truncate\">" + data[i].length_string + "</td>");
+				row.append("<td class=\"add\"><button class=\"btn btn-warning btn-select-audio\">Select</button></td>");
+				table.append(row);
 			}
-			return tracks;
-		}
-	});
 
-	$("#modal-prerec").on("change", function(event) {
-		id = $(this).val();
-		text = $("[value=\"" + $(this).val() + "\"]").text();
-
-		$("#modal-prerec-name").text(text);
-		$("#modal-prerec-name").attr("data-id", id);
-	});
-});
-
-var slot_id;
-
-function edit_slot() {
-	slot_id = $(this).attr("data-slot-id");
-	playlist_id = $(this).attr("data-playlist-id");
-	prerec_id = $(this).attr("data-prerec-id");
-
-	hour = $(this).attr("data-hour");
-	day = $(this).attr("data-day");
-
-	days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-	hour = (hour < 10 ? "0" + hour : hour) + ":00";
-	$("#modal-time").text(days[day-1] + " " + hour);
-
-	$(".modal").find("[value=\"" + playlist_id + "\"]").attr("selected", "selected");
-	if(prerec_id == "") {
-		$("#modal-prerec-name").text("None");
-		$("#modal-prerec-name").attr("data-id", "-1");
-		$(".modal").modal("show");
-	}
-	else {
-		$.ajax({
-			url: "/ajax/detail",
-			method: "POST",
-			data: {
-				_token: $("[name=\"_token\"]").val(),
-				id: prerec_id
-			},
-			success: function(result){
-				if(result.status == "ok") {
-					$("#modal-prerec-name").text(result.title + " by " + result.artist);
-					$("#modal-prerec-name").attr("data-id", result.id);
-				}
-				else {
-					$("#modal-prerec-name").text("None");
-					$("#modal-prerec-name").attr("data-id", "-1");
-				}
-				$(".modal").modal("show");
-			}
+			$(".btn-select-audio").click(select_item);
+			$(".modal-search-results").modal("show");
 		});
 	}
 }
 
-function save_slot() {
-	data = {
-		_token: $("[name=\"_token\"]").val(),
-		id: slot_id,
-		playlist: $("#modal-playlist").val(),
-		audio: $("#modal-prerec-name").attr("data-id")
-	}
+function select_item() {
+	title = $(this).parent().parent().find(".title").text();
+	id = $(this).parent().parent().attr("data-audio-id");
+	
+	$("#prerecord-title").text(title);
+	$("#prerecord-id").val(id);
 
-	$.ajax({
-		url: window.location.href,
-		method: "POST",
-		data: data,
-		success: function(result){
-			if(result.status == "ok") {
-				$("[data-slot-id=\"" + slot_id + "\"]").css("background", "#" + result.colour);
-
-				if(result.audio != null) {
-					$("[data-slot-id=\"" + slot_id + "\"]").html("<i class=\"fa fa-clock-o\"></i>");
-					$("[data-slot-id=\"" + slot_id + "\"]").attr("data-prerec-id", result.audio);
-				}
-				else {
-					$("[data-slot-id=\"" + slot_id + "\"]").attr("data-prerec-id", result.audio);
-					$("[data-slot-id=\"" + slot_id + "\"]").html("");
-				}
-
-				$(".modal").modal("hide");
-			}
-		}
-	})
+	$(".modal-search-results").modal("hide");
 }
 
-function clear_prerec() {
-	$("#modal-prerec-name").text("None");
-	$("#modal-prerec-name").attr("data-id", "-1");
-}
+$(document).ready(function(){
+	$(".btn-search").click(search);
+	$("[name='query']").keypress(function(event){
+		keycode = event.keyCode || event.which;
+		if(keycode == '13')
+			search(event);
+	});
+});
