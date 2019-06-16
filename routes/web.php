@@ -135,6 +135,7 @@ Route::group(['middleware' => ['permission:Can view admin page']], function(){
 
 	Route::group(['middleware' => ['permission:Sustainer admin']], function(){
 		Route::get('/admin/sustainer', 'Admin\SustainerAdminController@getIndex')->name('admin-sustainer-index');
+		Route::get('/admin/sustainer/archive', 'Admin\SustainerAdminController@getArchive')->name('admin-sustainer-archive');
 		Route::post('/admin/sustainer/add', 'Admin\SustainerAdminController@postSchedule')->name('admin-sustainer-add');
 		Route::post('/admin/sustainer/remove', 'Admin\SustainerAdminController@postUnschedule')->name('admin-sustainer-remove');
 	});

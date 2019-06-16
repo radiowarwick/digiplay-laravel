@@ -18,6 +18,15 @@ class SustainerAdminController extends Controller
 		]);
 	}
 
+	public function getArchive(Request $request) {
+		// Get prerecords, that where in the past, order newest to oldest, paginate results
+		$prerecords = Prerecord::where('scheduled_time', '<', time())->orderBy('scheduled_time', 'DESC')->paginate(25);
+
+		return view('admin.sustainer.archive')->with([
+			'prerecords' => $prerecords,
+		]);
+	}
+
 	public function postSchedule(Request $request) {
 		// Needed to override the error messages
 		$this->validate($request, [
