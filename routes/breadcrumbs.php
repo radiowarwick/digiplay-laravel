@@ -128,7 +128,12 @@ Breadcrumbs::for('admin-studio-index', function($trail){
 
 Breadcrumbs::for('admin-sustainer-index', function($trail){
 	$trail->parent('admin-index');
-	$trail->push('Sustainer');
+	$trail->push('Sustainer', route('admin-sustainer-index'));
+});
+
+Breadcrumbs::for('admin-sustainer-archive', function($trail){
+	$trail->parent('admin-sustainer-index');
+	$trail->push('Archive');
 });
 
 // Admin LDAP

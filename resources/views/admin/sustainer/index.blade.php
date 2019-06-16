@@ -73,9 +73,12 @@
 	
 	<h2>Upcoming Prerecords</h2>
 
+	<a href="{{ route('admin-sustainer-archive') }}" class="btn btn-warning mb-sm-2">Past Prerecords</a>
+
 	<table class="table table-responsive">
 		<thead>
 			<tr>
+				<th class="icon"></th>
 				<th>Playout Time</th>
 				<th>Name</th>
 				<th>Scheduler</th>
@@ -85,6 +88,11 @@
 		<tbody>
 			@foreach($prerecords as $prerecord)
 				<tr>
+					<td class="icon">
+						<a href="{{ route('audio-view', $prerecord->audio_id) }}">
+							<i class="fa fa-info-circle"></i>
+						</a>
+					</td>
 					<td>
 						{{ \Carbon\Carbon::createFromTimestamp($prerecord->scheduled_time)->format('d-m-Y H:i') }}
 					</td>
