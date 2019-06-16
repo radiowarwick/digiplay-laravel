@@ -15,7 +15,10 @@ class AudioUploadController extends Controller
 		'audio/flac',
 		'audio/mpeg',
 		'audio/mp3',
-		'audio/vnd.wav'
+		'audio/vnd.wav',
+		'audio/wav',
+		'audio/wave',
+		'audio/x-wav',
 	];
 
 	public function __construct() {
@@ -172,6 +175,8 @@ class AudioUploadController extends Controller
 			catch (ErrorException $e) {
 			}
 			Storage::delete('uploads/' . $request->get('filename'));
+
+			$audio->updateFileMetadata();
 
 			return response()->json([
 				'status' => 'ok'
