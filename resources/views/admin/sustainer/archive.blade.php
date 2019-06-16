@@ -10,7 +10,7 @@
     <h1>Sustainer Archive</h1>
 
     <p>
-        Past scheduled prerecords before the current hour. Displaying 20 per page.
+        Past scheduled prerecords before the current hour. Displaying 25 per page.
     </p>
 
     <table class="table table-responsive">
