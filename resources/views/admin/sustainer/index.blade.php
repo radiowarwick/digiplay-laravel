@@ -78,6 +78,7 @@
 			<tr>
 				<th>Playout Time</th>
 				<th>Name</th>
+				<th>Scheduler</th>
 				<th>Unschedule</th>
 			</tr>
 		</thead>
@@ -89,6 +90,9 @@
 					</td>
 					<td>
 						{{ $prerecord->audio->title }}
+					</td>
+					<td>
+						{{ $prerecord->user->name }}
 					</td>
 					<td>
 						<form method="POST" action="{{ route('admin-sustainer-remove') }}">
