@@ -100,7 +100,11 @@ class PlaylistController extends Controller
             return response($prerecord->audio->filePath());
         }
 
-        return '';
+        // If we have no prerecord
+        // Then we play the top of the hour jingle
+        // Set in the environment
+        // 54002 - ID of the 10 second top of the hour jingle
+        return Audio::find(env('TOP_OF_THE_HOUR_ID', 54002))->filePath();
     }
 
     private function sanatize($string) {
