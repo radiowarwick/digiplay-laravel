@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Audio;
 
-class LogController extends Controller
+class AudioController extends Controller
 {
     public function getInfo(Request $request) {
         $audio = Audio::find($request->get('id'));
@@ -35,7 +35,7 @@ class LogController extends Controller
 
     public function getDownload(Request $request) {
         $audio = Audio::findOrFail($request->get('id'));
-		return response()->download($audio->filePath(), $id . '.flac', [
+		return response()->download($audio->filePath(), $audio->id . '.flac', [
 			'Content-Type: audio/flac'
 		]);
     }
