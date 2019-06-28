@@ -163,4 +163,7 @@ Route::group(['middleware' => ['application_api']], function(){
 	Route::get('/api/playlist', 'Api\PlaylistController@getPlaylist');
 	Route::get('/api/playlist/jingles', 'Api\PlaylistController@getJingles');
 	Route::get('/api/playlist/sustainer', 'Api\PlaylistController@getSustainer');
+
+	Route::get('/api/audio/info', 'Api\AudioController@getInfo');
+	Route::get('/api/audio/download', 'Api\AudioController@getDownload');
 });
