@@ -155,10 +155,9 @@ function log_song(event) {
 	}
 }
 
-function websocket_message(event) {
-	data = JSON.parse(event.data);
-	if(data.channel == "t_log") {
-		payload = JSON.parse(data.payload);
+function websocket_message({ data }) {
+	let { payload, channel } = JSON.parse(data);
+	if(channel == "t_log") {
 		if(payload.location == LOCATION) {
 			table = $("#log").find("tbody");
 			row = $("<tr></tr>");
@@ -168,10 +167,10 @@ function websocket_message(event) {
 			table.prepend(row);
 		}
 	}
-	else if(data.channel == "t_messages") {
+	else if(channel == "t_messages") {
 		update_messages();
 	}
-	else if(data.channel == "ping") {
+	else if(channel == "ping") {
 		ws.send("pong");
 	}
 }
