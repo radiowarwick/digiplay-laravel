@@ -168,4 +168,6 @@ Route::group(['middleware' => ['application_api']], function(){
 	Route::get('/api/audio/download', 'Api\AudioController@getDownload')->name('api-audio-download');
 
 	Route::get('/api/audiowall', 'Api\AudiowallController@getAudiowall');
+
+	Route::get('/api/configuration', 'Api\ConfigurationController@getConfiguration');
 });
