@@ -17,4 +17,24 @@ class AudiowallItem extends Model
     public function colours() {
     	return $this->hasMany('\App\AudiowallItemColour', 'item_id', 'id');
     }
+
+    public function foregroundColour() {
+        $colours = $this->colours()->get();
+        foreach($colours as $colour) {
+            if($colour->name === 'ForeColourRGB') {
+                return '#' . dechex($colour->value);
+            }
+        }
+        return null;
+    }
+
+    public function backgroundColour() {
+        $colours = $this->colours()->get();
+        foreach($colours as $colour) {
+            if($colour->name === 'BackColourRGB') {
+                return '#' . dechex($colour->value);
+            }
+        }
+        return null;
+    }
 }
