@@ -21,8 +21,8 @@ class Permission
             abort(403, 'Permission Denied');
     }
 
-    public static function hasPermission($permission_string = '') {
-        if(Auth::check()) {
+    public static function hasPermission($permission_string = '', $skip_auth = false) {
+        if(Auth::check() or $skip_auth) {
             $groups = Auth::user()->groups;
             foreach($groups as $group) {
                 // Always allow if the user is an admin
