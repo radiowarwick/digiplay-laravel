@@ -24,7 +24,7 @@ class User extends Authenticatable
     	return $this->hasManyThrough('App\Group', 'App\GroupUser', 'username', 'id', 'username', 'group_id');
     }
 
-    public function hasPermission($permission) {
+    public function hasPermission($permission_string = '') {
         $groups = $this->groups;
         foreach($groups as $group) {
             // Always allow if the user is an admin
