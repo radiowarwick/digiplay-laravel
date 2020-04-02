@@ -170,4 +170,6 @@ Route::group(['middleware' => ['application_api']], function(){
 	Route::get('/api/audiowall', 'Api\AudiowallController@getAudiowall');
 
 	Route::get('/api/configuration', 'Api\ConfigurationController@getConfiguration');
+
+	Route::get('/api/permission', 'Api\PermissionController@getPermission');
 });
