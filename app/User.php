@@ -25,7 +25,20 @@ class User extends Authenticatable
     }
 
     public function hasPermission($permission) {
-        return \App\Http\Middleware\Permission::hasPermission($permission);
+        $groups = $this->groups;
+        foreach($groups as $group) {
+            // Always allow if the user is an admin
+            if($group->name === 'Admin')
+                return true;
+            // Otherwise check each of the user's groups for the correct permission
+            else {
+                foreach($group->permissions as $permission) {
+                    if($permission->name === $permission_string)
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function audiowall() {

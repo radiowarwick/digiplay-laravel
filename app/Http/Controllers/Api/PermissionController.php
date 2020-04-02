@@ -18,11 +18,9 @@ class PermissionController extends Controller
 			return "User not found";
 		}
 
-		if($user->hasPermission('Can connect to outside broadcasts', true)) {
+		if($user->hasPermission('Can connect to outside broadcasts')) {
 			return "True";
 		}
-		
-
 		return "False";
 	}
 }
