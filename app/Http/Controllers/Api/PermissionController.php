@@ -15,11 +15,11 @@ class PermissionController extends Controller
 
 		$user = User::where('username', $request->input('username'))->first();
 		if(is_null($user)) {
-			return "User not found"
+			return "User not found";
 		}
 
 		if($user->hasPermission('Can connect to outside broadcasts')) {
-			return "True"
+			return "True";
 		}
 		
 
