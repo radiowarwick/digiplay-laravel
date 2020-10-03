@@ -57,7 +57,7 @@
 			@foreach($sustainer as $playlist)
 				<tr>
 					<td class="icon">
-						<a href="#">
+						<a href="{{ route('playlist-view', $playlist->id) }}">
 							<i class="fa fa-info-circle"></i>
 						</a>
 					</td>
