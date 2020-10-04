@@ -26,6 +26,8 @@ class ApiController extends Controller
         $application->name = $request->input('name');
         $application->key = $this->generateKey();
         $application->save();
+
+        return redirect()->back();
     }
 
     public function getDelete(Request $request, $id) {
