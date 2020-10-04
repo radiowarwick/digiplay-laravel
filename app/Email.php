@@ -10,7 +10,7 @@ class Email extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function scopeLatest($query) {
+    public function scopeMostRecent($query) {
     	return $query->orderBy('id', 'DESC')->limit(25);
     }
 }
