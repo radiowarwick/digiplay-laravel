@@ -57,7 +57,8 @@ function search(event) {
 			$(".studio-song-search-loading").hide();
 			if(data.length > 0) {
 				for(i = 0; i < data.length; i++) {
-					row = $("<tr data-audio-id=\"" + data[i].id + "\"></tr>");
+					data_attributes = `data-audio-id="${data[i].id}" data-audio-title="${data[i].title}" data-audio-artist="${data[i].artist}" data-audio-length="${data[i].length_string}" data-audio-censor="${data[i].censor}"`;
+					row = $("<tr " + data_attributes + "></tr>");
 					if(data[i].censor == "f")
 						row.append("<td class=\"icon\"><i class=\"fa fa-music\"></i></td>");
 					else
@@ -83,52 +84,61 @@ function search(event) {
 	}
 }
 
-function load_song(event) {
-	id = $(this).attr("data-audio-id");
-	$.get(loc + "addplan/" + id, function(data){
-		if(data.message == "success") {
-			card = $("<div class=\"studio-card card\" data-item-id=\"" + data.id + "\"></div>");
-			card.append($("<div class=\"card-body\"></div>"));
+function load_showplan(event) {
+	showplan_id = $(this).attr("data-showplan-id");
 
-			right = $("<div class=\"pull-right\"></div>");
-			right.text(data.length_string + " ");
-			right.html(right.html() + "<span class=\"studio-card-remove\"><i class=\"fa fa-lg fa-times-circle\"></i></span>");
-
-			if(data.censor == "t")
-				icon = "<i class=\"censor fa fa-exclamation-circle\"></i>";
-			else
-				icon = "<i class=\"fa fa-music\"></i>";
-
-			card_body = card.find(".card-body");
-			card_body.text(" " + data.artist + " - " + data.title);
-			card_body.html(icon + card_body.html());
-			card_body.append(right);
-
-			$(".studio-showplan").append(card);
-			reset_showplan_binds();
-		}
+	$.get(loc + "loadplan/" + showplan_id, function(data) {
+		// Delete current plan
+		$(".studio-card-remove").trigger("click");
+		data.forEach(function(track) {
+			add_song_to_plan(track.id, track.title, track.artist, track.length, track.censor);
+		});
+		$("#showplan-modal").modal("hide");
 	});
 }
 
+function load_song(event) {
+	song_id = $(this).attr("data-audio-id");
+	song_title = $(this).attr("data-audio-title");
+	song_artist = $(this).attr("data-audio-artist");
+	song_length = $(this).attr("data-audio-length");
+	song_censor = $(this).attr("data-audio-censor");
+
+	add_song_to_plan(song_id, song_title, song_artist, song_length, song_censor);
+}
+
+function add_song_to_plan(song_id, song_title, song_artist, song_length, song_censor) {
+	card = $("<div class=\"studio-card card\" data-item-id=\"" + song_id + "\"></div>");
+	card.append($("<div class=\"card-body\"></div>"));
+
+	right = $("<div class=\"pull-right\"></div>");
+	right.text(song_length + " ");
+	right.html(right.html() + "<span class=\"studio-card-remove\"><i class=\"fa fa-lg fa-times-circle\"></i></span>");
+
+	if(song_censor == "t")
+		icon = "<i class=\"censor fa fa-exclamation-circle\"></i>";
+	else
+		icon = "<i class=\"fa fa-music\"></i>";
+
+	card_body = card.find(".card-body");
+	card_body.text(" " + song_artist + " - " + song_title);
+	card_body.html(icon + card_body.html());
+	card_body.append(right);
+
+	$(".studio-showplan").append(card);
+	reset_showplan_binds();
+}
 
 function remove_song(event) {
 	event.stopPropagation();
 
 	item = $(this).closest(".studio-card");
-	$.ajax({
-		url: loc + "removeplan/" + item.attr("data-item-id"),
-		type: "GET",
-		success: function(data){
-			if(data.message == "success") {
-				$(".studio-card[data-item-id=\"" + data.id + "\"]").remove();
-			}
-		}
-	});
+	item.remove();
 }
 
 function select_song(event) {
 	item = $(this);
-	$.get(loc + 'selectitem/' + item.attr("data-item-id"), function(data){
+	$.get(loc + 'selectaudioitem/' + item.attr("data-item-id"), function(data){
 		if(data.message == "success") {
 			$(".studio-card").removeClass("active");
 			item.addClass("active");
@@ -296,6 +306,8 @@ $(document).ready(function(){
 	$(".studio-reset").click(studio_reset_click);
 	$(".studio-reset").mouseout(studio_reset_out);
 	$(".studio-reset").popover();
+
+	$(".showplan-load").click(load_showplan);
 
 	ws = new WebSocket(WEBSOCKET);
 	ws.onmessage = websocket_message;

@@ -262,24 +262,23 @@
 						</form>
 					</div>
 					<div class="studio-showplan">
-						@foreach($showplan->items as $item)
-							<div class="studio-card card" data-item-id="{{ $item->id }}">
-								<div class="card-body">
-									@if($item->audio->censor == 't')
-										<i class="censor fa fa-exclamation-circle"></i>
-									@else
-										<i class="fa fa-music"></i>
-									@endif
-									{{ $item->audio->artist->name }} - {{ $item->audio->title }}
-									<div class="pull-right">
-										{{ $item->audio->lengthString() }}
-										<span class="studio-card-remove">
-											<i class="fa fa-times-circle fa-lg"></i>
-										</span>
-									</div>
+						{{-- Format of an song on the showplan --}}
+						{{-- <div class="studio-card card" data-item-id="{{ $audio->id }}">
+							<div class="card-body">
+								@if($item->audio->censor == 't')
+									<i class="censor fa fa-exclamation-circle"></i>
+								@else
+									<i class="fa fa-music"></i>
+								@endif
+								{{ $item->audio->artist->name }} - {{ $item->audio->title }}
+								<div class="pull-right">
+									{{ $item->audio->lengthString() }}
+									<span class="studio-card-remove">
+										<i class="fa fa-times-circle fa-lg"></i>
+									</span>
 								</div>
 							</div>
-						@endforeach
+						</div> --}}
 					</div>
 				</div>
 			</div>
@@ -316,10 +315,10 @@
 							Click one of your showplans to load it
 						</p>
 						<div class="list-group">
-							@foreach($showplans as $showplan_iteration)
-								@if($showplan_iteration->id > 4)
-									<a class="list-group-item" href="{{ route('studio-load-plan', [$key, $showplan_iteration->id]) }}">
-										{{ $showplan_iteration->name }}
+							@foreach($showplans as $showplan)
+								@if($showplan->id > 4)
+									<a class="list-group-item showplan-load" data-showplan-id="{{ $showplan->id }}">
+										{{ $showplan->name }}
 									</a>
 								@endif
 							@endforeach
