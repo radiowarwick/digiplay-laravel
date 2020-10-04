@@ -27,28 +27,33 @@ class PlaylistController extends Controller
             ]);
         }
 
-        $array = [];
-        foreach($playlist->audio as $a) {
-            $array[] = [
-                'id' => $a->id,
-                'title' => $a->title,
-                'artist' => $a->artist->name,
-                'file_path' => $a->filePath(),
-            ];
-        }
-
-        if($request->get('format') === 'm3u') {
-            $text = "#EXTM3U\n\n";
-
-            foreach($array as $a) {
-                $text .= '#EXTINF:' . $a['id'] . ', ';
-                $text .= $this->sanatize($a['artist']) . ' ' . $this->sanatize($a['title']) . "\n";
-                $text .= $a['file_path'] . "\n\n";
+        // If format is pls return that format
+        // otherwise return a JSON result
+        if($request->get('format') == 'pls') {
+            $text = "[playlist]\n\n";
+            
+            $i = 1;
+            foreach($playlist->audio as $a) {
+                $text .= 'File' . $i . '=' . $a->filePath() . "\n\n";
+                $i += 1;
             }
-
-            return response($text)->header('Mime-Type', 'audio/mpegurl');
+            
+            $text .= 'NumberOfEntries=' . $i . "\n";
+            $text .= "Version=2\n";
+            
+            return response($text)->header('Mime-Type', 'audio/x-scpls');
         }
         else {
+            $tracks = [];
+            foreach($playlist->audio as $a) {
+                $tracks[] = [
+                    'id' => $a->id,
+                    'title' => $a->title,
+                    'artist' => $a->artist->name,
+                    'file_path' => $a->filePath(),
+                ];
+            }
+    
             return response()->json($array);
         }
     }
@@ -73,16 +78,19 @@ class PlaylistController extends Controller
             ];
         }
 
-        if($request->get('format') === 'm3u') {
-            $text = "#EXTM3U\n\n";
+        if($request->get('format') === 'pls') {
+                $text = "[playlist]\n\n";
 
-            foreach($array as $a) {
-                $text .= '#EXTINF:' . $a['id'] . ', ';
-                $text .= $this->sanatize($a['artist']) . ' ' . $this->sanatize($a['title']) . "\n";
-                $text .= $a['file_path'] . "\n\n";
-            }
+                $i = 1;
+                foreach($array as $track) {
+                        $text .= 'File' . $i . '=' . $track["file_path"] . "\n\n";
+                        $i += 1;
+                }
 
-            return response($text);
+                $text .= 'NumberOfEntries=' . $i . "\n";
+                $text .= "Version=2\n";
+
+                return response($text)->header('Mime-Type', 'audio/x-scpls');
         }
         else {
             return response()->json($array);
@@ -97,14 +105,19 @@ class PlaylistController extends Controller
         $prerecord = Prerecord::where('scheduled_time', $now->timestamp)->first();
 
         if($prerecord) {
-            return response($prerecord->audio->filePath());
+            $path = response($prerecord->audio->filePath());
+        }
+        else {
+            // If we have no prerecord
+            // Then we play the top of the hour jingle
+            // Set in the environment
+            // 54002 - ID of the 10 second top of the hour jingle
+            $path = Audio::find(env('TOP_OF_THE_HOUR_ID', 54002))->filePath();
         }
 
-        // If we have no prerecord
-        // Then we play the top of the hour jingle
-        // Set in the environment
-        // 54002 - ID of the 10 second top of the hour jingle
-        return Audio::find(env('TOP_OF_THE_HOUR_ID', 54002))->filePath();
+        $text = "[playlist]\n\nFile1=" . $path . "\n\nNumberOfEntries=1\nVersion=2\n";
+
+        return response($text)->header('Mime-Type', 'audio/x-scpls');
     }
 
     private function sanatize($string) {
