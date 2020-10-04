@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Audio;
 use App\Config;
-use App\StudioLogin;
 use App\Email;
-use App\Showplan;
-use App\ShowplanItem;
 use App\Log;
 use App\Playlist;
+use App\StudioLogin;
+use App\Showplan;
+use App\ShowplanItem;
 
 class StudioController extends Controller
 {
@@ -100,8 +101,6 @@ class StudioController extends Controller
 		$emails = Email::mostRecent()->get();
 		$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
 		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
-		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
-		$showplan = Showplan::find($showplan_id);
 		$log = Log::where('location', $location)->orderBy('id', 'DESC')->limit(50)->get();
 		$playlists = Playlist::studio()->get();
 		$showplans = auth()->user()->showplans(true);
@@ -112,7 +111,6 @@ class StudioController extends Controller
 			'emails' => $emails,
 			'censor_start' => $censor_start,
 			'censor_end' => $censor_end,
-			'showplan' => $showplan,
 			'log' => $log,
 			'playlists' => $playlists,
 			'showplans' => $showplans
@@ -152,51 +150,12 @@ class StudioController extends Controller
 		return response()->json($json);
 	}
 
-	public function getAddShowplan(Request $request, $key, $id) {
-		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $request->get('location'))->first()->val;
-		$showplan = Showplan::find($showplan_id);
-		if(is_null($showplan))
+	public function getSelectAudioItem(Request $request, $key, $id) {
+		$audio = Audio::find($id);
+		if(is_null($audio))
 			abort(404, 'Page not found');
 
-		$position = count($showplan->items) + 1;
-
-		$item = new ShowplanItem;
-		$item->audio_id = $id;
-		$item->showplan_id = $showplan_id;
-		$item->position = $position;
-		$item->save();
-
-		return response()->json([
-			'message' => 'success',
-			'id' => $item->id,
-			'title' => $item->audio->title,
-			'artist' => $item->audio->artist->name,
-			'length_string' => $item->audio->lengthString(),
-			'censor' => $item->audio->censor
-		]);
-	}
-
-	public function getRemoveShowplan(Request $request, $key, $id) {
-		$item = ShowplanItem::find($id);
-		if(is_null($item))
-			abort(404, 'Page not found');
-		$parent = $item->showplan;
-		
-		$item->delete();
-		$parent->reposition();
-
-		return response()->json([
-			'message' => 'success',
-			'id' => $id
-		]);
-	}
-
-	public function getSelectShowplanItem(Request $request, $key, $id) {
-		$item = ShowplanItem::find($id);
-		if(is_null($item))
-			abort(404, 'Page not found');
-
-		$md5 = $item->audio->md5;
+		$md5 = $audio->md5;
 		Config::updateLocationValue($request->get('location'), 'next_on_showplan', $md5);
 
 		return response()->json(['message' => 'success']);
@@ -233,19 +192,22 @@ class StudioController extends Controller
 			$hour = (int) date('H');
 			$censor_period = ($hour >= $censor_start && $hour < $censor_end);
 
-			$i = 1;
+			$showplan_items = array();
 			foreach($showplan->items as $item) {
+				// Only include item from showplan if it's uncensored
+				// or during the censor time period
 				if(!$censor_period or $item->audio->censor == 'f') {
-					$new_item = new ShowplanItem;
-					$new_item->showplan_id = $studio_showplan_id;
-					$new_item->audio_id = $item->audio_id;
-					$new_item->position = $i++;
-					$new_item->save();
+					$showplan_items[] = [
+						'id' => $item->audio->id,
+						'artist' => $item->audio->artist->name,
+						'title' => $item->audio->title,
+						'length' => $item->audio->lengthString()
+					];
 				}
 			}
 		}
 
-		return redirect()->route('studio-view', $key);
+		return response()->json($showplan_items);
 	}
 
 	public function getReset(Request $request, $key) {

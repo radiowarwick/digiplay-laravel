@@ -85,9 +85,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/studio/{key}/logout', 'StudioController@getLogout')->name('studio-logout');
 	Route::get('/studio/{key}/message/{id}', 'StudioController@getMessage')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/messages/{id}', 'StudioController@getLatestMessages')->where('id', '[0-9]+');
-	Route::get('/studio/{key}/addplan/{id}', 'StudioController@getAddShowplan')->where('id', '[0-9]+');
-	Route::get('/studio/{key}/removeplan/{id}', 'StudioController@getRemoveShowplan')->where('id', '[0-9]+');
-	Route::get('/studio/{key}/selectitem/{id}', 'StudioController@getSelectShowplanItem')->where('id', '[0-9]+');
+	Route::get('/studio/{key}/selectaudioitem/{id}', 'StudioController@getSelectAudioItem')->where('id', '[0-9]+');
 	Route::get('/studio/{key}/reset', 'StudioController@getReset');
 	Route::get('/studio/{key}/loadplan/{id}', 'StudioController@getLoadShowplan')->where('id', '[0-9]+')->name('studio-load-plan');
 
