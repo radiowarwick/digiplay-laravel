@@ -97,7 +97,7 @@ class StudioController extends Controller
 	public function getView(Request $request, $key) {
 		$location = $request->get('location');
 
-		$emails = Email::latest()->get();
+		$emails = Email::mostRecent()->get();
 		$censor_start = Config::where('location', '-1')->where('parameter', 'censor_start')->first()->val;
 		$censor_end = Config::where('location', '-1')->where('parameter', 'censor_end')->first()->val;
 		$showplan_id = Config::where('parameter', 'default_showplan')->where('location', $location)->first()->val;
