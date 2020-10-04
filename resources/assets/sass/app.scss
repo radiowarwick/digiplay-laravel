@@ -95,3 +95,10 @@ body {
 .modal-very-lg {
 	max-width: 80%;
 }
+
+// Fix cells not getting white text
+.text-white {
+	td, th {
+		color: #fff !important;
+	}
+}
