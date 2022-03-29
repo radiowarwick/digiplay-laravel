@@ -189,7 +189,7 @@
 												</thead>
 												<tbody>
 													@foreach($playlist->audio as $audio)
-														<tr data-audio-id="{{ $audio->id }}">
+														<tr data-audio-id="{{ $audio->id }}" data-audio-title="{{ $audio->title }}" data-audio-artist="{{ $audio->artist->name }}">
 															@if($audio->censor == 't')
 																<td class="icon censor">
 																	<i class="fa fa-exclamation-circle"></i>
